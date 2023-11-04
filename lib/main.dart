@@ -80,7 +80,7 @@ _initServices() async {
   Stripe.publishableKey = STRIPE_PUBLISHABLE_KEY;
   await Stripe.instance.applySettings();
     await Firebase.initializeApp(
-      name: 'twinz-app',
+      name: 'twinzz-8138c',
       options: DefaultFirebaseOptions.currentPlatform,
     );
 

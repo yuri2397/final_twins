@@ -58,11 +58,11 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCoXSqE_4WWzvdsNeWkkZ6AVLMVtQeQFvQ',
-    appId: '1:103229134988:ios:1aa31e4cd717ff783bc3a9',
-    messagingSenderId: '103229134988',
-    projectId: 'twinz-app',
+    apiKey: 'AIzaSyAFn-xtilM-s8Y1LpQ5nvyQAnmrpXVhnNc',
+    appId: '1:387759928982:ios:bd0dfbf89884631e4f34b7',
+    messagingSenderId: '387759928982',
+    projectId: 'twinzz-8138c',
     storageBucket: 'twinz-app.appspot.com',
-    iosBundleId: 'com.twinz.app',
+    iosBundleId: 'com.twinzz.app',
   );
 }

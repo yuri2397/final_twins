@@ -15,7 +15,6 @@ class InitPayment {
   int? amountCapturable;
   AmountDetails? amountDetails;
   int? amountReceived;
-
   String? captureMethod;
   String? clientSecret;
   String? confirmationMethod;

@@ -63,24 +63,28 @@ class HomeScreen extends GetView<HomeController> {
                           color: controller.currentIndex.value == 1
                               ? MAIN_COLOR
                               : Colors.grey[400])
-                      : SvgPicture.asset("assets/icons/unread.svg", width: 23, height: 23,),
+                      : SvgPicture.asset(
+                          "assets/icons/unread.svg",
+                          width: 23,
+                          height: 23,
+                        ),
                 ),
                 GestureDetector(
                   onTap: () {
                     controller.currentIndex.value = 2;
                     controller.currentIndex.refresh();
-                    notificationController.haveUnreadMessage.value= false;
+                    notificationController.haveUnreadMessage.value = false;
                   },
                   child: !notificationController.haveUnreadMessage.value
                       ? Icon(CupertinoIcons.chat_bubble_2_fill,
                           color: controller.currentIndex.value == 2
                               ? MAIN_COLOR
                               : Colors.grey[400])
-                      : SvgPicture.asset('assets/icons/unreadMessage.svg',
-                          width: 22,
-                          color: controller.currentIndex.value == 1
-                              ? MAIN_COLOR
-                              : Colors.grey[400]),
+                      : SvgPicture.asset(
+                          'assets/icons/unreadMessage.svg',
+                          width: 23,
+                          height: 23,
+                        ),
                 ),
                 GestureDetector(
                     onTap: () {

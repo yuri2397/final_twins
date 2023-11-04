@@ -88,28 +88,33 @@ Future _handleNotification(RemoteMessage message, {backGround = false}) async {
 void _newRequestChat(RemoteMessage message, {backGround = false}) {
   try {
     if (!backGround) {
-      Get.find<NotificationService>().index().then((value) {
-        print("add nots to local");
-        localStorage.notifications = value;
-      });
+      Get.find<NotificationController>().haveUnreadNotification.value = true;
+      Get.find<NotificationController>().haveUnreadNotification.refresh();
+      Get.find<NotificationController>().fetchNotifications();
+    } else {
+      _showFlutterNotification(
+        message,
+        backGround: backGround,
+      );
     }
   } catch (e) {
     print("$e");
   }
-  _showFlutterNotification(
-    message,
-    backGround: backGround,
-  );
 }
 
 void _newMessage(RemoteMessage message, {backGround = false}) {
   try {
     if (!backGround) {
-      if(Get.currentRoute == "${Goo.chatScreen}?chat_id=${message.data['chat_id']}"){
-        Get.find<lc.ChatController>().appendMessageInDiscussion("${message.notification?.body}");
-      }else{
+      if (Get.currentRoute ==
+          "${Goo.chatScreen}?chat_id=${message.data['chat_id']}") {
+        Get.find<lc.ChatController>()
+            .appendMessageInDiscussion("${message.notification?.body}");
+        Get.find<lc.ChatController>().getChats();
+      } else {
+        print("REFRESH NOTIFICATIONS");
         Get.find<NotificationController>().haveUnreadMessage.value = true;
         Get.find<NotificationController>().haveUnreadMessage.refresh();
+        print("REFRESH OKAY");
         Get.find<lc.ChatController>().getChats();
         _showFlutterNotification(
           message,

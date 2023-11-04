@@ -264,7 +264,7 @@ drawer({drawerKey, scaffoldKey}) {
           height: 20,
         ),
         ListTile(
-          onTap: () => lunchWebURL(Env.cookiesUrl),
+          onTap: () => lunchWebURL(Env.conditionnalitUrl),
           leading: itemIcon(Icons.security_outlined, color: MAIN_COLOR),
           title: const Text("Confidentialité",
               style: TextStyle(

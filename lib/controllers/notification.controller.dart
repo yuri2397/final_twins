@@ -34,6 +34,8 @@ class NotificationController extends GetxController {
     _service.countUnread().then((value) {
       print("UNREAD NOTIFICATION: $value");
       haveUnreadNotification.value = value > 0;
+    }).catchError((e){
+      print("UNREAD $e");
     });
     fetchNotifications();
   }

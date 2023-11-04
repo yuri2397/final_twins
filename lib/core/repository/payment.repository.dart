@@ -24,7 +24,6 @@ class PaymentRepository {
     try {
       var response =
           await _client.get("/payment/init", params: {'plan_id': id});
-
       if (response.statusCode == 200) {
         return InitPayment.fromJson(response.data);
       } else {

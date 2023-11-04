@@ -142,6 +142,7 @@ class AppInterceptors extends Interceptor {
       }
     }
     else{
+      print("UNKNOW ERROR: ${err.toString()}");
       errorMessage(
         title: "Une erreur est survenue",
         content: "Merci de vérifier votre connexion internet.",

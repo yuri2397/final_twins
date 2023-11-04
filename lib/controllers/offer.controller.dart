@@ -19,6 +19,7 @@ class OfferController extends GetxController {
   final lastInitPayment = InitPayment().obs;
   final currentOffer = Plan().obs;
   final user = localStorage.getUser().obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -26,16 +27,14 @@ class OfferController extends GetxController {
     getOffers();
   }
 
-  selectOffer(Plan plan){
+  selectOffer(Plan plan) {
     offers.forEach((e) {
-      if(plan.id == e.id){
+      if (plan.id == e.id) {
         e.selected = true;
-      }else{
+      } else {
         e.selected = false;
-
       }
     });
-
     offers.refresh();
   }
 
@@ -53,29 +52,31 @@ class OfferController extends GetxController {
   Future<void> choosePlan(Plan p) async {
     selectOffer(p);
     load.value = true;
+    print("Initial payment");
     _service.initPayment(p.id.toString()).then((value) async {
       lastInitPayment.value = value;
-      print("${value.clientSecret}");
+      print("PAYEMENT/:::::::::::::::::::: ${value.toJson().toString()}");
 
       var stripeval = await Stripe.instance
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
                   paymentIntentClientSecret: value.clientSecret,
                   style: ThemeMode.dark,
-                  merchantDisplayName: 'Twins'))
+                  merchantDisplayName: 'Twinz'))
           .then((value) {});
       load.value = false;
-      await _displayPaymentSheet();
-      _checkPayment(value);
+      print("Stripe value is:---> $stripeval");
+      _displayPaymentSheet(value);
     }).catchError((e) {
       load.value = false;
+      print("Error is:---> $e");
     });
   }
 
-  Future<void> _displayPaymentSheet() async {
+  Future<void> _displayPaymentSheet(InitPayment value) async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
-        //Clear paymentIntent variable after successful payment
+      await Stripe.instance.presentPaymentSheet().then((v) {
+        _checkPayment(value);
       }).onError((error, stackTrace) {
         print(error);
         stackTrace.printError();
@@ -92,7 +93,6 @@ class OfferController extends GetxController {
     _service.paymentSuccess("${value.id}").then((value) async {
       print("$value");
       if (value) {
-
         Get.find<ProfileService>().profile().then((value) {
           localStorage.user = value;
           user.value = value;

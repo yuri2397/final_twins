@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '103229134988',
     projectId: 'twinz-app',
     storageBucket: 'twinz-app.appspot.com',
-    iosBundleId: 'com.example.twinz',
+    iosBundleId: 'com.twinz.app',
   );
 }

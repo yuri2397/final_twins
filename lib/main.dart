@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/config/env.dart';
 import 'package:twinz/core/http/http_client.dart';
@@ -18,6 +19,7 @@ import 'package:twinz/core/services/login.service.dart';
 import 'package:twinz/core/services/matching.service.dart';
 import 'package:twinz/core/services/notification.service.dart';
 import 'package:twinz/core/services/user.service.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/firebase_options.dart';
 import 'package:twinz/routes/route.dart';
 import 'package:twinz/routes/router.dart';
@@ -50,6 +52,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
 
 void main() async {
   await _initServices();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(GetMaterialApp(
@@ -79,12 +82,10 @@ _initServices() async {
 
   Stripe.publishableKey = STRIPE_PUBLISHABLE_KEY;
   await Stripe.instance.applySettings();
-  await Firebase.initializeApp(
-    name: 'twinzz-8138c',
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
 
   await Get.putAsync(() => LocalStorageService().init());
+
   await Get.putAsync(() => FireBaseMessagingService().init());
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -104,6 +105,15 @@ _initServices() async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background message: ${message.messageId}");
+
+  switch (message.data['type']) {
+    case 'new_request':
+      break;
+    case 'message':
+      final _box = GetStorage("_twins");
+      _box.write("chat_id", message.data['chat_id']);
+      break;
+  }
 }
 
 Future<void> _configureLocalTimeZone() async {

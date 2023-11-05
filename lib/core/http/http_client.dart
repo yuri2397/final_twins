@@ -36,12 +36,11 @@ class HttpClient extends GetxService with BaseApiClient {
       AppInterceptors(dio),
     });
     dio.interceptors.add(LogInterceptor(
-      request: false,
-          requestHeader: false,
-      requestBody: false,
-      responseBody: true,
-      responseHeader: false
-    ));
+        request: false,
+        requestHeader: false,
+        requestBody: false,
+        responseBody: true,
+        responseHeader: false));
     return dio;
   }
 
@@ -120,12 +119,8 @@ class AppInterceptors extends Interceptor {
       errorMessage(
           title: "Une erreur est survenue",
           content: "Veuillez réessayer plus tard");
-    }
-
-    debugPrint(err.response?.statusCode.toString());
-
-    // on 422 code
-    if (err.response?.statusCode == 422) {
+    } else if (err.response!.statusCode! >= 400 &&
+        err.response!.statusCode! < 500) {
       print(err.response?.data);
       var errors = err.response?.data['errors'];
       if (errors != null) {
@@ -140,8 +135,7 @@ class AppInterceptors extends Interceptor {
           content: err.response?.data['message'],
         );
       }
-    }
-    else{
+    } else {
       print("UNKNOW ERROR: ${err.toString()}");
       errorMessage(
         title: "Une erreur est survenue",

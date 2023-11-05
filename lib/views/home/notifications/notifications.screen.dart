@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twinz/components/ui.dart';
+import 'package:twinz/controllers/chat.controller.dart';
 import 'package:twinz/controllers/notification.controller.dart';
+import 'package:twinz/core/model/chat.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/core/model/notification.dart' as nt;
 
@@ -124,7 +126,8 @@ class NotificationsScreen extends GetView<NotificationController> {
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () => controller.requestAccepted(item),
+      onTap: () => Get.find<ChatController>()
+          .detailsChat(Chat(id: int.tryParse("${item.data?.data?.chatId}"))),
       leading: const CircleAvatar(
           backgroundColor: MAIN_COLOR,
           child: Icon(Icons.notifications_rounded, color: Colors.white)),

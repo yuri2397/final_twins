@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:twinz/controllers/chat.controller.dart';
 import 'package:twinz/controllers/home.controller.dart';
 import 'package:twinz/controllers/notification.controller.dart';
 import 'package:twinz/core/services/notification.service.dart';
@@ -10,11 +10,14 @@ import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/views/home/chats/chat_list.screen.dart';
 import 'package:twinz/views/home/notifications/notifications.screen.dart';
 import 'package:twinz/views/home/profile/profile.screen.dart';
-import 'package:twinz/views/home/search/search.screen.dart';
+import 'package:twinz/views/home/search/search.screen.dart' as sc;
+// search controller as scc
+
+import 'package:twinz/controllers/search.controller.dart' as scc;
 
 class HomeScreen extends GetView<HomeController> {
   final _screens = <Widget>[
-    SearchScreen(),
+    sc.SearchScreen(),
     NotificationsScreen(),
     ChatListScreen(),
     const ProfileScreen()
@@ -41,6 +44,7 @@ class HomeScreen extends GetView<HomeController> {
               destinations: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    Get.find<scc.SearchController>().getMatchings();
                     controller.currentIndex.value = 0;
                     controller.currentIndex.refresh();
                   },
@@ -74,6 +78,7 @@ class HomeScreen extends GetView<HomeController> {
                     controller.currentIndex.value = 2;
                     controller.currentIndex.refresh();
                     notificationController.haveUnreadMessage.value = false;
+                    Get.find<ChatController>().getChats();
                   },
                   child: !notificationController.haveUnreadMessage.value
                       ? Icon(CupertinoIcons.chat_bubble_2_fill,

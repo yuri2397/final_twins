@@ -91,15 +91,14 @@ void _newRequestChat(RemoteMessage message, {backGround = false}) {
       Get.find<NotificationController>().haveUnreadNotification.value = true;
       Get.find<NotificationController>().haveUnreadNotification.refresh();
       Get.find<NotificationController>().fetchNotifications();
-    } else {
-      _showFlutterNotification(
-        message,
-        backGround: backGround,
-      );
     }
   } catch (e) {
     print("$e");
   }
+  _showFlutterNotification(
+    message,
+    backGround: backGround,
+  );
 }
 
 void _newMessage(RemoteMessage message, {backGround = false}) {
@@ -109,18 +108,15 @@ void _newMessage(RemoteMessage message, {backGround = false}) {
           "${Goo.chatScreen}?chat_id=${message.data['chat_id']}") {
         Get.find<lc.ChatController>()
             .appendMessageInDiscussion("${message.notification?.body}");
-        Get.find<lc.ChatController>().getChats();
       } else {
-        print("REFRESH NOTIFICATIONS");
         Get.find<NotificationController>().haveUnreadMessage.value = true;
         Get.find<NotificationController>().haveUnreadMessage.refresh();
-        print("REFRESH OKAY");
-        Get.find<lc.ChatController>().getChats();
         _showFlutterNotification(
           message,
           backGround: backGround,
         );
       }
+      Get.find<lc.ChatController>().getChats();
     }
   } catch (e) {
     print("$e");
@@ -194,7 +190,6 @@ class FireBaseMessagingService extends GetxService {
   Future fcmOnMessageListeners() async {
     /**here is to handle notification when app is foreground */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("NEW MESSAGE");
       _handleNotification(message);
     });
   }

@@ -15,9 +15,8 @@ import 'package:chatview/chatview.dart' as hc;
 class ChatScreen extends GetView<lc.ChatController> {
   ChatScreen({super.key});
 
-  final ScrollController scrollController = ScrollController(
-    initialScrollOffset: 1
-  );
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 1);
 
   void _scrollDown() {
     scrollController.animateTo(
@@ -73,16 +72,27 @@ class ChatScreen extends GetView<lc.ChatController> {
                 bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(25),
                     child: Text(
-                        "${controller.currentChat.value.participants?.firstWhere((e) => e.id.toString() != currentUserId).fullName}",
+                        controller.currentChat.value.participants
+                                ?.firstWhere(
+                                    (e) => e.id.toString() != currentUserId)
+                                .fullName ??
+                            'Chargement...',
                         style: const TextStyle(
                             color: Colors.white, fontSize: 16))),
                 title: ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child: Image.network(
-                      "${controller.currentChat.value.participants?.firstWhere((e) => e.id.toString() != currentUserId).profilePhoto}",
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.fill),
+                  child: controller.currentChat.value.participants
+                              ?.firstWhere(
+                                  (e) => e.id.toString() != currentUserId)
+                              .profilePhoto ==
+                          null
+                      ? Image.asset("assets/images/avataaars.png",
+                          width: 50, height: 50, fit: BoxFit.fill)
+                      : Image.network(
+                          "${controller.currentChat.value.participants?.firstWhere((e) => e.id.toString() != currentUserId).profilePhoto}",
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.fill),
                 )),
             body: controller.showDetailsLoad.value
                 ? const Center(

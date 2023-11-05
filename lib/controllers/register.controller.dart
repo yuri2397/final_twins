@@ -139,9 +139,6 @@ class RegisterController extends GetxController {
     } catch (e) {
       loading.value = false;
       loading.refresh();
-      errorMessage(
-          title: "Notification",
-          content: "Merci de vérifier votre connexion internet.");
     }
   }
 }

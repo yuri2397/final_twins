@@ -61,7 +61,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyAFn-xtilM-s8Y1LpQ5nvyQAnmrpXVhnNc',
     appId: '1:387759928982:ios:bd0dfbf89884631e4f34b7',
     messagingSenderId: '387759928982',
-    projectId: 'twinzz-8138c',
+    projectId: 'twinz-app',
     storageBucket: 'twinz-app.appspot.com',
     iosBundleId: 'com.twinzz.app',
   );

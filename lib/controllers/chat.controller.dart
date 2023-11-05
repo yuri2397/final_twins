@@ -12,7 +12,6 @@ import 'package:twinz/shared/utils/colors.dart';
 import '../core/model/user.dart';
 
 class ChatController extends GetxController {
-
   final messages = <hc.Message>[].obs;
   final _localUser = localStorage.getUser();
 
@@ -43,7 +42,6 @@ class ChatController extends GetxController {
       chats.value = value;
       chats.refresh();
       localStorage.messages = chats;
-
       chatsLoad.value = false;
     }).catchError((e) {
       print("$e");
@@ -72,7 +70,7 @@ class ChatController extends GetxController {
     Get.toNamed(Goo.chatScreen, parameters: {'chat_id': chat.id.toString()});
   }
 
-  void appendMessageInDiscussion(String message){
+  void appendMessageInDiscussion(String message) {
     final id = DateTime.now().millisecondsSinceEpoch;
     messages.add(
       hc.Message(
@@ -101,13 +99,10 @@ class ChatController extends GetxController {
     _service
         .sendMessage(chat: currentChat.value, message: message)
         .then((value) {
-          for (var c in chats){
-            if(c.id == currentChat.value.id){
-              c.messages?.add(value);
-            }
-          }
+      getChats();
     }).catchError((e) {
       print("$e");
+      getChats();
     });
   }
 

@@ -110,10 +110,7 @@ class SettingScreen extends GetView<ProfileController> {
                 children: [
                   Expanded(
                     child: SfSlider(
-                      min: controller.user.value?.isPremium != null &&
-                              controller.user.value?.isPremium == true
-                          ? 0
-                          : 3,
+                      min: 0,
                       max: 15,
                       value: double.tryParse(
                               "${controller.settings.value?.differenceInDays ?? 15}") ??
@@ -269,6 +266,7 @@ class SettingScreen extends GetView<ProfileController> {
   void showChangeOfferBottomSheet() {
     Get.bottomSheet(
       Container(
+        padding: const EdgeInsets.all(20),
         height: 200,
         width: Get.width,
         decoration: const BoxDecoration(
@@ -291,7 +289,7 @@ class SettingScreen extends GetView<ProfileController> {
                   fontSize: 20,
                   fontFamily: "Haylard",
                   fontWeight: FontWeight.bold),
-            ),
+            ).marginSymmetric(horizontal: 10),
             const SizedBox(
               height: 20,
             ),
@@ -300,6 +298,12 @@ class SettingScreen extends GetView<ProfileController> {
                 // fermer, Twinz Premium
                 Expanded(
                   child: TextButton(
+                    style: TextButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: Colors.white,
+                        foregroundColor: MAIN_COLOR),
                     onPressed: () => Get.back(),
                     child: const Text("Fermer"),
                   ),

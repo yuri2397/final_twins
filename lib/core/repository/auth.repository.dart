@@ -35,9 +35,6 @@ class AuthRepository {
           throw "Email ou mot de passe invalide.";
         }
       } catch (e) {
-        errorMessage(
-            title: "Notification",
-            content: "Merci de vérifier votre connexion internet");
         rethrow;
       }
     } catch (e) {

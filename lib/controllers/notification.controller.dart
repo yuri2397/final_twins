@@ -34,7 +34,7 @@ class NotificationController extends GetxController {
     _service.countUnread().then((value) {
       print("UNREAD NOTIFICATION: $value");
       haveUnreadNotification.value = value > 0;
-    }).catchError((e){
+    }).catchError((e) {
       print("UNREAD $e");
     });
     fetchNotifications();
@@ -56,7 +56,8 @@ class NotificationController extends GetxController {
   Future<void> acceptRequest(int requestId, String notId) async {
     acceptLoad.value = true;
     _requestService
-        .acceptRequestChat(chatRequest: ChatRequest(id: requestId), notId: notId)
+        .acceptRequestChat(
+            chatRequest: ChatRequest(id: requestId), notId: notId)
         .then((value) {
       acceptLoad.value = false;
       Get.find<ChatController>().getChats();
@@ -73,7 +74,8 @@ class NotificationController extends GetxController {
   Future<void> rejectRequest(int requestId, String notId) async {
     rejectLoad.value = true;
     _requestService
-        .rejectRequestChat(chatRequest: ChatRequest(id: requestId), notId: notId)
+        .rejectRequestChat(
+            chatRequest: ChatRequest(id: requestId), notId: notId)
         .then((value) {
       rejectLoad.value = false;
 
@@ -96,12 +98,8 @@ class NotificationController extends GetxController {
   detailUserNot(nt.Notification item) {
     selectedNotification.value = item;
     if (item.data?.data?.type == 'new_request') {
-      if (localStorage.getUser()?.isPremium == true) {
-        fetchNotificationDetails();
-        Get.toNamed(Goo.notificationDetails);
-      } else {
-        Get.toNamed(Goo.offerScreen);
-      }
+      fetchNotificationDetails();
+      Get.toNamed(Goo.notificationDetails);
     }
   }
 

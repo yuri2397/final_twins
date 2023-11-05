@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
           seconds: 3,
         ), () {
       var haveChatId = localStorage.box.read("chat_id");
-      if (haveChatId) {
+      if (haveChatId != null) {
         localStorage.box.remove('chat_id');
         Get.find<ChatController>()
             .detailsChat(Chat(id: int.tryParse(haveChatId)));

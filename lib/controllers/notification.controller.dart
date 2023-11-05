@@ -67,7 +67,6 @@ class NotificationController extends GetxController {
       Get.find<ChatController>().detailsChat(Chat(id: value));
     }).catchError((e) {
       acceptLoad.value = false;
-      print("ACCEPT REQUEST ERROR: $e");
     });
   }
 

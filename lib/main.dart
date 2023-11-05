@@ -79,10 +79,10 @@ _initServices() async {
 
   Stripe.publishableKey = STRIPE_PUBLISHABLE_KEY;
   await Stripe.instance.applySettings();
-    await Firebase.initializeApp(
-      name: 'twinzz-8138c',
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  await Firebase.initializeApp(
+    name: 'twinzz-8138c',
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await Get.putAsync(() => LocalStorageService().init());
   await Get.putAsync(() => FireBaseMessagingService().init());

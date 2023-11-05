@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/utils/utils.dart';
+import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class SettingScreen extends GetView<ProfileController> {
@@ -112,7 +113,7 @@ class SettingScreen extends GetView<ProfileController> {
                       min: controller.user.value?.isPremium != null &&
                               controller.user.value?.isPremium == true
                           ? 0
-                          : 14,
+                          : 3,
                       max: 15,
                       value: double.tryParse(
                               "${controller.settings.value?.differenceInDays ?? 15}") ??
@@ -123,6 +124,14 @@ class SettingScreen extends GetView<ProfileController> {
                       enableTooltip: true,
                       minorTicksPerInterval: 1,
                       onChanged: (dynamic value) {
+                        if (controller.user.value?.isPremium == null ||
+                            controller.user.value?.isPremium == false) {
+                          if (value < 3) {
+                            value = 3;
+                            showChangeOfferBottomSheet();
+                            return;
+                          }
+                        }
                         controller.settings.value?.differenceInDays =
                             value.toInt();
                         controller.settings.refresh();
@@ -254,6 +263,70 @@ class SettingScreen extends GetView<ProfileController> {
           ).paddingAll(20),
         ),
       ),
+    );
+  }
+
+  void showChangeOfferBottomSheet() {
+    Get.bottomSheet(
+      Container(
+        height: 200,
+        width: Get.width,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Vous devez être premium pour pouvoir utiliser cette fonctionnalité",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: DARK_COLOR,
+                  fontSize: 20,
+                  fontFamily: "Haylard",
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                // fermer, Twinz Premium
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Get.back(),
+                    child: const Text("Fermer"),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: MAIN_COLOR,
+                        foregroundColor: Colors.white),
+                    onPressed: () => Get.toNamed(Goo.offerScreen),
+                    child: const Text("Twinz Premium"),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      isDismissible: false,
+      enableDrag: false,
     );
   }
 }

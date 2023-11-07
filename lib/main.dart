@@ -9,18 +9,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/config/env.dart';
 import 'package:twinz/core/http/http_client.dart';
 import 'package:twinz/core/services/chat.service.dart';
 import 'package:twinz/core/services/chat_request.service.dart';
-import 'package:twinz/core/services/firebase.service.dart';
 import 'package:twinz/core/services/login.service.dart';
 import 'package:twinz/core/services/matching.service.dart';
 import 'package:twinz/core/services/notification.service.dart';
 import 'package:twinz/core/services/user.service.dart';
-import 'package:twinz/core/utils/utils.dart';
-import 'package:twinz/firebase_options.dart';
 import 'package:twinz/routes/route.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/app_hehavior.dart';
@@ -104,8 +100,8 @@ _initServices() async {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
-
+  print(
+      "Handling a background message: ${message.messageId} :::::::: ${message.data['type']}");
   switch (message.data['type']) {
     case 'new_request':
       break;

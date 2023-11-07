@@ -112,7 +112,7 @@ class NotificationsScreen extends GetView<NotificationController> {
             ),
           ),
         ),
-        trailing: Text(DateFormat.Hm().format(item.createdAt!)),
+        trailing: Text(DateFormat.Hm('fr').format(item.createdAt!)),
       ),
     );
   }
@@ -120,9 +120,9 @@ class NotificationsScreen extends GetView<NotificationController> {
   _buildAcceptRequest(nt.Notification item) {
     String date = "";
     if (item.createdAt!.compareTo(DateTime.now()) == 0) {
-      date = DateFormat.Hm().format(item.createdAt!);
+      date = DateFormat.Hm('fr').format(item.createdAt!);
     } else {
-      date = DateFormat.MMMd().format(item.createdAt!);
+      date = DateFormat.MMMd('fr').format(item.createdAt!);
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -146,7 +146,7 @@ class NotificationsScreen extends GetView<NotificationController> {
           child: Icon(Icons.check, color: Colors.white)),
       title: Text("${item.data?.title}"),
       subtitle: Text("${item.data?.body}"),
-      trailing: Text(DateFormat.Hm().format(item.createdAt!)),
+      trailing: Text(DateFormat.Hm('fr').format(item.createdAt!)),
     );
   }
 }

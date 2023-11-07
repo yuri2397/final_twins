@@ -92,13 +92,18 @@ class ChatListScreen extends GetView<ChatController> {
               .fullName!,
           style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text(
-        chat.messages!.isEmpty
-            ? "Envoyer le premier message..."
-            : "${chat.messages!.last.message}",
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
+          chat.messages!.isEmpty
+              ? "Envoyer le premier message..."
+              : "${chat.messages!.last.message}",
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1),
+      trailing: Text(
+        // if createAt is this day, display HH:mm, else month/dd
+        chat.messages!.last.createdAt!
+                .isAfter(DateTime.now().subtract(const Duration(days: 1)))
+            ? DateFormat("HH:mm").format(chat.messages!.last.createdAt!)
+            : DateFormat.MMMd('fr').format(chat.messages!.last.createdAt!),
       ),
-      trailing: Text(DateFormat.Hm().format(chat.createdAt!)),
     ).marginSymmetric(horizontal: 10, vertical: 5);
   }
 }

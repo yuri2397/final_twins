@@ -76,7 +76,7 @@ class ChatScreen extends GetView<lc.ChatController> {
                                 ?.firstWhere(
                                     (e) => e.id.toString() != currentUserId)
                                 .fullName ??
-                            'Chargement...',
+                            '...',
                         style: const TextStyle(
                             color: Colors.white, fontSize: 16))),
                 title: ClipRRect(
@@ -86,8 +86,9 @@ class ChatScreen extends GetView<lc.ChatController> {
                                   (e) => e.id.toString() != currentUserId)
                               .profilePhoto ==
                           null
-                      ? Image.asset("assets/images/avataaars.png",
-                          width: 50, height: 50, fit: BoxFit.fill)
+                      ? const CircularProgressIndicator(
+                          color: MAIN_COLOR,
+                        )
                       : Image.network(
                           "${controller.currentChat.value.participants?.firstWhere((e) => e.id.toString() != currentUserId).profilePhoto}",
                           width: 50,

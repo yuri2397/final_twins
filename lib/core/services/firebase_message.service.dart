@@ -80,9 +80,28 @@ Future _handleNotification(RemoteMessage message, {backGround = false}) async {
     case 'message':
       _newMessage(message, backGround: backGround);
       break;
+    case 'request_accepted':
+      _buildAcceptRequest(message, backGround: backGround);
+      break;
     default:
       _showFlutterNotification(message);
   }
+}
+
+void _buildAcceptRequest(RemoteMessage message, {required backGround}) {
+  try {
+    if (!backGround) {
+      Get.find<NotificationController>().haveUnreadNotification.value = true;
+      Get.find<NotificationController>().haveUnreadNotification.refresh();
+      Get.find<NotificationController>().fetchNotifications();
+    }
+  } catch (e) {
+    print("$e");
+  }
+  _showFlutterNotification(
+    message,
+    backGround: backGround,
+  );
 }
 
 void _newRequestChat(RemoteMessage message, {backGround = false}) {

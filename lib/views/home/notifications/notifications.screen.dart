@@ -126,8 +126,7 @@ class NotificationsScreen extends GetView<NotificationController> {
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () => Get.find<ChatController>()
-          .detailsChat(Chat(id: int.tryParse("${item.data?.data?.chatId}"))),
+      onTap: () =>controller.detailUserNot(item),
       leading: const CircleAvatar(
           backgroundColor: MAIN_COLOR,
           child: Icon(Icons.notifications_rounded, color: Colors.white)),
@@ -138,15 +137,21 @@ class NotificationsScreen extends GetView<NotificationController> {
   }
 
   _buildNewRequest(nt.Notification item) {
+    String date = "";
+    if (item.createdAt!.compareTo(DateTime.now()) == 0) {
+      date = DateFormat.Hm('fr').format(item.createdAt!);
+    } else {
+      date = DateFormat.MMMd('fr').format(item.createdAt!);
+    }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () => controller.detailUserNot(item),
+      onTap: () => controller.requestAccepted(item),
       leading: const CircleAvatar(
           backgroundColor: Colors.greenAccent,
           child: Icon(Icons.check, color: Colors.white)),
       title: Text("${item.data?.title}"),
       subtitle: Text("${item.data?.body}"),
-      trailing: Text(DateFormat.Hm('fr').format(item.createdAt!)),
+      trailing: Text(date),
     );
   }
 }

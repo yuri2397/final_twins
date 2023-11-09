@@ -60,8 +60,8 @@ class NotificationController extends GetxController {
             chatRequest: ChatRequest(id: requestId), notId: notId)
         .then((value) {
       acceptLoad.value = false;
+      fetchNotifications();
       Get.find<ChatController>().getChats();
-      Get.back();
       successMessage(
           title: "Félicitation", content: "Demande acceptée avec succès.");
       Get.find<ChatController>().detailsChat(Chat(id: value));
@@ -115,7 +115,7 @@ class NotificationController extends GetxController {
 
   requestAccepted(nt.Notification item) {
     selectedNotification.value = item;
-    if (item.data?.data?.type == 'request_accepted') {
+    if (item.data?.data?.type == 'new_request') {
       if (localStorage.getUser()?.isPremium == true) {
         var id =
             int.tryParse("${selectedNotification.value.data!.data!.chatId}");

@@ -32,9 +32,11 @@ class UserRepository {
     }
   }
 
-  Future<bool> reportUser({required User user}) async {
+  Future<bool> reportUser({required User user, required String raison}) async {
     try {
-      var response = await _client.post("/users/${user.id}/report", data: {});
+      var response = await _client.post("/users/${user.id}/report", data: {
+        "reason": raison,
+      });
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return true;
       } else {

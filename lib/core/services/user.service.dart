@@ -24,9 +24,9 @@ class UserService extends GetxService {
     }
   }
 
-  Future<bool> reportUser({required User user}) async {
+  Future<bool> reportUser({required User user, required String raison}) async {
     try {
-      return await _repo.reportUser(user: user);
+      return await _repo.reportUser(user: user, raison: raison);
     } catch (e) {
       print("$e");
       rethrow;

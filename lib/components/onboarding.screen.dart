@@ -49,7 +49,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                         TextSpan(
                           text: "conditions d'utilisation",
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => lunchWebURL(Env.conditionnalitUrl),
+                            ..onTap = () => lunchWebURL("https://www.findyourtwinz.com/legal#conditions"),
                           style: const TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:twinz/controllers/home.controller.dart';
@@ -264,7 +265,7 @@ drawer({drawerKey, scaffoldKey}) {
           height: 20,
         ),
         ListTile(
-          onTap: () => lunchWebURL(Env.conditionnalitUrl),
+          onTap: () => lunchWebURL("https://www.findyourtwinz.com/legal#confidentialit%C3%A9"),
           leading: itemIcon(Icons.security_outlined, color: MAIN_COLOR),
           title: const Text("Confidentialité",
               style: TextStyle(
@@ -299,4 +300,19 @@ Widget detailUserPhotoItem(String url) {
           fit: BoxFit.cover,
         )),
   );
+}
+
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: capitalize(newValue.text),
+      selection: newValue.selection,
+    );
+  }
+}
+String capitalize(String value) {
+  if(value.trim().isEmpty) return "";
+  return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }

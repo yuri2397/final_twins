@@ -123,8 +123,8 @@ class SettingScreen extends GetView<ProfileController> {
                       onChanged: (dynamic value) {
                         if (controller.user.value?.isPremium == null ||
                             controller.user.value?.isPremium == false) {
-                          if (value < 3) {
-                            value = 3;
+                          if (value < 2) {
+                            value = 2;
                             showChangeOfferBottomSheet();
                             return;
                           }
@@ -230,7 +230,7 @@ class SettingScreen extends GetView<ProfileController> {
                 title: const Text('Femmes'),
               ),
               CheckboxListTile(
-                value: controller.settings.value?.gender == "both",
+                value: controller.settings.value?.gender == null || controller.settings.value?.gender == "both",
                 onChanged: (bool? value) => controller.changeGender("both"),
                 activeColor: MAIN_COLOR,
                 title: const Text('Hommes et Femmes'),

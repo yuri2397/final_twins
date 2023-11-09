@@ -98,11 +98,10 @@ class ChatListScreen extends GetView<ChatController> {
           overflow: TextOverflow.ellipsis,
           maxLines: 1),
       trailing: Text(
-        // if createAt is this day, display HH:mm, else month/dd
         chat.messages!.last.createdAt!
                 .isAfter(DateTime.now().subtract(const Duration(days: 1)))
-            ? DateFormat("HH:mm").format(chat.messages!.last.createdAt!)
-            : DateFormat.MMMd('fr').format(chat.messages!.last.createdAt!),
+            ? DateFormat("HH:mm").format(chat.messages!.last.createdAt!.toLocal())
+            : DateFormat.MMMd('fr').format(chat.messages!.last.createdAt!.toLocal()),
       ),
     ).marginSymmetric(horizontal: 10, vertical: 5);
   }

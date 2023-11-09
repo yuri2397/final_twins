@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/register.controller.dart';
 import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
@@ -54,7 +55,10 @@ class AddBioScreen extends GetView<RegisterController> {
                         child: TextFormField(
                           autofocus: true,
                           controller: controller.bioCtrl,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.multiline,
+                          inputFormatters:[
+                            UpperCaseTextFormatter()
+                          ],
                           cursorColor: DARK_COLOR,
                           obscureText: false,
                           maxLines: 5,

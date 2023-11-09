@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/register.controller.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
@@ -53,6 +54,10 @@ class RegisterScreen extends GetView<RegisterController> {
                                   controller: controller.nameCtrl,
                                   cursorColor: DARK_COLOR,
                                   autofocus: true,
+                                  keyboardType: TextInputType.name,
+                              inputFormatters:[
+                                UpperCaseTextFormatter()
+                              ],
                                   validator: (value) {
                                     if (value == null) {
                                       return "Votre prénom est obligatoire.";
@@ -111,3 +116,4 @@ class RegisterScreen extends GetView<RegisterController> {
     );
   }
 }
+

@@ -124,11 +124,28 @@ class ChatScreen extends GetView<lc.ChatController> {
                           ).marginOnly(bottom: 10);
                         },
                       )),
-                      MessageBar(
-                        onSend: (text) => controller.onSendTap(text),
-                        sendButtonColor: MAIN_COLOR,
-                        messageBarHitText: "Votre message",
-                      ),
+                      // nice input with send button
+                      SafeArea(
+                        child: TextFormField(
+                          controller: controller.messageController,
+                          decoration: InputDecoration(
+                            hintText: 'Ecrivez votre message',
+                            hintStyle: GoogleFonts.roboto(
+                                color: Colors.grey[400], fontSize: 16),
+                            suffixIcon: IconButton(
+                              onPressed: () => controller.onSendTap(controller.messageController.text.trim()),
+                              icon: const Icon(Icons.send, color: MAIN_COLOR, size: 30,),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                          ),
+                        ).marginSymmetric(horizontal: 20, vertical: 20),
+                      )
                     ],
                   )),
       );

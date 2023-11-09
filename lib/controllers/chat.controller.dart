@@ -30,6 +30,8 @@ class ChatController extends GetxController {
     chatUsers: [],
   );
 
+  final messageController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
@@ -96,6 +98,7 @@ class ChatController extends GetxController {
         status: hc.MessageStatus.pending,
       ),
     );
+    messageController.clear();
     _service
         .sendMessage(chat: currentChat.value, message: message)
         .then((value) {
@@ -116,12 +119,91 @@ class ChatController extends GetxController {
   }
 
   Future<void> reportUser(User user) async {
-    Get.find<UserService>().reportUser(user: user).then((value) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-        content: Text("Vous avez signalé ${user.fullName}"),
-        backgroundColor: MAIN_COLOR,
-      ));
-    }).catchError((e) {});
+    // add raison in a bottomsheet
+    final raisonController = TextEditingController();
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration:const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+           const Text("Raison du signalement",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20,),
+            TextFormField(
+              controller: raisonController,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: "Raison du signalement",
+                hintStyle: TextStyle(
+                  color: Colors.grey[400],
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide:const BorderSide(
+                    color: MAIN_COLOR,
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30,),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: MAIN_COLOR
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text("Annuler"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: MAIN_COLOR,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.find<UserService>().reportUser(user: user,raison: raisonController.text.trim() ).then((value) {
+                      getChatMessages();
+                      Get.back();
+                      Get.back();
+                      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+                        content: Text("Vous avez signalé ${user.fullName}"),
+                        backgroundColor: MAIN_COLOR,
+                      ));
+                    }).catchError((e) {
+                      getChatMessages();
+                      Get.back();
+                      Get.back();
+                    });
+                  },
+                  child: const Text("Signaler"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ), isScrollControlled: true
+    );
+
   }
 
   markMessageIsRead(messageId) {

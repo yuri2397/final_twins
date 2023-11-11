@@ -21,6 +21,14 @@ class ChatService extends GetxService {
     }
   }
 
+  Future<bool> remove({required Chat chat}) async{
+    try {
+      return await _repo.remove(chat: chat);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Message> sendMessage(
       {required Chat chat, required String message}) async {
     try {

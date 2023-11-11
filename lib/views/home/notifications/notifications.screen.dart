@@ -126,7 +126,7 @@ class NotificationsScreen extends GetView<NotificationController> {
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () =>controller.detailUserNot(item),
+      onTap: () => controller.requestAccepted(item),
       leading: const CircleAvatar(
           backgroundColor: MAIN_COLOR,
           child: Icon(Icons.notifications_rounded, color: Colors.white)),
@@ -145,7 +145,7 @@ class NotificationsScreen extends GetView<NotificationController> {
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () => controller.requestAccepted(item),
+      onTap: () =>controller.detailUserNot(item),
       leading: const CircleAvatar(
           backgroundColor: Colors.greenAccent,
           child: Icon(Icons.check, color: Colors.white)),

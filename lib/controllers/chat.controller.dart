@@ -18,6 +18,7 @@ class ChatController extends GetxController {
   get localUser => _localUser;
   final RxList<lc.Chat> chats = localStorage.getMessages().obs;
   final chatsLoad = false.obs;
+  final unblockLoad= false.obs;
 
   final _service = Get.find<ChatService>();
 
@@ -109,17 +110,57 @@ class ChatController extends GetxController {
     });
   }
 
+  Future<void> unblockUser(User user) async{
+    unblockLoad.value = true;
+    Get.find<UserService>().unblockUser(user: user).then((value) {
+      unblockLoad.value = false;
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+        content: Text("Vous avez débloqué ${user.fullName}"),
+        backgroundColor: MAIN_COLOR,
+      ));
+      reloadChatCurrentChat();
+    }).catchError((e) {
+      unblockLoad.value = false;
+    });
+  }
+
+  reloadChatCurrentChat(){
+    showDetailsLoad.value = true;
+    _service.chatDetails(chat: currentChat.value).then((value) {
+      currentChat.value = value;
+      messages.value = value.messages!
+          .map((e) => hc.Message(
+          id: "${e.id}",
+          message: "${e.message}",
+          createdAt: value.createdAt!,
+          status: "${e.data?.status}" == 'send'
+              ? hc.MessageStatus.delivered
+              : hc.MessageStatus.read,
+          sendBy: "${e.sender?.id}"))
+          .toList();
+      showDetailsLoad.value = false;
+    }).catchError((e) {
+      showDetailsLoad.value = false;
+    });
+  }
+
   Future<void> blockUser(User user) async {
+    showDetailsLoad.value = true;
     Get.find<UserService>().blockUser(user: user).then((value) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text("Vous avez bloqué ${user.fullName}"),
         backgroundColor: MAIN_COLOR,
       ));
-    }).catchError((e) {});
+      showDetailsLoad.value = false;
+      reloadChatCurrentChat();
+    }).catchError((e) {
+      showDetailsLoad.value = false;
+    });
   }
 
   Future<void> reportUser(User user) async {
     // add raison in a bottomsheet
+
     final raisonController = TextEditingController();
     Get.bottomSheet(
       Container(
@@ -213,4 +254,14 @@ class ChatController extends GetxController {
   moreInfo(int index) {}
 
   getChatMessages() {}
+
+  Future<void> deleteChat(lc.Chat value) async{
+    showDetailsLoad.value = true;
+    _service.remove(chat: value).then((value) {
+      getChats();
+      Get.back();
+    }).catchError((e){
+      showDetailsLoad.value = true;
+    });
+  }
 }

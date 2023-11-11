@@ -128,6 +128,7 @@ void _newMessage(RemoteMessage message, {backGround = false}) {
         Get.find<lc.ChatController>()
             .appendMessageInDiscussion("${message.notification?.body}");
       } else {
+        print("NEW MESSAGE");
         Get.find<NotificationController>().haveUnreadMessage.value = true;
         Get.find<NotificationController>().haveUnreadMessage.refresh();
         _showFlutterNotification(

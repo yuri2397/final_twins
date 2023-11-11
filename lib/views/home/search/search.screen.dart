@@ -41,7 +41,7 @@ class SearchScreen extends GetView<sc.SearchController> {
               : controller.user.value?.active == "1"
                   ? controller.matchSuccess.value
                       ? Matcher(controller: controller)
-                      : controller.user.value?.isPremium == false
+                      : controller.user.value?.isPremium == false && controller.updateSettings.value
                           ? Center(
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,

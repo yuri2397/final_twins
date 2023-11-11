@@ -33,6 +33,7 @@ class UserService extends GetxService {
     }
   }
 
+
   Future<bool> unblockUser({required User user}) async {
     try {
       return await _repo.unblockUser(user: user);

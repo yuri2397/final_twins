@@ -25,6 +25,7 @@ class SearchController extends GetxController {
   final user = localStorage.getUser().obs;
   final showCancelIcon = false.obs;
   final showLikeIcons = false.obs;
+  final updateSettings = false.obs;
 
   @override
   void onInit() {
@@ -52,6 +53,13 @@ class SearchController extends GetxController {
       }
       matchLoad.value = false;
     }).catchError((e, s) {
+      print("ERRRRRRRRRRR $e");
+      // if e (string) contain 403,
+      // then user is not premium
+      if(e.toString().contains("403")){
+        matchSuccess.value = false;
+        updateSettings.value = true;
+      }
       matchLoad.value = false;
     });
   }

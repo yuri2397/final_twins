@@ -13,16 +13,19 @@ class Chat {
   DateTime? createdAt;
   List<User>? participants;
   List<Message>? messages;
+  int? blocker;
 
   Chat({
     this.id,
     this.createdAt,
     this.participants,
     this.messages,
+    this.blocker,
   });
 
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
         id: json["id"],
+        blocker: json["blocker"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -39,6 +42,7 @@ class Chat {
   Map<String, dynamic> toJson() => {
         "id": id,
         "created_at": createdAt?.toIso8601String(),
+        "blocker": blocker,
         "participants": participants == null
             ? []
             : List<dynamic>.from(participants!.map((x) => x.toJson())),

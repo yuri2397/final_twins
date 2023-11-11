@@ -59,4 +59,17 @@ class ChatRepository {
       rethrow;
     }
   }
+
+  Future<bool> remove({required Chat chat}) async {
+    try {
+      var response = await _client.delete("/chat/${chat.id}");
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return true;
+      } else {
+        throw response.data;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

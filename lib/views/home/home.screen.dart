@@ -25,8 +25,6 @@ class HomeScreen extends GetView<HomeController> {
 
   HomeScreen({super.key});
 
-  final notificationController = Get.find<NotificationController>();
-
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -58,11 +56,11 @@ class HomeScreen extends GetView<HomeController> {
                 GestureDetector(
                   onTap: () {
                     controller.currentIndex.value = 1;
-                    notificationController.haveUnreadNotification.value = false;
+                    Get.find<NotificationController>().haveUnreadNotification.value = false;
                     Get.find<NotificationService>().markAllRead();
                     controller.currentIndex.refresh();
                   },
-                  child: !notificationController.haveUnreadNotification.value
+                  child: !Get.find<NotificationController>().haveUnreadNotification.value
                       ? Icon(Icons.notifications,
                           color: controller.currentIndex.value == 1
                               ? MAIN_COLOR
@@ -77,10 +75,10 @@ class HomeScreen extends GetView<HomeController> {
                   onTap: () {
                     controller.currentIndex.value = 2;
                     controller.currentIndex.refresh();
-                    notificationController.haveUnreadMessage.value = false;
+                    Get.find<NotificationController>().haveUnreadMessage.value = false;
                     Get.find<ChatController>().getChats();
                   },
-                  child: !notificationController.haveUnreadMessage.value
+                  child: !Get.find<NotificationController>().haveUnreadMessage.value
                       ? Icon(CupertinoIcons.chat_bubble_2_fill,
                           color: controller.currentIndex.value == 2
                               ? MAIN_COLOR

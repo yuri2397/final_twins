@@ -7,6 +7,7 @@ class MatchingRepository {
 
   Future<List<User>> matchings() async {
     var response = await _client.get("/matchings");
+    print("RESPONSE");
     print(response.data);
     if (response.statusCode! >= 200 && response.statusCode! < 400) {
       if (response.data is Map) {

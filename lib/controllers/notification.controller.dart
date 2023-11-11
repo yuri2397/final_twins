@@ -116,13 +116,9 @@ class NotificationController extends GetxController {
   requestAccepted(nt.Notification item) {
     selectedNotification.value = item;
     if (item.data?.data?.type == 'request_accepted') {
-      if (localStorage.getUser()?.isPremium == true) {
-        var id =
-            int.tryParse("${selectedNotification.value.data!.data!.chatId}");
-        Get.find<ChatController>().detailsChat(Chat(id: id));
-      } else {
-        Get.toNamed(Goo.offerScreen);
-      }
+      var id =
+      int.tryParse("${selectedNotification.value.data!.data!.chatId}");
+      Get.find<ChatController>().detailsChat(Chat(id: id));
     }
   }
 }

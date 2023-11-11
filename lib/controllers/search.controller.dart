@@ -54,8 +54,6 @@ class SearchController extends GetxController {
       matchLoad.value = false;
     }).catchError((e, s) {
       print("ERRRRRRRRRRR $e");
-      // if e (string) contain 403,
-      // then user is not premium
       if(e.toString().contains("403")){
         matchSuccess.value = false;
         updateSettings.value = true;

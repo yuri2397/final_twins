@@ -64,7 +64,7 @@ class SettingScreen extends GetView<ProfileController> {
                       min: 1,
                       max: 50,
                       value: double.tryParse(
-                              "${controller.settings.value?.distanceInKilometers ?? 50}") ??
+                              "${controller.settings?.value?.distanceInKilometers ?? 50}") ??
                           50,
                       interval: 20,
                       showTicks: false,
@@ -73,14 +73,14 @@ class SettingScreen extends GetView<ProfileController> {
                       enableTooltip: true,
                       minorTicksPerInterval: 1,
                       onChanged: (dynamic value) {
-                        controller.settings.value?.distanceInKilometers =
+                        controller.settings?.value?.distanceInKilometers =
                             value.toInt();
-                        controller.settings.refresh();
-                        localStorage.settings = controller.settings.value;
+                        controller.settings?.refresh();
+                        localStorage.settings = controller.settings?.value;
                       },
                     ),
                   ),
-                  Text("${controller.settings.value?.distanceInKilometers} Km")
+                  Text("${controller.settings?.value?.distanceInKilometers} Km")
                 ],
               ),
               const SizedBox(
@@ -113,7 +113,7 @@ class SettingScreen extends GetView<ProfileController> {
                       min: 0,
                       max: 15,
                       value: double.tryParse(
-                              "${controller.settings.value?.differenceInDays ?? 15}") ??
+                              "${controller.settings?.value?.differenceInDays ?? 15}") ??
                           15,
                       showTicks: false,
                       activeColor: MAIN_COLOR,
@@ -129,14 +129,14 @@ class SettingScreen extends GetView<ProfileController> {
                             return;
                           }
                         }
-                        controller.settings.value?.differenceInDays =
+                        controller.settings?.value?.differenceInDays =
                             value.toInt();
-                        controller.settings.refresh();
-                        localStorage.settings = controller.settings.value;
+                        controller.settings?.refresh();
+                        localStorage.settings = controller.settings?.value;
                       },
                     ),
                   ),
-                  Text("${controller.settings.value?.differenceInDays} Jours")
+                  Text("${controller.settings?.value?.differenceInDays} Jours")
                 ],
               ),
               const SizedBox(
@@ -176,21 +176,21 @@ class SettingScreen extends GetView<ProfileController> {
                       enableTooltip: true,
                       minorTicksPerInterval: 1,
                       onChanged: (SfRangeValues values) {
-                        controller.settings.value?.ageMin =
+                        controller.settings?.value?.ageMin =
                             values.start?.toInt();
-                        controller.settings.value?.ageMax = values.end?.toInt();
-                        controller.settings.refresh();
+                        controller.settings?.value?.ageMax = values.end?.toInt();
+                        controller.settings?.refresh();
                         Get.log(
-                            "${controller.settings.value?.toJson().toString()}");
-                        localStorage.settings = controller.settings.value;
+                            "${controller.settings?.value?.toJson().toString()}");
+                        localStorage.settings = controller.settings?.value;
                       },
                       values: SfRangeValues(
-                          controller.settings.value?.ageMin ?? 18,
-                          controller.settings.value?.ageMax ?? 80),
+                          controller.settings?.value?.ageMin ?? 18,
+                          controller.settings?.value?.ageMax ?? 80),
                     ),
                   ),
                   Text(
-                      "${controller.settings.value?.ageMin ?? '18'} - ${controller.settings.value?.ageMax ?? '80'}")
+                      "${controller.settings?.value?.ageMin ?? '18'} - ${controller.settings?.value?.ageMax ?? '80'}")
                 ],
               ).marginSymmetric(),
               const SizedBox(
@@ -218,19 +218,19 @@ class SettingScreen extends GetView<ProfileController> {
                 height: 30,
               ),
               CheckboxListTile(
-                value: controller.settings.value?.gender == "male",
+                value: controller.settings?.value?.gender == "male",
                 onChanged: (bool? value) => controller.changeGender("male"),
                 title: const Text('Hommes'),
                 activeColor: MAIN_COLOR,
               ),
               CheckboxListTile(
-                value: controller.settings.value?.gender == "female",
+                value: controller.settings?.value?.gender == "female",
                 activeColor: MAIN_COLOR,
                 onChanged: (bool? value) => controller.changeGender("female"),
                 title: const Text('Femmes'),
               ),
               CheckboxListTile(
-                value: controller.settings.value?.gender == null || controller.settings.value?.gender == "both",
+                value: controller.settings?.value?.gender == null || controller.settings?.value?.gender == "both",
                 onChanged: (bool? value) => controller.changeGender("both"),
                 activeColor: MAIN_COLOR,
                 title: const Text('Hommes et Femmes'),

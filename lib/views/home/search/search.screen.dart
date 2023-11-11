@@ -89,7 +89,7 @@ class SearchScreen extends GetView<sc.SearchController> {
                                       width: Get.width * .5,
                                       child: ElevatedButton(
                                           onPressed: () =>
-                                              controller.getMatchings(),
+                                              Get.toNamed(Goo.settingScreen),
                                           style: ElevatedButton.styleFrom(
                                               elevation: 0,
                                               backgroundColor: MAIN_COLOR,
@@ -101,7 +101,7 @@ class SearchScreen extends GetView<sc.SearchController> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20))),
-                                          child: const Text("Relancer")),
+                                          child: const Text("Réglages")),
                                     ).marginOnly(top: 20),
                                   ]),
                             )

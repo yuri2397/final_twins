@@ -15,7 +15,7 @@ class ProfileController extends GetxController {
   final addPhotoLoad = false.obs;
   final updateLoad = false.obs;
   final existingFiles = <XFile>[].obs;
-  final settings = localStorage.getSettings().obs;
+  final settings = localStorage.getUser()?.settings.obs;
   final updateSettingsLoad = false.obs;
   final nameCrtl = TextEditingController();
   final emailCrtl = TextEditingController();
@@ -74,8 +74,9 @@ class ProfileController extends GetxController {
       user.value = value;
       user.refresh();
       localStorage.user = value;
-      settings.value = value.settings;
-      settings.refresh();
+      settings?.value = value.settings;
+      print("SETTINGS ${settings?.value?.toJson().toString()}");
+      settings?.refresh();
     }).catchError((e) {
       print(e);
     });
@@ -100,10 +101,11 @@ class ProfileController extends GetxController {
 
   updateSettings() async {
     updateSettingsLoad.value = true;
-    await _profileService.updateSettings(settings.value!).then((value) =>
+    await _profileService.updateSettings(settings!.value!).then((value) =>
         successMessage(
             title: "Félicitation",
             content: "Paramètres sont maintenant à jour."));
+
     updateSettingsLoad.value = false;
     Get.find<sc.SearchController>().getMatchings();
     Get.offAllNamed(Goo.homeScreen);
@@ -423,7 +425,7 @@ class ProfileController extends GetxController {
   }
 
   changeGender(String s) {
-    settings.value?.gender = s;
-    settings.refresh();
+    settings?.value?.gender = s;
+    settings?.refresh();
   }
 }

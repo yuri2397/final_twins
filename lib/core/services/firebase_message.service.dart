@@ -137,16 +137,16 @@ void _newMessage(RemoteMessage message, {backGround = false}) {
         );
       }
       Get.find<lc.ChatController>().getChats();
+    }else if (backGround) {
+      _showFlutterNotification(
+        message,
+        backGround: backGround,
+      );
     }
   } catch (e) {
     print("$e");
   }
-  if (backGround) {
-    _showFlutterNotification(
-      message,
-      backGround: backGround,
-    );
-  }
+
 }
 
 Future _showFlutterNotification(RemoteMessage message,

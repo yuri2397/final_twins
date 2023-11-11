@@ -53,7 +53,6 @@ class SearchController extends GetxController {
       }
       matchLoad.value = false;
     }).catchError((e, s) {
-      print("ERRRRRRRRRRR $e");
       if(e.toString().contains("403")){
         matchSuccess.value = false;
         updateSettings.value = true;
@@ -132,6 +131,7 @@ class SearchController extends GetxController {
   activeAccount() {
     matchLoad.value = true;
     _userService.enableAccount().then((value) {
+      user.value?.active = "1";
       getMatchings();
       matchLoad.value = false;
     }).catchError((e) {

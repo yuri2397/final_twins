@@ -96,9 +96,11 @@ class NotificationController extends GetxController {
 
   detailUserNot(nt.Notification item) {
     selectedNotification.value = item;
-    if (item.data?.data?.type == 'new_request') {
-      fetchNotificationDetails();
-      Get.toNamed(Goo.notificationDetails);
+    if(localStorage.getUser()?.isPremium == false){
+      Get.toNamed(Goo.offerScreen);
+    }else{
+        fetchNotificationDetails();
+        Get.toNamed(Goo.notificationDetails);
     }
   }
 

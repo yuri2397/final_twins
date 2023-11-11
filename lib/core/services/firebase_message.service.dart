@@ -122,13 +122,13 @@ void _newRequestChat(RemoteMessage message, {backGround = false}) {
 
 void _newMessage(RemoteMessage message, {backGround = false}) {
   try {
+    localStorage.box.write("chat_id", message.data['chat_id']);
     if (!backGround) {
       if (Get.currentRoute ==
           "${Goo.chatScreen}?chat_id=${message.data['chat_id']}") {
         Get.find<lc.ChatController>()
             .appendMessageInDiscussion("${message.notification?.body}");
       } else {
-        print("NEW MESSAGE");
         Get.find<NotificationController>().haveUnreadMessage.value = true;
         Get.find<NotificationController>().haveUnreadMessage.refresh();
         _showFlutterNotification(

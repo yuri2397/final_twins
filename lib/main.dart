@@ -33,18 +33,6 @@ import 'package:firebase_core/firebase_core.dart';
 const String STRIPE_PUBLISHABLE_KEY =
     "pk_test_51NwodCJBdlfJ0wtgE6qu9h1q8UCibKEBVzQrydGoJl853oMsz4z6HiG36SUcG5IP5ewWKpbdOuzHgqIORREFUSKo0030uAEcPm";
 
-@pragma('vm:entry-point')
-void notificationTapBackground(NotificationResponse notificationResponse) {
-  // ignore: avoid_print
-  print('notification(${notificationResponse.id}) action tapped: '
-      '${notificationResponse.actionId} with'
-      ' payload: ${notificationResponse.payload}');
-  if (notificationResponse.input?.isNotEmpty ?? false) {
-    // ignore: avoid_print
-    print(
-        'notification action tapped with input: ${notificationResponse.input}');
-  }
-}
 
 void main() async {
   await _initServices();

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA_oGqV1UEtcnuQyRKyA_Nl-sdV3HrKsWI</string>
+	<string>AIzaSyCoXSqE_4WWzvdsNeWkkZ6AVLMVtQeQFvQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>861644619357</string>
+	<string>103229134988</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.twinz.app</string>
+	<string>com.twinzz.app</string>
 	<key>PROJECT_ID</key>
-	<string>twinz-474fa</string>
+	<string>twinz-app</string>
 	<key>STORAGE_BUCKET</key>
-	<string>twinz-474fa.appspot.com</string>
+	<string>twinz-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:861644619357:ios:fce66592b2befd981257b4</string>
+	<string>1:103229134988:ios:3c7361a1cad2d7733bc3a9</string>
 </dict>
 </plist>

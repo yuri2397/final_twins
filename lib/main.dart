@@ -32,6 +32,8 @@ import 'core/services/profile.service.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 const String STRIPE_PUBLISHABLE_KEY =
     "pk_test_51NwodCJBdlfJ0wtgE6qu9h1q8UCibKEBVzQrydGoJl853oMsz4z6HiG36SUcG5IP5ewWKpbdOuzHgqIORREFUSKo0030uAEcPm";
 

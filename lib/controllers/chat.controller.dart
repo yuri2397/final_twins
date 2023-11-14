@@ -18,7 +18,7 @@ class ChatController extends GetxController {
   get localUser => _localUser;
   final RxList<lc.Chat> chats = localStorage.getMessages().obs;
   final chatsLoad = false.obs;
-  final unblockLoad= false.obs;
+  final unblockLoad = false.obs;
 
   final _service = Get.find<ChatService>();
 
@@ -89,6 +89,7 @@ class ChatController extends GetxController {
   Future<void> onSendTap(
     String message,
   ) async {
+    if (message.isEmpty) return;
     final id = DateTime.now().millisecondsSinceEpoch;
     messages.add(
       hc.Message(
@@ -110,7 +111,7 @@ class ChatController extends GetxController {
     });
   }
 
-  Future<void> unblockUser(User user) async{
+  Future<void> unblockUser(User user) async {
     unblockLoad.value = true;
     Get.find<UserService>().unblockUser(user: user).then((value) {
       unblockLoad.value = false;
@@ -124,19 +125,19 @@ class ChatController extends GetxController {
     });
   }
 
-  reloadChatCurrentChat(){
+  reloadChatCurrentChat() {
     showDetailsLoad.value = true;
     _service.chatDetails(chat: currentChat.value).then((value) {
       currentChat.value = value;
       messages.value = value.messages!
           .map((e) => hc.Message(
-          id: "${e.id}",
-          message: "${e.message}",
-          createdAt: value.createdAt!,
-          status: "${e.data?.status}" == 'send'
-              ? hc.MessageStatus.delivered
-              : hc.MessageStatus.read,
-          sendBy: "${e.sender?.id}"))
+              id: "${e.id}",
+              message: "${e.message}",
+              createdAt: value.createdAt!,
+              status: "${e.data?.status}" == 'send'
+                  ? hc.MessageStatus.delivered
+                  : hc.MessageStatus.read,
+              sendBy: "${e.sender?.id}"))
           .toList();
       showDetailsLoad.value = false;
     }).catchError((e) {
@@ -163,88 +164,94 @@ class ChatController extends GetxController {
 
     final raisonController = TextEditingController();
     Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(20),
-        decoration:const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-           const Text("Raison du signalement",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20,),
-            TextFormField(
-              controller: raisonController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: "Raison du signalement",
-                hintStyle: TextStyle(
-                  color: Colors.grey[400],
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide:const BorderSide(
-                    color: MAIN_COLOR,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Raison du signalement",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(height: 30,),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: MAIN_COLOR
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: raisonController,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: "Raison du signalement",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
                   ),
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text("Annuler"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: MAIN_COLOR,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: MAIN_COLOR,
                     ),
                   ),
-                  onPressed: () {
-                    Get.find<UserService>().reportUser(user: user,raison: raisonController.text.trim() ).then((value) {
-                      getChatMessages();
-                      Get.back();
-                      Get.back();
-                      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-                        content: Text("Vous avez signalé ${user.fullName}"),
-                        backgroundColor: MAIN_COLOR,
-                      ));
-                    }).catchError((e) {
-                      getChatMessages();
-                      Get.back();
-                      Get.back();
-                    });
-                  },
-                  child: const Text("Signaler"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(foregroundColor: MAIN_COLOR),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text("Annuler"),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: MAIN_COLOR,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.find<UserService>()
+                          .reportUser(
+                              user: user, raison: raisonController.text.trim())
+                          .then((value) {
+                        getChatMessages();
+                        Get.back();
+                        Get.back();
+                        ScaffoldMessenger.of(Get.context!)
+                            .showSnackBar(SnackBar(
+                          content: Text("Vous avez signalé ${user.fullName}"),
+                          backgroundColor: MAIN_COLOR,
+                        ));
+                      }).catchError((e) {
+                        getChatMessages();
+                        Get.back();
+                        Get.back();
+                      });
+                    },
+                    child: const Text("Signaler"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ), isScrollControlled: true
-    );
-
+        isScrollControlled: true);
   }
 
   markMessageIsRead(messageId) {
@@ -255,13 +262,74 @@ class ChatController extends GetxController {
 
   getChatMessages() {}
 
-  Future<void> deleteChat(lc.Chat value) async{
-    showDetailsLoad.value = true;
-    _service.remove(chat: value).then((value) {
-      getChats();
-      Get.back();
-    }).catchError((e){
-      showDetailsLoad.value = true;
-    });
+  Future<void> deleteChat(lc.Chat value, String? fullName) async {
+    Get.bottomSheet(Container(
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("Attention !",
+              style: TextStyle(
+                  color: DARK_COLOR,
+                  fontFamily: "Haylard",
+                  fontSize: 23,
+                  fontWeight: FontWeight.w700)),
+          const SizedBox(
+            height: 10,
+          ),
+          Text("Êtes-vous sûr(e) de vouloir supprimer $fullName ?",
+              style: const TextStyle(
+                  color: DARK_COLOR,
+                  fontFamily: "Haylard",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400)),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  style: TextButton.styleFrom(
+                      foregroundColor: DARK_COLOR,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6))),
+                  onPressed: () {
+                    Get.back();
+                    showDetailsLoad.value = true;
+                    _service.remove(chat: value).then((value) {
+                      getChats();
+                      Get.back();
+                    }).catchError((e) {
+                      showDetailsLoad.value = true;
+                    });
+                  },
+                  child: const Text("Supprimer")),
+              const SizedBox(
+                width: 100,
+              ),
+              ElevatedButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: MAIN_COLOR,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6))),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text("Annuler")),
+            ],
+          )
+        ],
+      ),
+    ));
   }
 }

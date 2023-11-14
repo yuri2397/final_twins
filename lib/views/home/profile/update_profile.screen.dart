@@ -30,7 +30,7 @@ class UpdateProfileScreen extends GetView<ProfileController> {
                                   strokeWidth: 3,
                                 ),
                               )
-                            : const Text("Enrégistrer",
+                            : const Text("Enregistrer",
                                 style:
                                     TextStyle(color: MAIN_COLOR, fontSize: 16)))
                     .marginOnly(right: 10),

@@ -5,7 +5,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:twinz/controllers/notification.controller.dart';
+import 'package:twinz/core/model/chat.dart';
 import 'package:twinz/core/services/notification.service.dart';
 import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
@@ -23,7 +25,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 bool isFlutterLocalNotificationsInitialized = false;
 final StreamController<String?> selectNotificationStream =
     StreamController<String?>.broadcast();
-// CONFIGURATION FOR NOTIFICATION
+
 setupFlutterNotifications() async {
   if (!kIsWeb) {
     if (isFlutterLocalNotificationsInitialized) {
@@ -137,7 +139,7 @@ void _newMessage(RemoteMessage message, {backGround = false}) {
         );
       }
       Get.find<lc.ChatController>().getChats();
-    }else if (backGround) {
+    } else if (backGround) {
       _showFlutterNotification(
         message,
         backGround: backGround,
@@ -146,7 +148,6 @@ void _newMessage(RemoteMessage message, {backGround = false}) {
   } catch (e) {
     print("$e");
   }
-
 }
 
 Future _showFlutterNotification(RemoteMessage message,
@@ -183,6 +184,7 @@ Future _showFlutterNotification(RemoteMessage message,
 void onNotificationSelect(String? payload) {
   try {
     dynamic data = jsonDecode(payload ?? '');
+    print("TARGET URL : $data");
     if (data['target_url'] != null) {
       Get.toNamed(data['target_url']);
     }
@@ -198,38 +200,29 @@ class FireBaseMessagingService extends GetxService {
         .requestPermission(sound: true, badge: true, alert: true);
 
     await fcmOnLaunchListeners();
-    await fcmOnResumeListeners();
-    await fcmOnMessageListeners();
-    /**here is to handle notification when app is background and we want to act when user click in notification */
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      _notificationsBackground(message);
-    });
-    return this;
-  }
-
-  Future fcmOnMessageListeners() async {
-    /**here is to handle notification when app is foreground */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _handleNotification(message);
     });
+
+     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if(message.data['type'] == 'message' && message.data['chat_id'] != null){
+        Get.find<lc.ChatController>().detailsChat(Chat(id: int.tryParse(message.data['chat_id'])));
+      }
+      _notificationsBackground(message);
+    });
+
+    return this;
   }
 
   Future fcmOnLaunchListeners() async {
     RemoteMessage? message =
         await FirebaseMessaging.instance.getInitialMessage();
+    print("fcmOnLaunchListeners :::::::::::::::::::::::: ${message?.data}");
+    if(message != null && message.data['type'] == 'message' && message.data['chat_id'] != null){
+      Get.find<lc.ChatController>().detailsChat(Chat(id: int.tryParse(message.data['chat_id'])));
+    }
     if (message != null) {
       _notificationsBackground(message);
-    }
-  }
-
-  Future fcmOnResumeListeners() async {
-    FirebaseMessaging.onBackgroundMessage(_notificationsBackground);
-    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-      print('object');
-    } else {
-      print('yoo');
     }
   }
 
@@ -249,6 +242,7 @@ class FireBaseMessagingService extends GetxService {
       await Get.find<NotificationService>().updateDeviceToken(token);
     }
   }
+
 }
 
 void lunchWebURL(String url) async {

@@ -119,7 +119,7 @@ class AppInterceptors extends Interceptor {
       errorMessage(
           title: "Une erreur est survenue",
           content: "Veuillez réessayer plus tard");
-    } else if (err.response!.statusCode! >= 400 &&
+    } else if (err.response !=  null && err.response!.statusCode! >= 400 &&
         err.response!.statusCode! < 500) {
       print(err.response?.data);
       var errors = err.response?.data['errors'];

@@ -8,6 +8,7 @@ import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/controllers/search.controller.dart' as sc;
+
 class ProfileController extends GetxController {
   final user = localStorage.getUser().obs;
   final settingStatus = false.obs;
@@ -108,7 +109,7 @@ class ProfileController extends GetxController {
 
     updateSettingsLoad.value = false;
     Get.find<sc.SearchController>().getMatchings();
-    Get.offAllNamed(Goo.homeScreen);
+    Get.toNamed(Goo.homeScreen);
   }
 
   addPhotos() {

@@ -72,8 +72,12 @@ class ChatScreen extends GetView<lc.ChatController> {
                             'Supprimer',
                             style: TextStyle(color: Colors.red),
                           ),
-                          onTap: () => controller
-                              .deleteChat(controller.currentChat.value)),
+                          onTap: () => controller.deleteChat(
+                              controller.currentChat.value,
+                              controller.currentChat.value.participants
+                                  ?.firstWhere(
+                                      (e) => e.id.toString() != currentUserId)
+                                  .fullName)),
                     ],
                   )
                 ],

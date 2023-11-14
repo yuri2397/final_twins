@@ -9,8 +9,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:twinz/controllers/chat.controller.dart';
 import 'package:twinz/core/config/env.dart';
 import 'package:twinz/core/http/http_client.dart';
+import 'package:twinz/core/model/chat.dart';
 import 'package:twinz/core/services/chat.service.dart';
 import 'package:twinz/core/services/chat_request.service.dart';
 import 'package:twinz/core/services/login.service.dart';
@@ -88,15 +90,8 @@ _initServices() async {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print(
-      "Handling a background message: ${message.messageId} :::::::: ${message.data['type']}");
-  switch (message.data['type']) {
-    case 'new_request':
-      break;
-    case 'message':
-      final _box = GetStorage("_twins");
-      _box.write("chat_id", message.data['chat_id']);
-      break;
+  if(message.data['type'] == 'message' && message.data['chat_id'] != null){
+    Get.find<ChatController>().detailsChat(Chat(id: int.tryParse(message.data['chat_id'])));
   }
 }
 

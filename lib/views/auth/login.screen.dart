@@ -33,7 +33,7 @@ class LoginScreen extends GetView<LoginController> {
                           color: Colors.white))
                   .marginOnly(bottom: 20),
               TwinsInput(
-                label: "E-mail ou téléphone",
+                label: "Adresse email",
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 keyboardType: TextInputType.emailAddress,

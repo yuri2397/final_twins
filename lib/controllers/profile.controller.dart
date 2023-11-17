@@ -76,7 +76,6 @@ class ProfileController extends GetxController {
       user.refresh();
       localStorage.user = value;
       settings?.value = value.settings;
-      print("SETTINGS ${settings?.value?.toJson().toString()}");
       settings?.refresh();
     }).catchError((e) {
       print(e);

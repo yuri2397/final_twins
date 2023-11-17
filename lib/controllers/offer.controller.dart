@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:twinz/components/ui.dart';
+import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/model/init_payment.dart';
 import 'package:twinz/core/model/plan.dart';
 import 'package:twinz/core/services/payment.service.dart';
@@ -103,6 +104,7 @@ class OfferController extends GetxController {
         await Get.find<sc.SearchController>().getMatchings();
         Get.find<sc.SearchController>().user.value?.isPremium = true;
         Get.find<sc.SearchController>().user.refresh();
+        Get.find<ProfileController>().profile();
 
         await Get.bottomSheet(Container(
           padding: const EdgeInsets.only(bottom: 30),
@@ -133,10 +135,7 @@ class OfferController extends GetxController {
         ));
 
         load.value = false;
-
-        Get.find<ProfileService>()
-            .profile()
-            .then((value) => Get.toNamed(Goo.homeScreen));
+        Get.toNamed(Goo.homeScreen);
       }
     }).catchError((e) {
       print("$e");

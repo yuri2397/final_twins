@@ -71,13 +71,20 @@ class UpdateProfileScreen extends GetView<ProfileController> {
                       cursorColor: DARK_COLOR,
                       minLines: 3,
                       maxLines: 3,
+                      maxLength: 120,
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(fontSize: 16),
                           color: DARK_COLOR),
                       decoration: _decoration("Modifiez votre bio...")),
+
                   const SizedBox(
-                    height: 20,
+                    height: 5,
                   ),
+                  Text("${controller.bioCrtl.text.length}/120",
+                      style: TextStyle(
+                          color: controller.bioCrtl.text.length >= 120
+                              ? Colors.red
+                              : Colors.black))
                   // const Text("Je suis",
                   //     style: TextStyle(
                   //       color: MAIN_COLOR,

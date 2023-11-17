@@ -56,15 +56,17 @@ class AddBioScreen extends GetView<RegisterController> {
                           autofocus: true,
                           controller: controller.bioCtrl,
                           keyboardType: TextInputType.multiline,
-                          inputFormatters:[
-                            UpperCaseTextFormatter()
-                          ],
+                          inputFormatters: [UpperCaseTextFormatter()],
                           cursorColor: DARK_COLOR,
                           obscureText: false,
                           maxLines: 5,
+                          maxLength: 120,
                           validator: (value) {
                             if (value == null) {
                               return "Veuillez saissir votre bio.";
+                            }
+                            if (value.length > 120) {
+                              return "120 caractéres au plus.";
                             }
                             return null;
                           },
@@ -75,6 +77,14 @@ class AddBioScreen extends GetView<RegisterController> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text("${controller.bioCtrl.text.length}/120",
+                        style: TextStyle(
+                            color: controller.bioCtrl.text.length >= 120
+                                ? Colors.red
+                                : Colors.black))
                   ],
                 )),
                 SizedBox(

@@ -44,7 +44,7 @@ dynamic ROUTER_OUTLET = [
   GetPage(name: Goo.splashScreen, page: () => const SplashScreen()),
   GetPage(
       name: Goo.onboardingScreen,
-      page: () => const OnboardingScreen(),
+      page: () => OnboardingScreen(),
       binding: OnboardingBinding()),
 
   /// AUTH ROUTES

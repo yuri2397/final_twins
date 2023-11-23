@@ -13,128 +13,193 @@ class OnboardingScreen extends GetView<OnboardingController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MAIN_COLOR,
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Stack(
-          children: [
-            Positioned(
-                left: 10,
-                right: 10,
-                top: 50,
-                child: Column(
-                  children: [
-                    Text("Bienvenue sur ",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 28,
+    return Obx(
+      () => Scaffold(
+        backgroundColor: MAIN_COLOR,
+        body: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Stack(
+            children: [
+              Positioned(
+                  left: 10,
+                  right: 10,
+                  top: 50,
+                  child: Column(
+                    children: [
+                      Text("Bienvenue sur ",
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 28,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800))),
+                      Image.asset(
+                        Env.whiteLogo,
+                        width: 120,
+                      )
+                    ],
+                  )),
+              Positioned(
+                top: Get.height * .4,
+                width: Get.width - 60,
+                child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: "En utilisant nos services, vous acceptez nos ",
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.white),
+                        children: [
+                          TextSpan(
+                            text: "conditions d'utilisation",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => lunchWebURL(
+                                  "https://www.findyourtwinz.com/legal#conditions"),
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline,
                                 color: Colors.white,
-                                fontWeight: FontWeight.w800))),
-                    Image.asset(
-                      Env.whiteLogo,
-                      width: 120,
-                    )
-                  ],
-                )),
-            Positioned(
-              top: Get.height * .4,
-              width: Get.width - 60,
-              child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "En utilisant nos services, vous acceptez nos ",
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                      children: [
-                        TextSpan(
-                          text: "conditions d'utilisation",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => lunchWebURL("https://www.findyourtwinz.com/legal#conditions"),
-                          style: const TextStyle(
-                              decoration: TextDecoration.underline,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const TextSpan(
+                            text: ". Consultez notre ",
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const TextSpan(
-                          text: ". Consultez notre ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: "politique de confidentialité",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => lunchWebURL(Env.policiesUrl),
-                          style: const TextStyle(
-                              decoration: TextDecoration.underline,
+                          TextSpan(
+                            text: "politique de confidentialité",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => lunchWebURL(Env.policiesUrl),
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const TextSpan(
+                            text: " et ",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "celle relative aux cookies",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => lunchWebURL(Env.cookiesUrl),
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const TextSpan(
+                            text:
+                                " pour en savoir plus sur le traitement de vos données.",
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const TextSpan(
-                          text: " et ",
-                          style: TextStyle(
-                            fontSize: 18,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: "celle relative aux cookies",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => lunchWebURL(Env.cookiesUrl),
-                          style: const TextStyle(
-                              decoration: TextDecoration.underline,
+                        ])).marginOnly(bottom: 20),
+              ),
+              Positioned(
+                  bottom: 0,
+                  left: 10,
+                  right: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 10.0),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: controller.conditionsAccepted.value,
+                            activeColor: Colors.white,
+                            checkColor: Theme.of(context).primaryColor,
+                            onChanged: (value) {
+                              controller.conditionsAccepted.value =
+                                  !controller.conditionsAccepted.value;
+                            },
+                          ),
+                          const Text(
+                            "J'accepte",
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const TextSpan(
-                          text:
-                              " pour en savoir plus sur le traitement de vos données.",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                      ])).marginOnly(bottom: 20),
-            ),
-            Positioned(
-                bottom: 0,
-                left: 10,
-                right: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: Get.width,
-                      child: ElevatedButton(
-                          onPressed: () => Get.toNamed(Goo.loginScreen),
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: MAIN_COLOR,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      color: Colors.white, width: 1.5),
-                                  borderRadius: BorderRadius.circular(20))),
-                          child: const Text("Se connecter")),
-                    ).marginOnly(bottom: 10),
-                    SizedBox(
-                      width: Get.width,
-                      child: ElevatedButton(
-                          onPressed: () => Get.toNamed(Goo.registerScreen),
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.white,
-                              foregroundColor: MAIN_COLOR,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          child: const Text("Créer un compte")),
-                    )
-                  ],
-                ))
-          ],
+                          TextButton(
+                              onPressed: () {
+                                lunchWebURL(
+                                    "https://www.findyourtwinz.com/legal#conditions");
+                              },
+                              child: const Text(
+                                "les conditions d'utilisation",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      SizedBox(
+                        width: Get.width,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              if (controller.conditionsAccepted.value) {
+                                Get.toNamed(Goo.loginScreen);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Veuillez accepter les conditions d'utilisation svp!"),
+                                  backgroundColor: Colors.red,
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 3),
+                                ));
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: MAIN_COLOR,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                        color: Colors.white, width: 1.5),
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: const Text("Se connecter")),
+                      ).marginOnly(bottom: 10),
+                      SizedBox(
+                        width: Get.width,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              if (controller.conditionsAccepted.value) {
+                                Get.toNamed(Goo.registerScreen);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Veuillez accepter les conditions d'utilisation svp!"),
+                                  backgroundColor: Colors.red,
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 3),
+                                ));
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: Colors.white,
+                                foregroundColor: MAIN_COLOR,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: const Text("Créer un compte")),
+                      )
+                    ],
+                  ))
+            ],
+          ),
         ),
       ),
     );

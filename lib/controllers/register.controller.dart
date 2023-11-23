@@ -128,7 +128,7 @@ class RegisterController extends GetxController {
       _registerService.register(data: data, files: finalFiles).then((value) {
         loading.value = false;
         successMessage(
-            title: "Félicitations", content: "Votre compte est bien créer.");
+            title: "Félicitations", content: "Votre compte a bien été créé.");
         Get.offAllNamed(Goo.activeAccountScreen);
       }).catchError((e, s) {
         print(e);

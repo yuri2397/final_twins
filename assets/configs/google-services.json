@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "103229134988",
+    "project_id": "twinz-app",
+    "storage_bucket": "twinz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103229134988:android:b083e85aa9db37073bc3a9",
+        "android_client_info": {
+          "package_name": "com.twinz.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4y_lsrJfX7Mhm7VpPoYBIrdeVc03J3RU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

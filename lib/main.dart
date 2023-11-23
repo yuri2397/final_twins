@@ -35,7 +35,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 const String STRIPE_PUBLISHABLE_KEY =
-    "pk_test_51NwodCJBdlfJ0wtgE6qu9h1q8UCibKEBVzQrydGoJl853oMsz4z6HiG36SUcG5IP5ewWKpbdOuzHgqIORREFUSKo0030uAEcPm";
+    "pk_live_51NzOrSEPpMAZs8URb9GQNYcIlFKu1viwFBOIvzetz6RpN1Vo7IPoXmoMBA0bzN6x6De577GWB5P8lTwuCk4t86SD00iJUhykUQ";
+    //"pk_test_51NwodCJBdlfJ0wtgE6qu9h1q8UCibKEBVzQrydGoJl853oMsz4z6HiG36SUcG5IP5ewWKpbdOuzHgqIORREFUSKo0030uAEcPm";
 
 
 void main() async {

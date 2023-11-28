@@ -6,6 +6,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/search.controller.dart' as sc;
 import 'package:twinz/core/config/env.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/views/home/search/search_item.dart';
@@ -34,79 +35,92 @@ class SearchScreen extends GetView<sc.SearchController> {
         ),
         drawer: drawer(drawerKey: drawerKey, scaffoldKey: scaffoldKey),
         body: SafeArea(
-          child: Obx(() => controller.matchLoad.value
-              ? const Center(
-                  child: CircularProgressIndicator(color: MAIN_COLOR),
-                )
-              : controller.user.value?.active == "1"
-                  ? controller.matchSuccess.value
-                      ? Matcher(controller: controller)
-                      : controller.user.value?.isPremium == false && controller.updateSettings.value
-                          ? Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Vous avez atteint la limite de suggestions de profils, passez à Twinz Premium pour en voir davantage ou patientez 48h.",
-                                      textAlign: TextAlign.center,
-                                    ).marginSymmetric(horizontal: 20),
-                                    ElevatedButton(
-                                            onPressed: () =>
-                                                Get.toNamed(Goo.offerScreen),
-                                            style: ElevatedButton.styleFrom(
-                                                elevation: 0,
-                                                backgroundColor: MAIN_COLOR,
-                                                foregroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    side: const BorderSide(
-                                                        color: Colors.white,
-                                                        width: 1.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
-                                            child: const Text(
-                                                "Passez à Twinz Premium "))
-                                        .marginOnly(top: 20),
-                                  ]),
-                            )
-                          : Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text("Oups !!",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "Haylard",
-                                                fontWeight: FontWeight.w700))
-                                        .marginOnly(bottom: 10),
-                                    const Text(
-                                      "Aucun match trouvé. Merci de\nrevoir vos paramètres.",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * .5,
-                                      child: ElevatedButton(
-                                          onPressed: () =>
-                                              Get.toNamed(Goo.settingScreen),
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              backgroundColor: MAIN_COLOR,
-                                              foregroundColor: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                  side: const BorderSide(
-                                                      color: Colors.white,
-                                                      width: 1.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20))),
-                                          child: const Text("Réglages")),
-                                    ).marginOnly(top: 20),
-                                  ]),
-                            )
-                  : _activeAccount()),
-        ));
+            child: Obx(() => controller.matchLoad.value
+                ? const Center(
+                    child: CircularProgressIndicator(color: MAIN_COLOR),
+                  )
+                : controller.activeLocation.value == false
+                    ? controller.user.value?.active == "1"
+                        ? controller.matchSuccess.value
+                            ? Matcher(controller: controller)
+                            : controller.user.value?.isPremium == false &&
+                                    controller.updateSettings.value
+                                ? Center(
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            "Vous avez atteint la limite de suggestions de profils, passez à Twinz Premium pour en voir davantage ou patientez 48h.",
+                                            textAlign: TextAlign.center,
+                                          ).marginSymmetric(horizontal: 20),
+                                          ElevatedButton(
+                                                  onPressed: () => Get.toNamed(
+                                                      Goo.offerScreen),
+                                                  style: ElevatedButton.styleFrom(
+                                                      elevation: 0,
+                                                      backgroundColor:
+                                                          MAIN_COLOR,
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                          side:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  width: 1.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20))),
+                                                  child: const Text(
+                                                      "Passez à Twinz Premium "))
+                                              .marginOnly(top: 20),
+                                        ]),
+                                  )
+                                : Center(
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Text("Oups !!",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontFamily: "Haylard",
+                                                      fontWeight:
+                                                          FontWeight.w700))
+                                              .marginOnly(bottom: 10),
+                                          const Text(
+                                            "Aucun match trouvé. Merci de\nrevoir vos paramètres.",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(
+                                            width: Get.width * .5,
+                                            child: ElevatedButton(
+                                                onPressed: () => Get.toNamed(
+                                                    Goo.settingScreen),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    backgroundColor: MAIN_COLOR,
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            color: Colors.white,
+                                                            width: 1.5),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                child: const Text("Réglages")),
+                                          ).marginOnly(top: 20),
+                                        ]),
+                                  )
+                        : _activeAccount()
+                    : _activeLocation())));
   }
 
   Center _activeAccount() {
@@ -138,6 +152,40 @@ class SearchScreen extends GetView<sc.SearchController> {
                               const BorderSide(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(20))),
                   child: const Text("Activer mon compte")),
+            ).marginOnly(top: 20),
+          ]),
+    );
+  }
+
+  Widget _activeLocation() {
+    return Center(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text("Oups !!",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Haylard",
+                    fontWeight: FontWeight.w700))
+                .marginOnly(bottom: 10),
+            const Text(
+              "Veuillez activer votre localisation pour continuer.",
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              width: Get.width * .5,
+              child: ElevatedButton(
+                  onPressed: () => openAppSettings(),
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: MAIN_COLOR,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          side:
+                          const BorderSide(color: Colors.white, width: 1.5),
+                          borderRadius: BorderRadius.circular(20))),
+                  child: const Text("Activer ma localisation")),
             ).marginOnly(top: 20),
           ]),
     );

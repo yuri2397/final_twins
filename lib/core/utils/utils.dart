@@ -156,17 +156,69 @@ Future<Position> determinePosition() async {
   }
 
   if (permission == LocationPermission.deniedForever) {
-    errorMessage(
-        title: "Notifications",
-        content:
-            "Les autorisations de localisation sont définitivement refusées. Ouvrez les Paramètres de votre téléphone pour les réactiver.",
-        duration: const Duration(seconds: 7));
-
-    return Future.error(
-      'Les autorisations de localisation sont définitivement refusées, nous ne pouvons pas demander les autorisations.',
-    );
+    Get.bottomSheet(Container(
+      margin: const EdgeInsets.all(10),
+      decoration: cardDecoration(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            "Location permissions are permanently denied, we cannot request permissions.",
+            style:  TextStyle(fontSize: 16),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+              TextButton(
+                onPressed: () => openAppSettings(),
+                child: const Text(
+                  "Open Settings",
+                  style:  TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    ));
   }
+
   return await Geolocator.getCurrentPosition();
+}
+
+openAppSettings() {
+  if(Platform.isIOS){
+    return;
+  }else{
+    Geolocator.openLocationSettings();
+  }
+}
+
+BoxDecoration cardDecoration({Color? color}) {
+  return BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: color??Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 1,
+          blurRadius: 10,
+          offset: const Offset(1, 1), // changes position of shadow
+        ),
+      ]);
 }
 
 decoration(String text, {Widget? suffix}) {

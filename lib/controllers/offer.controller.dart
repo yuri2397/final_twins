@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/model/init_payment.dart';
@@ -21,11 +24,35 @@ class OfferController extends GetxController {
   final currentOffer = Plan().obs;
   final user = localStorage.getUser().obs;
 
+  /**
+   * IN APP PURCHASE
+   */
+
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  late StreamSubscription<dynamic> _streamSubscription;
+  final List<ProductDetails> _products = [];
+  final _variant = {
+    "amplifyabhi",
+    "amplifyabhi pro",
+  };
+
   @override
   Future<void> onInit() async {
-    super.onInit();
-
     getOffers();
+
+    super.onInit();
+    Stream purchaseUpdated = _inAppPurchase.purchaseStream;
+    _streamSubscription = purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _streamSubscription.cancel();
+    }, onError: (error) {
+      print(error);
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Something went wrong')));
+    });
+
+    initStore();
   }
 
   selectOffer(Plan plan) {
@@ -53,25 +80,28 @@ class OfferController extends GetxController {
   Future<void> choosePlan(Plan p) async {
     selectOffer(p);
     load.value = true;
-    print("Initial payment");
-    _service.initPayment(p.id.toString()).then((value) async {
-      lastInitPayment.value = value;
-      print("PAYEMENT/:::::::::::::::::::: ${value.toJson().toString()}");
+    if (GetPlatform.isIOS) {
+      buy();
+    } else {
+      _service.initPayment(p.id.toString()).then((value) async {
+        lastInitPayment.value = value;
+        print("PAYEMENT/:::::::::::::::::::: ${value.toJson().toString()}");
 
-      var stripeval = await Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret: value.clientSecret,
-                  style: ThemeMode.dark,
-                  merchantDisplayName: 'Twinz'))
-          .then((value) {});
-      load.value = false;
-      print("Stripe value is:---> $stripeval");
-      _displayPaymentSheet(value);
-    }).catchError((e) {
-      load.value = false;
-      print("Error is:---> $e");
-    });
+        var stripeval = await Stripe.instance
+            .initPaymentSheet(
+                paymentSheetParameters: SetupPaymentSheetParameters(
+                    paymentIntentClientSecret: value.clientSecret,
+                    style: ThemeMode.dark,
+                    merchantDisplayName: 'Twinz'))
+            .then((value) {});
+        load.value = false;
+        print("Stripe value is:---> $stripeval");
+        _displayPaymentSheet(value);
+      }).catchError((e) {
+        load.value = false;
+        print("Error is:---> $e");
+      });
+    }
   }
 
   Future<void> _displayPaymentSheet(InitPayment value) async {
@@ -87,6 +117,34 @@ class OfferController extends GetxController {
     } catch (e) {
       print('$e');
     }
+  }
+
+  void initStore() async {
+    ProductDetailsResponse productDetailResponse =
+        await InAppPurchase.instance.queryProductDetails(_variant);
+    // if error
+    if (productDetailResponse.error != null) {
+      print("Error is:---> ${productDetailResponse.error!.message}");
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          const SnackBar(content: Text('Something went wrong :)')));
+      return;
+    }
+    if (productDetailResponse.notFoundIDs.isNotEmpty) {
+      print("Not found");
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Not found')));
+    }
+    productDetailResponse.productDetails
+        .forEach((ProductDetails productDetails) {
+      _products.add(productDetails);
+    });
+  }
+
+  void buy() {
+    final PurchaseParam purchaseParam =
+        PurchaseParam(productDetails: _products[0]);
+    _inAppPurchase.buyConsumable(
+        purchaseParam: purchaseParam, autoConsume: false);
   }
 
   void _checkPayment(InitPayment value) async {
@@ -143,3 +201,21 @@ class OfferController extends GetxController {
     });
   }
 }
+
+void _listenToPurchaseUpdated(purchaseDetailsList) async {
+  purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+    if (purchaseDetails.status == PurchaseStatus.pending) {
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Purchase is pending.')));
+    } else {
+      if (purchaseDetails.status == PurchaseStatus.error) {
+        errorMessage(title: "Oups !!!", content: "Une erreur est survenue");
+      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        print("Purchased");
+        _verifyPurchase(purchaseDetails);
+      }
+    }
+  });
+}
+
+void _verifyPurchase(PurchaseDetails purchaseDetails) {}

@@ -11,4 +11,3 @@ class Env {
   static const String conditionnalitUrl =
       "https://www.findyourtwinz.com/legal#conditions";
 }
-

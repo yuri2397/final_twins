@@ -1,6 +1,7 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/model/user.dart';
 import 'package:twinz/core/services/chat_request.service.dart';
 import 'package:twinz/core/services/matching.service.dart';
@@ -8,7 +9,7 @@ import 'package:twinz/core/services/user.service.dart';
 import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 
-class SearchController extends GetxController {
+class SearchController extends FullLifeCycleController with FullLifeCycleMixin   {
   final _matchingService = Get.find<MatchingService>();
   final AppinioSwiperController swiperController = AppinioSwiperController();
   final currentMatch = <User>[].obs;
@@ -26,6 +27,7 @@ class SearchController extends GetxController {
   final showCancelIcon = false.obs;
   final showLikeIcons = false.obs;
   final updateSettings = false.obs;
+  final activeLocation = false.obs;
 
   @override
   void onInit() {
@@ -35,13 +37,20 @@ class SearchController extends GetxController {
       user?.lng = "${value.longitude}";
       localStorage.user = user;
      await  _userService.updateUser(user!);
+     activeLocation.value = false;
       getMatchings();
+    }).catchError((e){
+      errorMessage(
+          title: "Notifications", content: "Please enable your location"  );
+      activeLocation.value = true;
+      matchLoad.value = false;
     });
     super.onInit();
   }
 
   Future<void> getMatchings() async {
     matchLoad.value = true;
+    activeLocation.value = false;
     await _matchingService.matchings().then((value) {
       currentMatch.value = value;
       if (value.isEmpty) {
@@ -147,4 +156,44 @@ class SearchController extends GetxController {
   void onSwipRight() {
     showLikeIcons.value = true;
   }
+
+  @override
+  void onDetached() {
+    // TODO: implement onDetached
+    print("onDetached");
+  }
+
+  @override
+  void onInactive() {
+    // TODO: implement onInactive
+    print("onInactive");
+  }
+
+  @override
+  void onPaused() {
+    // TODO: implement onPaused
+    print("onPaused");
+  }
+
+  @override
+  void onResumed() {
+    // TODO: implement onResumed
+    print("onResumed");
+    determinePosition().then((value) async{
+      var user = localStorage.getUser();
+      user?.lat = "${value.latitude}";
+      user?.lng = "${value.longitude}";
+      localStorage.user = user;
+      await  _userService.updateUser(user!);
+      activeLocation.value = false;
+      getMatchings();
+    }).catchError((e){
+      errorMessage(
+          title: "Notifications", content: "Please enable your location"  );
+      activeLocation.value = true;
+      matchLoad.value = false;
+    });
+  }
+
+
 }

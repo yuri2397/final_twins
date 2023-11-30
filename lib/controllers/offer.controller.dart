@@ -91,7 +91,6 @@ class OfferController extends GetxController {
             .initPaymentSheet(
                 paymentSheetParameters: SetupPaymentSheetParameters(
                     paymentIntentClientSecret: value.clientSecret,
-                    style: ThemeMode.dark,
                     merchantDisplayName: 'Twinz'))
             .then((value) {});
         load.value = false;

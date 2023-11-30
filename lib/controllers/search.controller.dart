@@ -179,7 +179,8 @@ class SearchController extends FullLifeCycleController with FullLifeCycleMixin  
   void onResumed() {
     // TODO: implement onResumed
     print("onResumed");
-    determinePosition().then((value) async{
+    matchLoad.value = true;
+     determinePosition().then((value) async{
       var user = localStorage.getUser();
       user?.lat = "${value.latitude}";
       user?.lng = "${value.longitude}";

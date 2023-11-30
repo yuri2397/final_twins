@@ -22,11 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
         const Duration(
           seconds: 3,
-        ), () async{
-      RemoteMessage? message =
-      await FirebaseMessaging.instance.getInitialMessage();
-      print("SPLASH SCREEN ______________________ ${message?.data}");
-       if (isAuth &&
+        ), () async {
+      if (isAuth &&
           localStorage.getUser()?.emailVerified != null &&
           localStorage.getUser()?.emailVerified == false) {
         Get.offAllNamed(Goo.activeAccountScreen);

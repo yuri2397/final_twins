@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:twinz/components/ios_payment.screen.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/model/init_payment.dart';
@@ -23,10 +24,6 @@ class OfferController extends GetxController {
   final lastInitPayment = InitPayment().obs;
   final currentOffer = Plan().obs;
   final user = localStorage.getUser().obs;
-
-  /**
-   * IN APP PURCHASE
-   */
 
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<dynamic> _streamSubscription;
@@ -81,7 +78,7 @@ class OfferController extends GetxController {
     selectOffer(p);
     load.value = true;
     if (GetPlatform.isIOS) {
-      buy();
+      buy(p);
     } else {
       _service.initPayment(p.id.toString()).then((value) async {
         lastInitPayment.value = value;
@@ -139,11 +136,13 @@ class OfferController extends GetxController {
     });
   }
 
-  void buy() {
-    final PurchaseParam purchaseParam =
+  void buy(Plan plan) {
+    // go to ios payment
+    Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment(plan: plan)));
+    /*final PurchaseParam purchaseParam =
         PurchaseParam(productDetails: _products[0]);
     _inAppPurchase.buyConsumable(
-        purchaseParam: purchaseParam, autoConsume: false);
+        purchaseParam: purchaseParam, autoConsume: false);*/
   }
 
   void _checkPayment(InitPayment value) async {
@@ -190,7 +189,6 @@ class OfferController extends GetxController {
             ],
           ),
         ));
-
         load.value = false;
         Get.toNamed(Goo.homeScreen);
       }

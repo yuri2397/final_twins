@@ -32,8 +32,8 @@ class OfferController extends GetxController {
   late StreamSubscription<dynamic> _streamSubscription;
   final List<ProductDetails> _products = [];
   final _variant = {
-    "amplifyabhi",
-    "amplifyabhi pro",
+    "id1",
+    "id2",
   };
 
   @override

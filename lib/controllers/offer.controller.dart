@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:twinz/components/ios_payment.screen.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
@@ -25,31 +24,10 @@ class OfferController extends GetxController {
   final currentOffer = Plan().obs;
   final user = localStorage.getUser().obs;
 
-  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
-  late StreamSubscription<dynamic> _streamSubscription;
-  final List<ProductDetails> _products = [];
-  final _variant = {
-    "id1",
-    "id2",
-  };
-
   @override
   Future<void> onInit() async {
-    getOffers();
-
     super.onInit();
-    Stream purchaseUpdated = _inAppPurchase.purchaseStream;
-    _streamSubscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _streamSubscription.cancel();
-    }, onError: (error) {
-      print(error);
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Something went wrong')));
-    });
-
-    initStore();
+    getOffers();
   }
 
   selectOffer(Plan plan) {
@@ -115,27 +93,6 @@ class OfferController extends GetxController {
     }
   }
 
-  void initStore() async {
-    ProductDetailsResponse productDetailResponse =
-        await InAppPurchase.instance.queryProductDetails(_variant);
-    // if error
-    if (productDetailResponse.error != null) {
-      print("Error is:---> ${productDetailResponse.error!.message}");
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          const SnackBar(content: Text('Something went wrong :)')));
-      return;
-    }
-    if (productDetailResponse.notFoundIDs.isNotEmpty) {
-      print("Not found");
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Not found')));
-    }
-    productDetailResponse.productDetails
-        .forEach((ProductDetails productDetails) {
-      _products.add(productDetails);
-    });
-  }
-
   void buy(Plan plan) {
     // go to ios payment
     Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment(plan: plan)));
@@ -198,21 +155,3 @@ class OfferController extends GetxController {
     });
   }
 }
-
-void _listenToPurchaseUpdated(purchaseDetailsList) async {
-  purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-    if (purchaseDetails.status == PurchaseStatus.pending) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Purchase is pending.')));
-    } else {
-      if (purchaseDetails.status == PurchaseStatus.error) {
-        errorMessage(title: "Oups !!!", content: "Une erreur est survenue");
-      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        print("Purchased");
-        _verifyPurchase(purchaseDetails);
-      }
-    }
-  });
-}
-
-void _verifyPurchase(PurchaseDetails purchaseDetails) {}

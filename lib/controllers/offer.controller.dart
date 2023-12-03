@@ -94,12 +94,7 @@ class OfferController extends GetxController {
   }
 
   void buy(Plan plan) {
-    // go to ios payment
     Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment(plan: plan)));
-    /*final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: _products[0]);
-    _inAppPurchase.buyConsumable(
-        purchaseParam: purchaseParam, autoConsume: false);*/
   }
 
   void _checkPayment(InitPayment value) async {

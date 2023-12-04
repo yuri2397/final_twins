@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:twinz/components/ios_payment.screen.dart';
 import 'package:twinz/controllers/home.controller.dart';
 import 'package:twinz/core/model/user.dart';
 import 'package:twinz/core/services/firebase_message.service.dart';
@@ -245,7 +248,7 @@ drawer({drawerKey, scaffoldKey}) {
           height: 20,
         ),
         ListTile(
-          onTap: () => Get.toNamed(Goo.offerScreen),
+          onTap: () => Platform.isIOS ? Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment())) : Get.toNamed(Goo.offerScreen),
           leading: itemIcon(Icons.payment_outlined, color: MAIN_COLOR),
           title: const Text("Twinz Premium",
               style: TextStyle(

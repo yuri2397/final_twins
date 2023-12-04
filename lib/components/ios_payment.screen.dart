@@ -6,34 +6,35 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
+import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/model/plan.dart';
+import 'package:twinz/shared/utils/colors.dart';
 
 import 'consumable_store.dart';
-
 
 // Auto-consume must be true on iOS.
 // To try without auto-consume on another platform, change `true` to `false` here.
 final bool _kAutoConsume = Platform.isIOS || true;
 
-const String _kConsumableId = 'consumable';
-const String _kUpgradeId = 'upgrade';
-const String _kSilverSubscriptionId = 'subscription_silver';
-const String _kGoldSubscriptionId = 'subscription_gold';
+const String _kConsumableId = 'dash_consumable_2k_15';
+const String _kUpgradeId = 'dash_consumable_2k_30';
+const String _kSilverSubscriptionId = 'dash_consumable_2k_7';
 const List<String> _kProductIds = <String>[
   _kConsumableId,
   _kUpgradeId,
-  _kSilverSubscriptionId,
-  _kGoldSubscriptionId,
+  _kSilverSubscriptionId
 ];
 
 class IOSPayment extends StatefulWidget {
-  Plan plan;
-   IOSPayment({super.key, required this.plan});
+  IOSPayment({
+    super.key,
+  });
 
   @override
   State<IOSPayment> createState() => _IOSPaymentState();
@@ -57,12 +58,14 @@ class _IOSPaymentState extends State<IOSPayment> {
         _inAppPurchase.purchaseStream;
     _subscription =
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
-          _listenToPurchaseUpdated(purchaseDetailsList);
-        }, onDone: () {
-          _subscription.cancel();
-        }, onError: (Object error) {
-          // handle error here.
-        });
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+      Get.back();
+    }, onError: (Object error) {
+      // handle error here.
+      errorMessage(title: "Oups", content: "Une erreur s'est produite.");
+    });
     initStoreInfo();
     super.initState();
   }
@@ -84,13 +87,13 @@ class _IOSPaymentState extends State<IOSPayment> {
 
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
-      _inAppPurchase
-          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+          _inAppPurchase
+              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
     }
 
     final ProductDetailsResponse productDetailResponse =
-    await _inAppPurchase.queryProductDetails(_kProductIds.toSet());
+        await _inAppPurchase.queryProductDetails(_kProductIds.toSet());
     if (productDetailResponse.error != null) {
       setState(() {
         _queryProductError = productDetailResponse.error!.message;
@@ -134,8 +137,8 @@ class _IOSPaymentState extends State<IOSPayment> {
   void dispose() {
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
-      _inAppPurchase
-          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+          _inAppPurchase
+              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       iosPlatformAddition.setDelegate(null);
     }
     _subscription.cancel();
@@ -148,11 +151,12 @@ class _IOSPaymentState extends State<IOSPayment> {
     if (_queryProductError == null) {
       stack.add(
         ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           children: <Widget>[
-            _buildConnectionCheckTile(),
+            //_buildConnectionCheckTile(),
             _buildProductList(),
-            _buildConsumableBox(),
-            _buildRestoreButton(),
+            //_buildConsumableBox(),
+            //_buildRestoreButton(),
           ],
         ),
       );
@@ -170,7 +174,9 @@ class _IOSPaymentState extends State<IOSPayment> {
               child: ModalBarrier(dismissible: false, color: Colors.grey),
             ),
             Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: MAIN_COLOR,
+              ),
             ),
           ],
         ),
@@ -180,7 +186,11 @@ class _IOSPaymentState extends State<IOSPayment> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('IAP Example'),
+          backgroundColor: MAIN_COLOR,
+          elevation: 0,
+          leading: GestureDetector(
+              onTap: () => Get.back(),
+              child: const Icon(Icons.arrow_back_ios, color: Colors.white)),
         ),
         body: Stack(
           children: stack,
@@ -199,7 +209,7 @@ class _IOSPaymentState extends State<IOSPayment> {
               ? Colors.green
               : ThemeData.light().colorScheme.error),
       title:
-      Text('The store is ${_isAvailable ? 'available' : 'unavailable'}.'),
+          Text('The store is ${_isAvailable ? 'available' : 'unavailable'}.'),
     );
     final List<Widget> children = <Widget>[storeHeader];
 
@@ -217,18 +227,17 @@ class _IOSPaymentState extends State<IOSPayment> {
     return Card(child: Column(children: children));
   }
 
-  Card _buildProductList() {
+  Widget _buildProductList() {
     if (_loading) {
-      return const Card(
-          child: ListTile(
-              leading: CircularProgressIndicator(),
-              title: Text('Fetching products...')));
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
     if (!_isAvailable) {
       return const Card();
     }
     const ListTile productHeader = ListTile(title: Text('Products for Sale'));
-    final List<ListTile> productList = <ListTile>[];
+    final List<Widget> productList = <Widget>[];
     if (_notFoundIds.isNotEmpty) {
       productList.add(ListTile(
           title: Text('[${_notFoundIds.join(", ")}] not found',
@@ -241,16 +250,66 @@ class _IOSPaymentState extends State<IOSPayment> {
     // In your app you should always verify the purchase data using the `verificationData` inside the [PurchaseDetails] object before trusting it.
     // We recommend that you use your own server to verify the purchase data.
     final Map<String, PurchaseDetails> purchases =
-    Map<String, PurchaseDetails>.fromEntries(
-        _purchases.map((PurchaseDetails purchase) {
-          if (purchase.pendingCompletePurchase) {
-            _inAppPurchase.completePurchase(purchase);
-          }
-          return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-        }));
+        Map<String, PurchaseDetails>.fromEntries(
+            _purchases.map((PurchaseDetails purchase) {
+      if (purchase.pendingCompletePurchase) {
+        _inAppPurchase.completePurchase(purchase);
+      }
+      return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
+    }));
     productList.addAll(_products.map(
-          (ProductDetails productDetails) {
+      (ProductDetails productDetails) {
         final PurchaseDetails? previousPurchase = purchases[productDetails.id];
+        return GestureDetector(
+          onTap: () {
+            late PurchaseParam purchaseParam;
+
+            if (Platform.isAndroid) {
+              // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
+              // verify the latest status of you your subscription by using server side receipt validation
+              // and update the UI accordingly. The subscription purchase status shown
+              // inside the app may not be accurate.
+            } else {
+              purchaseParam = PurchaseParam(
+                productDetails: productDetails,
+              );
+            }
+
+            if (productDetails.id == _kConsumableId) {
+              _inAppPurchase.buyConsumable(
+                  purchaseParam: purchaseParam, autoConsume: _kAutoConsume);
+            } else {
+              _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+            }
+          },
+          child: Container(
+            width: Get.width * .3,
+            height: 170,
+            margin: const EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: MAIN_COLOR, width: 2),
+            ),
+            child: Column(
+              children: [
+                Text(productDetails.title,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20)),
+                Text(productDetails.description, textAlign: TextAlign.center),
+                Text(
+                  "${productDetails.price}",
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18),
+                )
+              ],
+            ),
+          ),
+        );
         return ListTile(
           title: Text(
             productDetails.title,
@@ -260,57 +319,72 @@ class _IOSPaymentState extends State<IOSPayment> {
           ),
           trailing: previousPurchase != null && Platform.isIOS
               ? IconButton(
-              onPressed: () => confirmPriceChange(context),
-              icon: const Icon(Icons.upgrade))
+                  onPressed: () => confirmPriceChange(context),
+                  icon: const Icon(Icons.upgrade))
               : TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.green[800],
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () {
-              late PurchaseParam purchaseParam;
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green[800],
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    late PurchaseParam purchaseParam;
 
-              if (Platform.isAndroid) {
-                // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
-                // verify the latest status of you your subscription by using server side receipt validation
-                // and update the UI accordingly. The subscription purchase status shown
-                // inside the app may not be accurate.
-                final GooglePlayPurchaseDetails? oldSubscription =
-                _getOldSubscription(productDetails, purchases);
+                    if (Platform.isAndroid) {
+                      // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
+                      // verify the latest status of you your subscription by using server side receipt validation
+                      // and update the UI accordingly. The subscription purchase status shown
+                      // inside the app may not be accurate.
+                    } else {
+                      purchaseParam = PurchaseParam(
+                        productDetails: productDetails,
+                      );
+                    }
 
-                purchaseParam = GooglePlayPurchaseParam(
-                    productDetails: productDetails,
-                    changeSubscriptionParam: (oldSubscription != null)
-                        ? ChangeSubscriptionParam(
-                      oldPurchaseDetails: oldSubscription,
-                      prorationMode:
-                      ProrationMode.immediateWithTimeProration,
-                    )
-                        : null);
-              } else {
-                purchaseParam = PurchaseParam(
-                  productDetails: productDetails,
-                );
-              }
-
-              if (productDetails.id == _kConsumableId) {
-                _inAppPurchase.buyConsumable(
-                    purchaseParam: purchaseParam,
-                    autoConsume: _kAutoConsume);
-              } else {
-                _inAppPurchase.buyNonConsumable(
-                    purchaseParam: purchaseParam);
-              }
-            },
-            child: Text(productDetails.price),
-          ),
+                    if (productDetails.id == _kConsumableId) {
+                      _inAppPurchase.buyConsumable(
+                          purchaseParam: purchaseParam,
+                          autoConsume: _kAutoConsume);
+                    } else {
+                      _inAppPurchase.buyNonConsumable(
+                          purchaseParam: purchaseParam);
+                    }
+                  },
+                  child: Text(productDetails.price),
+                ),
         );
       },
     ));
 
-    return Card(
-        child: Column(
-            children: <Widget>[productHeader, const Divider()] + productList));
+    return Column(children: <Widget>[
+      const SizedBox(
+        height: 20,
+      ),
+      const Text(
+        "Abonnement",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: MAIN_COLOR,
+            fontSize: 30,
+            fontFamily: "Haylard",
+            fontWeight: FontWeight.w700),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      const Text(
+        "L'achat se fait en un paiement unique sans renouvellement automatique. Vous ne serez donc pas débité(e) en dehors de votre période d'abonnement, sauf si vous choisissez de le renouveler par vous-même.",
+        textAlign: TextAlign.center,
+        style:
+            TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
+      ),
+      const SizedBox(
+        height: 40,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: productList,
+      )
+    ]);
   }
 
   Card _buildConsumableBox() {
@@ -324,7 +398,7 @@ class _IOSPaymentState extends State<IOSPayment> {
       return const Card();
     }
     const ListTile consumableHeader =
-    ListTile(title: Text('Purchased consumables'));
+        ListTile(title: Text('Purchased consumables'));
     final List<Widget> tokens = _consumables.map((String id) {
       return GridTile(
         child: IconButton(
@@ -340,15 +414,15 @@ class _IOSPaymentState extends State<IOSPayment> {
     }).toList();
     return Card(
         child: Column(children: <Widget>[
-          consumableHeader,
-          const Divider(),
-          GridView.count(
-            crossAxisCount: 5,
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(16.0),
-            children: tokens,
-          )
-        ]));
+      consumableHeader,
+      const Divider(),
+      GridView.count(
+        crossAxisCount: 5,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(16.0),
+        children: tokens,
+      )
+    ]));
   }
 
   Widget _buildRestoreButton() {
@@ -408,6 +482,7 @@ class _IOSPaymentState extends State<IOSPayment> {
   void handleError(IAPError error) {
     setState(() {
       _purchasePending = false;
+      _purchasePending = false;
     });
   }
 
@@ -438,12 +513,16 @@ class _IOSPaymentState extends State<IOSPayment> {
             _handleInvalidPurchase(purchaseDetails);
             return;
           }
+        } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+          setState(() {
+            _purchasePending = false;
+          });
         }
         if (Platform.isAndroid) {
           if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
             final InAppPurchaseAndroidPlatformAddition androidAddition =
-            _inAppPurchase.getPlatformAddition<
-                InAppPurchaseAndroidPlatformAddition>();
+                _inAppPurchase.getPlatformAddition<
+                    InAppPurchaseAndroidPlatformAddition>();
             await androidAddition.consumePurchase(purchaseDetails);
           }
         }
@@ -461,32 +540,10 @@ class _IOSPaymentState extends State<IOSPayment> {
     // information on price changes on Android.
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iapStoreKitPlatformAddition =
-      _inAppPurchase
-          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+          _inAppPurchase
+              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iapStoreKitPlatformAddition.showPriceConsentIfNeeded();
     }
-  }
-
-  GooglePlayPurchaseDetails? _getOldSubscription(
-      ProductDetails productDetails, Map<String, PurchaseDetails> purchases) {
-    // This is just to demonstrate a subscription upgrade or downgrade.
-    // This method assumes that you have only 2 subscriptions under a group, 'subscription_silver' & 'subscription_gold'.
-    // The 'subscription_silver' subscription can be upgraded to 'subscription_gold' and
-    // the 'subscription_gold' subscription can be downgraded to 'subscription_silver'.
-    // Please remember to replace the logic of finding the old subscription Id as per your app.
-    // The old subscription is only required on Android since Apple handles this internally
-    // by using the subscription group feature in iTunesConnect.
-    GooglePlayPurchaseDetails? oldSubscription;
-    if (productDetails.id == _kSilverSubscriptionId &&
-        purchases[_kGoldSubscriptionId] != null) {
-      oldSubscription =
-      purchases[_kGoldSubscriptionId]! as GooglePlayPurchaseDetails;
-    } else if (productDetails.id == _kGoldSubscriptionId &&
-        purchases[_kSilverSubscriptionId] != null) {
-      oldSubscription =
-      purchases[_kSilverSubscriptionId]! as GooglePlayPurchaseDetails;
-    }
-    return oldSubscription;
   }
 }
 

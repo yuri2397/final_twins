@@ -148,9 +148,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                         width: Get.width,
                         child: ElevatedButton(
                             onPressed: () {
-                              if (controller.conditionsAccepted.value) {
-                                Get.toNamed(Goo.loginScreen);
-                              } else {
+                              //if (controller.conditionsAccepted.value) {
+                              Get.toNamed(Goo.loginScreen);
+                              /*} else {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                   content: Text(
@@ -159,7 +159,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                   behavior: SnackBarBehavior.floating,
                                   duration: Duration(seconds: 3),
                                 ));
-                              }
+                              }*/
                             },
                             style: ElevatedButton.styleFrom(
                                 elevation: 0,

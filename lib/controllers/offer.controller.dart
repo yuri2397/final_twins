@@ -94,7 +94,6 @@ class OfferController extends GetxController {
   }
 
   void buy(Plan plan) {
-    Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment(plan: plan)));
   }
 
   void _checkPayment(InitPayment value) async {

@@ -30,4 +30,12 @@ class PaymentService extends GetxService {
       rethrow;
     }
   }
+
+  Future<bool> saveUserSubscription({required String planId, required String transactionId}) async {
+    try {
+      return await _repo.saveUserSubscription(planId: planId, transactionId: transactionId);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

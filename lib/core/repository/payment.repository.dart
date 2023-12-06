@@ -45,4 +45,17 @@ class PaymentRepository {
       rethrow;
     }
   }
+
+  Future<bool> saveUserSubscription(
+      {required String planId, required String transactionId}) async {
+    try {
+      var response = await _client.post("/payment/save-user-subscription",
+          data: {'offer_id': planId, "transaction_id": transactionId});
+      print(response.data);
+      return response.statusCode == 200;
+    } catch (e) {
+      print("$e");
+      rethrow;
+    }
+  }
 }

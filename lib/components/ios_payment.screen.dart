@@ -14,6 +14,8 @@ import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/model/plan.dart';
+import 'package:twinz/core/services/payment.service.dart';
+import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 import 'consumable_store.dart';
@@ -52,6 +54,7 @@ class _IOSPaymentState extends State<IOSPayment> {
   bool _loading = true;
   String? _queryProductError;
 
+  final _service = Get.find<PaymentService>();
   @override
   void initState() {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
@@ -60,8 +63,8 @@ class _IOSPaymentState extends State<IOSPayment> {
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
-      _subscription.cancel();
-      Get.back();
+          _subscription.cancel();
+          Get.back();
     }, onError: (Object error) {
       // handle error here.
       errorMessage(title: "Oups", content: "Une erreur s'est produite.");
@@ -467,10 +470,20 @@ class _IOSPaymentState extends State<IOSPayment> {
     if (purchaseDetails.productID == _kConsumableId) {
       await ConsumableStore.save(purchaseDetails.purchaseID!);
       final List<String> consumables = await ConsumableStore.load();
-      setState(() {
-        _purchasePending = false;
-        _consumables = consumables;
+      await _service.saveUserSubscription(
+          planId: "${purchaseDetails.purchaseID}", transactionId: purchaseDetails.purchaseID!).then((value) {
+            if(value){
+              setState(() {
+                _purchasePending = false;
+                _consumables = consumables;
+              });
+              Get.toNamed(Goo.homeScreen);
+              successMessage(title: "Félicitations", content: "Votre abonnement a été activé avec succès.");
+            }else{
+              errorMessage(title: "Oups", content: "Une erreur s'est produite.");
+            }
       });
+
     } else {
       setState(() {
         _purchases.add(purchaseDetails);
@@ -489,6 +502,8 @@ class _IOSPaymentState extends State<IOSPayment> {
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
     // IMPORTANT!! Always verify a purchase before delivering the product.
     // For the purpose of an example, we directly return true.
+    // check if purchase is valid
+
     return Future<bool>.value(true);
   }
 

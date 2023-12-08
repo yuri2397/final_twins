@@ -534,7 +534,7 @@ class _IOSPaymentState extends State<IOSPayment> {
           final List<String> consumables = await ConsumableStore.load();
           await _service
               .saveUserSubscription(
-                  planId: "${purchaseDetails.purchaseID}",
+                  planId: purchaseDetails.productID,
                   transactionId: purchaseDetails.purchaseID!)
               .then((value) {
             if (value) {

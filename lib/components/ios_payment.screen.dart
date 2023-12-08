@@ -8,15 +8,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:twinz/components/ui.dart';
-import 'package:twinz/core/model/plan.dart';
+import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/services/payment.service.dart';
+import 'package:twinz/core/services/profile.service.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
+import 'package:twinz/controllers/search.controller.dart' as sc;
 
 import 'consumable_store.dart';
 
@@ -53,6 +55,7 @@ class _IOSPaymentState extends State<IOSPayment> {
   bool _purchasePending = false;
   bool _loading = true;
   String? _queryProductError;
+  final user = localStorage.getUser().obs;
 
   final _service = Get.find<PaymentService>();
   @override
@@ -303,7 +306,7 @@ class _IOSPaymentState extends State<IOSPayment> {
                         fontSize: 20)),
                 Text(productDetails.description, textAlign: TextAlign.center),
                 Text(
-                  "${productDetails.price}",
+                  productDetails.price,
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -312,48 +315,6 @@ class _IOSPaymentState extends State<IOSPayment> {
               ],
             ),
           ),
-        );
-        return ListTile(
-          title: Text(
-            productDetails.title,
-          ),
-          subtitle: Text(
-            productDetails.description,
-          ),
-          trailing: previousPurchase != null && Platform.isIOS
-              ? IconButton(
-                  onPressed: () => confirmPriceChange(context),
-                  icon: const Icon(Icons.upgrade))
-              : TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.green[800],
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () {
-                    late PurchaseParam purchaseParam;
-
-                    if (Platform.isAndroid) {
-                      // NOTE: If you are making a subscription purchase/upgrade/downgrade, we recommend you to
-                      // verify the latest status of you your subscription by using server side receipt validation
-                      // and update the UI accordingly. The subscription purchase status shown
-                      // inside the app may not be accurate.
-                    } else {
-                      purchaseParam = PurchaseParam(
-                        productDetails: productDetails,
-                      );
-                    }
-
-                    if (productDetails.id == _kConsumableId) {
-                      _inAppPurchase.buyConsumable(
-                          purchaseParam: purchaseParam,
-                          autoConsume: _kAutoConsume);
-                    } else {
-                      _inAppPurchase.buyNonConsumable(
-                          purchaseParam: purchaseParam);
-                    }
-                  },
-                  child: Text(productDetails.price),
-                ),
         );
       },
     ));
@@ -465,6 +426,48 @@ class _IOSPaymentState extends State<IOSPayment> {
     });
   }
 
+  void _showSuccessMessage() async {
+    Get.find<ProfileService>().profile().then((value) {
+      localStorage.user = value;
+      user.value = value;
+      user.refresh();
+    });
+
+    await Get.find<sc.SearchController>().getMatchings();
+    Get.find<sc.SearchController>().user.value?.isPremium = true;
+    Get.find<sc.SearchController>().user.refresh();
+    Get.find<ProfileController>().profile();
+
+    await Get.bottomSheet(Container(
+      padding: const EdgeInsets.only(bottom: 30),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          hr(),
+          const SizedBox(
+            height: 10,
+          ),
+          const Icon(
+            Icons.check,
+            color: Colors.green,
+            size: 50,
+          ),
+          const Text("Félicitation",
+              style: TextStyle(color: DARK_COLOR, fontSize: 20)),
+          const Text("Votre paiement est validé.")
+        ],
+      ),
+    ));
+    Get.toNamed(Goo.homeScreen);
+  }
+
   Future<void> deliverProduct(PurchaseDetails purchaseDetails) async {
     // IMPORTANT!! Always verify purchase details before delivering the product.
     if (purchaseDetails.productID == _kConsumableId) {
@@ -488,6 +491,7 @@ class _IOSPaymentState extends State<IOSPayment> {
           errorMessage(title: "Oups", content: "Une erreur s'est produite.");
         }
       });
+      _showSuccessMessage();
     } else {
       setState(() {
         _purchases.add(purchaseDetails);

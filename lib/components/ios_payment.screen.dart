@@ -63,8 +63,8 @@ class _IOSPaymentState extends State<IOSPayment> {
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
-          _subscription.cancel();
-          Get.back();
+      _subscription.cancel();
+      Get.back();
     }, onError: (Object error) {
       // handle error here.
       errorMessage(title: "Oups", content: "Une erreur s'est produite.");
@@ -470,20 +470,24 @@ class _IOSPaymentState extends State<IOSPayment> {
     if (purchaseDetails.productID == _kConsumableId) {
       await ConsumableStore.save(purchaseDetails.purchaseID!);
       final List<String> consumables = await ConsumableStore.load();
-      await _service.saveUserSubscription(
-          planId: "${purchaseDetails.purchaseID}", transactionId: purchaseDetails.purchaseID!).then((value) {
-            if(value){
-              setState(() {
-                _purchasePending = false;
-                _consumables = consumables;
-              });
-              Get.toNamed(Goo.homeScreen);
-              successMessage(title: "Félicitations", content: "Votre abonnement a été activé avec succès.");
-            }else{
-              errorMessage(title: "Oups", content: "Une erreur s'est produite.");
-            }
+      await _service
+          .saveUserSubscription(
+              planId: "${purchaseDetails.purchaseID}",
+              transactionId: purchaseDetails.purchaseID!)
+          .then((value) {
+        if (value) {
+          setState(() {
+            _purchasePending = false;
+            _consumables = consumables;
+          });
+          Get.toNamed(Goo.homeScreen);
+          successMessage(
+              title: "Félicitations",
+              content: "Votre abonnement a été activé avec succès.");
+        } else {
+          errorMessage(title: "Oups", content: "Une erreur s'est produite.");
+        }
       });
-
     } else {
       setState(() {
         _purchases.add(purchaseDetails);

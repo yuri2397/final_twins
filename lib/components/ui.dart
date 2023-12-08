@@ -9,12 +9,16 @@ import 'package:twinz/components/ios_payment.screen.dart';
 import 'package:twinz/controllers/home.controller.dart';
 import 'package:twinz/core/model/user.dart';
 import 'package:twinz/core/services/firebase_message.service.dart';
+import 'package:twinz/core/services/payment.service.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/core/config/env.dart';
 
 errorMessage(
-    {required String title, required String content, SnackPosition? position, Duration? duration}) {
+    {required String title,
+    required String content,
+    SnackPosition? position,
+    Duration? duration}) {
   Get.snackbar(title, content,
       colorText: Colors.white,
       backgroundColor: Colors.redAccent,
@@ -248,7 +252,12 @@ drawer({drawerKey, scaffoldKey}) {
           height: 20,
         ),
         ListTile(
-          onTap: () => Platform.isIOS ? Navigator.push(Get.context!, MaterialPageRoute(builder: (_) => IOSPayment())) : Get.toNamed(Goo.offerScreen),
+          onTap: () {
+            Platform.isIOS
+                ? Navigator.push(Get.context!,
+                    MaterialPageRoute(builder: (_) => IOSPayment()))
+                : Get.toNamed(Goo.offerScreen);
+          },
           leading: itemIcon(Icons.payment_outlined, color: MAIN_COLOR),
           title: const Text("Twinz Premium",
               style: TextStyle(
@@ -268,7 +277,8 @@ drawer({drawerKey, scaffoldKey}) {
           height: 20,
         ),
         ListTile(
-          onTap: () => lunchWebURL("https://www.findyourtwinz.com/legal#confidentialit%C3%A9"),
+          onTap: () => lunchWebURL(
+              "https://www.findyourtwinz.com/legal#confidentialit%C3%A9"),
           leading: itemIcon(Icons.security_outlined, color: MAIN_COLOR),
           title: const Text("Confidentialité",
               style: TextStyle(
@@ -305,17 +315,18 @@ Widget detailUserPhotoItem(String url) {
   );
 }
 
-
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
       text: capitalize(newValue.text),
       selection: newValue.selection,
     );
   }
 }
+
 String capitalize(String value) {
-  if(value.trim().isEmpty) return "";
+  if (value.trim().isEmpty) return "";
   return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }

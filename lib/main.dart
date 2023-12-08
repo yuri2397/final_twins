@@ -18,6 +18,7 @@ import 'package:twinz/core/services/chat_request.service.dart';
 import 'package:twinz/core/services/login.service.dart';
 import 'package:twinz/core/services/matching.service.dart';
 import 'package:twinz/core/services/notification.service.dart';
+import 'package:twinz/core/services/payment.service.dart';
 import 'package:twinz/core/services/user.service.dart';
 import 'package:twinz/routes/route.dart';
 import 'package:twinz/routes/router.dart';
@@ -82,6 +83,7 @@ _initServices() async {
   Get.lazyPut(() => ChatService());
   Get.lazyPut(() => ChatRequestService());
   Get.lazyPut(() => LoginService());
+  Get.lazyPut(() => PaymentService());
   Get.lazyPut(() => UserService());
   Get.lazyPut(() => NotificationService());
   Get.lazyPut(

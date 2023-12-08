@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twinz/components/ios_payment.screen.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/chat.controller.dart';
 import 'package:twinz/core/model/chat.dart';
@@ -96,11 +99,14 @@ class NotificationController extends GetxController {
 
   detailUserNot(nt.Notification item) {
     selectedNotification.value = item;
-    if(localStorage.getUser()?.isPremium == false){
-      Get.toNamed(Goo.offerScreen);
-    }else{
-        fetchNotificationDetails();
-        Get.toNamed(Goo.notificationDetails);
+    if (localStorage.getUser()?.isPremium == false) {
+      Platform.isIOS
+          ? Navigator.push(
+              Get.context!, MaterialPageRoute(builder: (_) => IOSPayment()))
+          : Get.toNamed(Goo.offerScreen);
+    } else {
+      fetchNotificationDetails();
+      Get.toNamed(Goo.notificationDetails);
     }
   }
 
@@ -118,8 +124,7 @@ class NotificationController extends GetxController {
   requestAccepted(nt.Notification item) {
     selectedNotification.value = item;
     if (item.data?.data?.type == 'request_accepted') {
-      var id =
-      int.tryParse("${selectedNotification.value.data!.data!.chatId}");
+      var id = int.tryParse("${selectedNotification.value.data!.data!.chatId}");
       Get.find<ChatController>().detailsChat(Chat(id: id));
     }
   }

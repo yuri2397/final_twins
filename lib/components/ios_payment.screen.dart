@@ -11,6 +11,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
+import 'package:intl/intl.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/services/payment.service.dart';
@@ -319,36 +320,57 @@ class _IOSPaymentState extends State<IOSPayment> {
       },
     ));
 
-    return Column(children: <Widget>[
-      const SizedBox(
-        height: 20,
-      ),
-      const Text(
-        "Abonnement",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: MAIN_COLOR,
-            fontSize: 30,
-            fontFamily: "Haylard",
-            fontWeight: FontWeight.w700),
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-      const Text(
-        "L'achat se fait en un paiement unique sans renouvellement automatique. Vous ne serez donc pas débité(e) en dehors de votre période d'abonnement, sauf si vous choisissez de le renouveler par vous-même.",
-        textAlign: TextAlign.center,
-        style:
-            TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
-      ),
-      const SizedBox(
-        height: 40,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: productList,
-      )
-    ]);
+    return Obx(
+      () => Column(children: <Widget>[
+        const SizedBox(
+          height: 20,
+        ),
+        const Text(
+          "Abonnement",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: MAIN_COLOR,
+              fontSize: 30,
+              fontFamily: "Haylard",
+              fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          "L'achat se fait en un paiement unique sans renouvellement automatique. Vous ne serez donc pas débité(e) en dehors de votre période d'abonnement, sauf si vous choisissez de le renouveler par vous-même.",
+          textAlign: TextAlign.center,
+          style:
+              TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        if (user.value!.isPremium == true)
+          const Text(
+            "Vous êtes déjà Premium.",
+            style: TextStyle(
+                color: MAIN_COLOR,
+                fontSize: 20,
+                fontFamily: "Haylard",
+                fontWeight: FontWeight.w500),
+          ),
+        if (user.value!.isPremium == true)
+          Text(
+            "Date d'expiration: ${DateFormat.yMMMd('fr').format(user.value!.subscriptionExpiryDate!)}",
+            style: const TextStyle(
+                color: DARK_COLOR,
+                fontSize: 18,
+                fontFamily: "Haylard",
+                fontWeight: FontWeight.w500),
+          ).marginOnly(top: 20),
+        if (user.value!.isPremium == false)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: productList,
+          )
+      ]),
+    );
   }
 
   Card _buildConsumableBox() {
@@ -472,26 +494,6 @@ class _IOSPaymentState extends State<IOSPayment> {
     // IMPORTANT!! Always verify purchase details before delivering the product.
     if (purchaseDetails.productID == _kConsumableId) {
       await ConsumableStore.save(purchaseDetails.purchaseID!);
-      final List<String> consumables = await ConsumableStore.load();
-      await _service
-          .saveUserSubscription(
-              planId: "${purchaseDetails.purchaseID}",
-              transactionId: purchaseDetails.purchaseID!)
-          .then((value) {
-        if (value) {
-          setState(() {
-            _purchasePending = false;
-            _consumables = consumables;
-          });
-          Get.toNamed(Goo.homeScreen);
-          successMessage(
-              title: "Félicitations",
-              content: "Votre abonnement a été activé avec succès.");
-        } else {
-          errorMessage(title: "Oups", content: "Une erreur s'est produite.");
-        }
-      });
-      _showSuccessMessage();
     } else {
       setState(() {
         _purchases.add(purchaseDetails);
@@ -529,6 +531,32 @@ class _IOSPaymentState extends State<IOSPayment> {
           handleError(purchaseDetails.error!);
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
+          final List<String> consumables = await ConsumableStore.load();
+          await _service
+              .saveUserSubscription(
+                  planId: "${purchaseDetails.purchaseID}",
+                  transactionId: purchaseDetails.purchaseID!)
+              .then((value) {
+            if (value) {
+              setState(() {
+                _purchasePending = false;
+                _consumables = consumables;
+              });
+              Get.toNamed(Goo.homeScreen);
+              successMessage(
+                  title: "Félicitations",
+                  content: "Votre abonnement a été activé avec succès.");
+            } else {
+              errorMessage(
+                  title: "Oups", content: "Une erreur s'est produite.");
+            }
+          }).catchError((e) {
+            errorMessage(
+                title: "Oups",
+                content:
+                    "Une erreur s'est produite lors de la validation coté serveur.");
+          });
+          _showSuccessMessage();
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             unawaited(deliverProduct(purchaseDetails));

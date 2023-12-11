@@ -311,7 +311,7 @@ class _IOSPaymentState extends State<IOSPayment> {
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
-                      fontSize: 18),
+                      fontSize: 14),
                 )
               ],
             ),

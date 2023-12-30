@@ -39,29 +39,29 @@ SigneZodiaque determinerSigne(DateTime dateNaissance) {
   int mois = dateNaissance.month;
 
   if ((mois == 3 && jour >= 21) || (mois == 4 && jour <= 20)) {
-    return listeSignes.firstWhere((element) => element.nom == "Bélier");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.aries}");
   } else if ((mois == 4 && jour >= 21) || (mois == 5 && jour <= 20)) {
-    return listeSignes.firstWhere((element) => element.nom == "Taureau");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.taurus}");
   } else if ((mois == 5 && jour >= 21) || (mois == 6 && jour <= 20)) {
-    return listeSignes.firstWhere((element) => element.nom == "Gémeaux");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.gemini}");
   } else if ((mois == 6 && jour >= 21) || (mois == 7 && jour <= 23)) {
-    return listeSignes.firstWhere((element) => element.nom == "Cancer");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.cancer}");
   } else if ((mois == 7 && jour >= 24) || (mois == 8 && jour <= 23)) {
-    return listeSignes.firstWhere((element) => element.nom == "Lion");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.leo}");
   } else if ((mois == 8 && jour >= 24) || (mois == 9 && jour <= 22)) {
-    return listeSignes.firstWhere((element) => element.nom == "Vierge");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.virgo}");
   } else if ((mois == 9 && jour >= 23) || (mois == 10 && jour <= 22)) {
-    return listeSignes.firstWhere((element) => element.nom == "Balance");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.libra}");
   } else if ((mois == 10 && jour >= 23) || (mois == 11 && jour <= 21)) {
-    return listeSignes.firstWhere((element) => element.nom == "Scorpion");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.scorpio}");
   } else if ((mois == 11 && jour >= 22) || (mois == 12 && jour <= 21)) {
-    return listeSignes.firstWhere((element) => element.nom == "Sagittaire");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.sagittarius}");
   } else if ((mois == 12 && jour >= 22) || (mois == 1 && jour <= 19)) {
-    return listeSignes.firstWhere((element) => element.nom == "Capricorne");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.capricorn}");
   } else if ((mois == 1 && jour >= 20) || (mois == 2 && jour <= 18)) {
-    return listeSignes.firstWhere((element) => element.nom == "Verseau");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.aquarius}");
   } else {
-    return listeSignes.firstWhere((element) => element.nom == "Poissons");
+    return listeSignes.firstWhere((element) => element.nom == "${lang?.pisces}");
   }
 }
 

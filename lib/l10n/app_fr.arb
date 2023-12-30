@@ -156,7 +156,30 @@
   "requestAccepted": "Demande acceptée avec succès.",
   "requestRejected": "Demande rejetée avec succès.",
   "tryAgainLater": "Veuillez réessayer plus tard.",
-  "checkInternetConnection": "Merci de vérifier votre connexion internet."
-
+  "checkInternetConnection": "Merci de vérifier votre connexion internet.",
+  "aries": "Bélier",
+  "taurus": "Taureau",
+  "gemini": "Gémeaux",
+  "cancer": "Cancer",
+  "leo": "Lion",
+  "virgo": "Vierge",
+  "libra": "Balance",
+  "scorpio": "Scorpion",
+  "sagittarius": "Sagittaire",
+  "capricorn": "Capricorne",
+  "aquarius": "Verseau",
+  "pisces": "Poissons",
+  "ariesDescription": "Le Bélier est un leader, courageux, mais aussi égocentrique. Il n’a pas peur de dire ce qu’il pense. Il peut paraître nerveux et impatient mais se donnera tous les moyens pour atteindre ses objectifs.",
+  "taurusDescription": "Stable, fiable et prudent, le Taureau est quelqu’un de doux et romantique. Il sait où il va grâce à ses choix prudents et sait ce qu’il veut. L’argent reste quelque chose d’important pour lui.",
+  "geminiDescription": "Toujours de bonne humeur, le Gémeaux aime la variété et l’activité. Il change vite d’avis et a du mal à gérer ses émotions. Sa marque de fabrique : la communication !",
+  "cancerDescription": "Le Cancer a une humeur changeante. Très attaché au passé, il est tenace et dévoué. Il se souvient de chaque détail, ce qui fait de lui quelqu’un de sensible et possessif.",
+  "leoDescription": "Vaillant, autoritaire et parfois audacieux, le Lion sait être protecteur avec les gens qu’il estime. Il peut être égocentrique, mais ça ne l'empêchera pas de prendre soin des gens qui comptent pour lui.",
+  "virgoDescription": "Réputée pour être à la fois méthodique et serviable, la Vierge est un signe exigeant envers elle-même mais également envers les autres. De nature perfectionniste, elle fera tout pour tirer le meilleur résultat possible, et ce, dans tous les domaines.",
+  "libraDescription": "Assoiffée de justice, la Balance est constamment à la recherche de l’équilibre parfait. Indécise, calme, aimable et attentionnée, elle sait se mettre à la place des autres et fera passer le bonheur des autres avant le sien.",
+  "scorpioDescription": "En plus de son côté rancunier, le Scorpion est un signe tenace et possessif. Il ne se livre jamais entièrement et se souvient des moindres détails. Il a tendance à se laisser guider par son intuition.",
+  "sagittariusDescription": "Le Sagittaire aime se lancer de nouveaux défis. Connu comme étant optimiste, généreux et extraverti, il aime voyager en terres inconnues pour découvrir de nouvelles cultures.",
+  "capricornDescription": "Réservé sur ses sentiments, calme, sérieux. Le Capricorne a une volonté de fer. Il ne baisse jamais les bras et sait faire preuve de maturité dans les situations extrêmes.",
+  "aquariusDescription": "Curieux, original et parfois rebelle, le Verseau peut avoir tendance à se contredire. Il défend sa liberté par-dessus tout et cherche à garder son indépendance.",
+  "piscesDescription": "Sensible et utopiste, le Poisson a du mal à construire son identité. Il contourne les obstacles et est doté d’un 6e sens qui lui permet de sortir des difficultés."
 
 }

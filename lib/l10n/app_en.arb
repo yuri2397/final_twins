@@ -156,7 +156,31 @@
   "requestAccepted": "Request accepted successfully.",
   "requestRejected": "Request rejected successfully.",
   "tryAgainLater": "Please try again later.",
-  "checkInternetConnection": "Please check your internet connection."
+  "checkInternetConnection": "Please check your internet connection.",
+  "aries": "Aries",
+  "taurus": "Taurus",
+  "gemini": "Gemini",
+  "cancer": "Cancer",
+  "leo": "Leo",
+  "virgo": "Virgo",
+  "libra": "Libra",
+  "scorpio": "Scorpio",
+  "sagittarius": "Sagittarius",
+  "capricorn": "Capricorn",
+  "aquarius": "Aquarius",
+  "pisces": "Pisces",
+  "ariesDescription": "Aries is a leader, courageous, but also egocentric. They are not afraid to speak their mind. They may seem nervous and impatient but will go to any lengths to achieve their goals.",
+  "taurusDescription": "Stable, reliable, and cautious, Taurus is gentle and romantic. They know where they're going through careful choices and know what they want. Money remains something important to them.",
+  "geminiDescription": "Always in a good mood, Gemini loves variety and activity. They change their mind quickly and have difficulty managing their emotions. Their trademark: communication!",
+  "cancerDescription": "Cancer has a changing mood. Very attached to the past, they are tenacious and devoted. They remember every detail, making them sensitive and possessive.",
+  "leoDescription": "Valiant, authoritative, and sometimes daring, Leo knows how to be protective with those they esteem. They can be egocentric, but that won't stop them from taking care of the people who matter to them.",
+  "virgoDescription": "Renowned for being both methodical and helpful, Virgo is demanding of themselves and others. Perfectionist by nature, they will do everything to achieve the best result possible in all areas.",
+  "libraDescription": "Thirsty for justice, Libra is constantly seeking the perfect balance. Indecisive, calm, kind, and caring, they know how to put themselves in others' shoes and prioritize others' happiness over their own.",
+  "scorpioDescription": "In addition to being vindictive, Scorpio is tenacious and possessive. They never fully open up and remember every detail. They tend to be guided by their intuition.",
+  "sagittariusDescription": "Sagittarius likes to take on new challenges. Known for being optimistic, generous, and extroverted, they love to travel to unknown lands to discover new cultures.",
+  "capricornDescription": "Reserved about their feelings, calm, serious. Capricorn has an iron will. They never give up and show maturity in extreme situations.",
+  "aquariusDescription": "Curious, original, and sometimes rebellious, Aquarius may tend to contradict themselves. They defend their freedom above all and seek to maintain their independence.",
+  "piscesDescription": "Sensitive and utopian, Pisces has difficulty building their identity. They navigate around obstacles and have a sixth sense that helps them overcome difficulties."
 
 
 }

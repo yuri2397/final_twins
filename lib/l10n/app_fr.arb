@@ -17,7 +17,6 @@
   "continueLogout": "Continuer la déconnexion",
   "disableAccount": "Désactiver le compte",
   "deleteAccount": "Supprimer mon compte",
-  "deleteAccount": "Supprimer mon compte",
   "distance": "Distance",
   "gap": "Ecart",
   "ageBetween": "Tranche d'âge",
@@ -47,7 +46,6 @@
   "emailAddress": "Adresse email",
   "invalidEmailAddress": "Adresse email invalide.",
   "chooseYourPassword": "Choisissez un mot de passe",
-  "chooseYourPassword": "Choisissez un mot de passe",
   "addYourDateOfBirth": "Ajoutez votre date de naissance",
   "addPhotos": "Ajoutez des photos",
   "addBio": "Ajoutez une bio",
@@ -59,5 +57,5 @@
   "cgu4": "politique de confidentialité",
   "cgu5": "et", 
   "cgu6": "celle relative aux cookies", 
-  "cgu7": "pour en savoir plus sur le traitement de vos données.",
+  "cgu7": "pour en savoir plus sur le traitement de vos données."
 }

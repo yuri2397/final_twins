@@ -48,6 +48,7 @@ void main() async {
       supportedLocales: const [
         Locale('fr'),
         Locale('en'),
+        Locale('es')
       ],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

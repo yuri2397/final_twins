@@ -60,20 +60,16 @@ class OfferController extends GetxController {
     } else {
       _service.initPayment(p.id.toString()).then((value) async {
         lastInitPayment.value = value;
-        print("PAYEMENT/:::::::::::::::::::: ${value.toJson().toString()}");
-
-        var stripeval = await Stripe.instance
+        await Stripe.instance
             .initPaymentSheet(
                 paymentSheetParameters: SetupPaymentSheetParameters(
                     paymentIntentClientSecret: value.clientSecret,
                     merchantDisplayName: 'Twinz'))
             .then((value) {});
         load.value = false;
-        print("Stripe value is:---> $stripeval");
         _displayPaymentSheet(value);
       }).catchError((e) {
         load.value = false;
-        print("Error is:---> $e");
       });
     }
   }
@@ -134,9 +130,9 @@ class OfferController extends GetxController {
                 color: Colors.green,
                 size: 50,
               ),
-              const Text("Félicitation",
-                  style: TextStyle(color: DARK_COLOR, fontSize: 20)),
-              const Text("Votre paiement est validé.")
+               Text("${lang?.oups}",
+                  style:const TextStyle(color: DARK_COLOR, fontSize: 20)),
+               Text("${lang?.paymentValidated}")
             ],
           ),
         ));

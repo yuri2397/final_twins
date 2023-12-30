@@ -33,9 +33,9 @@ class AddEmailScreen extends GetView<RegisterController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Saisissez votre adresse email",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.tapYourEmail}",
+                      style:const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 30,
                           fontFamily: "Haylard",
@@ -54,18 +54,18 @@ class AddEmailScreen extends GetView<RegisterController> {
                           cursorColor: DARK_COLOR,
                           validator: (value) {
                             if (value == null) {
-                              return "Votre email est obligatoire.";
+                              return "${lang?.emailRequired}";
                             }
 
                             if (!value.isEmail) {
-                              return "Adresse email invalide.";
+                              return "${lang?.emailInvalid}";
                             }
                             return null;
                           },
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 16),
                               color: DARK_COLOR),
-                          decoration: decoration("Adresse email...")),
+                          decoration: decoration("${lang?.emailAddress}")),
                     ),
                   ],
                 )),
@@ -92,7 +92,7 @@ class AddEmailScreen extends GetView<RegisterController> {
                             height: 20,
                             child: CircularProgressIndicator(color: MAIN_COLOR),
                           )
-                        : const Text("Suivant", style: TextStyle(fontSize: 18)),
+                        :  Text("${lang?.next}", style:const TextStyle(fontSize: 18)),
                   ),
                 )
               ],

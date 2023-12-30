@@ -33,7 +33,7 @@ import 'core/services/profile.service.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const String STRIPE_PUBLISHABLE_KEY =
     "pk_live_51NzOrSEPpMAZs8URb9GQNYcIlFKu1viwFBOIvzetz6RpN1Vo7IPoXmoMBA0bzN6x6De577GWB5P8lTwuCk4t86SD00iJUhykUQ";
@@ -45,16 +45,8 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(GetMaterialApp(
-      supportedLocales: const [
-        Locale('fr'),
-        Locale('en'),
-        Locale('es')
-      ],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       initialRoute: Goo.splashScreen,
       getPages: ROUTER_OUTLET,

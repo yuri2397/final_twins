@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twinz/controllers/offer.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class OfferScreen extends GetView<OfferController> {
@@ -26,10 +27,10 @@ class OfferScreen extends GetView<OfferController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Abonnement",
+                   Text(
+                    "${lang?.subscription}",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style:const TextStyle(
                         color: MAIN_COLOR,
                         fontSize: 30,
                         fontFamily: "Haylard",
@@ -38,10 +39,9 @@ class OfferScreen extends GetView<OfferController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
-                    "L'achat se fait en un paiement unique sans renouvellement automatique. Vous ne serez donc pas débité(e) en dehors de votre période d'abonnement, sauf si vous choisissez de le renouveler par vous-même.",
+                   Text("${lang?.purchaseInfo}",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style:const TextStyle(
                         color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
                   ),
                   const SizedBox(
@@ -70,7 +70,7 @@ class OfferScreen extends GetView<OfferController> {
                             ),
                             child: Column(
                               children: [
-                                Text("${controller.offers[1].duration} Jours",
+                                Text("${controller.offers[1].duration} ${lang?.days}",
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
@@ -107,7 +107,7 @@ class OfferScreen extends GetView<OfferController> {
                             ),
                             child: Column(
                               children: [
-                                Text("${controller.offers[2].duration} Jours",
+                                Text("${controller.offers[2].duration} ${lang?.days}",
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
@@ -144,7 +144,7 @@ class OfferScreen extends GetView<OfferController> {
                             ),
                             child: Column(
                               children: [
-                                Text("${controller.offers[0].duration} Jours",
+                                Text("${controller.offers[0].duration} ${lang?.days}",
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
@@ -167,9 +167,9 @@ class OfferScreen extends GetView<OfferController> {
                       ],
                     ),
                   if (controller.user.value!.isPremium == true)
-                    const Text(
-                      "Vous êtes déjà Premium.",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.alreadyPremium}",
+                      style:const TextStyle(
                           color: MAIN_COLOR,
                           fontSize: 20,
                           fontFamily: "Haylard",
@@ -177,7 +177,8 @@ class OfferScreen extends GetView<OfferController> {
                     ),
                   if (controller.user.value!.isPremium == true)
                     Text(
-                      "Date d'expiration: ${DateFormat.yMMMd('fr').format(controller.user.value!.subscriptionExpiryDate!)}",
+                      "${lang?.expirationDate}: ${DateFormat.yMMMd(Localizations.localeOf(Get.context!)
+                          .languageCode).format(controller.user.value!.subscriptionExpiryDate!)}",
                       style: const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 18,

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -98,13 +99,12 @@ class AppInterceptors extends Interceptor {
   @override
   void onRequest(
       dio.RequestOptions options, dio.RequestInterceptorHandler handler) async {
-    print("[DATA]: ${options.data}");
     var token = localStorage.getToken();
     if (token != null) {
-      print("[TOKEN]: ${token.accessToken}");
       options.headers['Authorization'] = 'Bearer ${token.accessToken}';
-      Get.log(options.headers.toString());
     }
+    var langCode = Localizations.localeOf(Get.context!).languageCode;
+    options.queryParameters.addAll({"lang_code": langCode});
     return handler.next(options);
   }
 
@@ -117,29 +117,28 @@ class AppInterceptors extends Interceptor {
     }
     if (err.response?.statusCode == 500) {
       errorMessage(
-          title: "Une erreur est survenue",
-          content: "Veuillez réessayer plus tard");
-    } else if (err.response !=  null && err.response!.statusCode! >= 400 &&
+          title: "${lang?.errorOccurred}", content: "${lang?.tryAgainLater}");
+    } else if (err.response != null &&
+        err.response!.statusCode! >= 400 &&
         err.response!.statusCode! < 500) {
       print(err.response?.data);
       var errors = err.response?.data['errors'];
       if (errors != null) {
         var message = errors.values.first[0];
         errorMessage(
-          title: "Une erreur est survenue",
+          title: "${lang?.errorOccurred}",
           content: message,
         );
       } else if (err.response?.data['message'] != null) {
         errorMessage(
-          title: "Une erreur est survenue",
+          title: "${lang?.errorOccurred}",
           content: err.response?.data['message'],
         );
       }
     } else {
-      print("UNKNOW ERROR: ${err.toString()}");
       errorMessage(
-        title: "Une erreur est survenue",
-        content: "Merci de vérifier votre connexion internet.",
+        title: "${lang?.errorOccurred}",
+        content: "${lang?.checkInternetConnection}",
       );
     }
 

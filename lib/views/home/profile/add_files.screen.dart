@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinz/components/choose_files.widget.dart';
 import 'package:twinz/controllers/profile.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class AddFilesScreen extends GetView<ProfileController> {
@@ -40,9 +41,9 @@ class AddFilesScreen extends GetView<ProfileController> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Ajoutez vos photos",
-                            style: TextStyle(
+                           Text(
+                            "${lang?.addPhotos}",
+                            style:const TextStyle(
                                 color: MAIN_COLOR,
                                 fontSize: 30,
                                 fontFamily: "Haylard",
@@ -82,7 +83,7 @@ class AddFilesScreen extends GetView<ProfileController> {
                                 height: 20,
                                 child: CircularProgressIndicator(
                                     color: Colors.white))
-                            : const Text("Enregistrer"),
+                            :  Text("${lang?.save}"),
                       ),
                     ),
                   )
@@ -188,7 +189,7 @@ class AddFilesScreen extends GetView<ProfileController> {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20)))),
-                    label: const Text("Modifier"),
+                    label:  Text("${lang?.update}"),
                   ).marginOnly(right: 10),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.delete_outline),
@@ -203,7 +204,7 @@ class AddFilesScreen extends GetView<ProfileController> {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20)))),
-                    label: const Text("Supprimer"),
+                    label:  Text("${lang?.delete}"),
                   ),
                 ],
               )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 final ImagePicker _picker = ImagePicker();
@@ -34,9 +35,9 @@ Future<XFile?> takeImage() async {
                 backgroundColor: MAIN_COLOR,
                 child: Icon(Icons.camera_alt, color: Colors.white),
               ).marginOnly(right: 10),
-              const Text(
-                "Prendre une photo",
-                style: TextStyle(
+               Text(
+                "${lang?.takeNewPhotoFromCamera}",
+                style:const TextStyle(
                     fontFamily: "Haylard",
                     fontSize: 18,
                     color: DARK_COLOR,
@@ -59,9 +60,9 @@ Future<XFile?> takeImage() async {
                 backgroundColor: MAIN_COLOR,
                 child: Icon(Icons.image, color: Colors.white),
               ).marginOnly(right: 10),
-              const Text(
-                "Choisir une image",
-                style: TextStyle(
+               Text(
+                "${lang?.takeNewPhotoFromGallery}",
+                style: const TextStyle(
                     fontFamily: "Haylard",
                     fontSize: 18,
                     color: DARK_COLOR,

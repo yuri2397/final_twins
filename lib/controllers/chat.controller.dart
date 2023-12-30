@@ -116,7 +116,7 @@ class ChatController extends GetxController {
     Get.find<UserService>().unblockUser(user: user).then((value) {
       unblockLoad.value = false;
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-        content: Text("Vous avez débloqué ${user.fullName}"),
+        content: Text("${lang?.unblocked} ${user.fullName}"),
         backgroundColor: MAIN_COLOR,
       ));
       reloadChatCurrentChat();
@@ -149,7 +149,7 @@ class ChatController extends GetxController {
     showDetailsLoad.value = true;
     Get.find<UserService>().blockUser(user: user).then((value) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-        content: Text("Vous avez bloqué ${user.fullName}"),
+        content: Text("${lang?.blocked} ${user.fullName}"),
         backgroundColor: MAIN_COLOR,
       ));
       showDetailsLoad.value = false;
@@ -173,9 +173,9 @@ class ChatController extends GetxController {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Raison du signalement",
-                style: TextStyle(
+              Text(
+                "${lang?.reportReason}",
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -187,7 +187,7 @@ class ChatController extends GetxController {
                 controller: raisonController,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  hintText: "Raison du signalement",
+                  hintText: "${lang?.reportReason}",
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                   ),
@@ -214,7 +214,7 @@ class ChatController extends GetxController {
                     onPressed: () {
                       Get.back();
                     },
-                    child: const Text("Annuler"),
+                    child: Text("${lang?.cancel}"),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -235,7 +235,7 @@ class ChatController extends GetxController {
                         Get.back();
                         ScaffoldMessenger.of(Get.context!)
                             .showSnackBar(SnackBar(
-                          content: Text("Vous avez signalé ${user.fullName}"),
+                          content: Text("${lang?.reported} ${user.fullName}"),
                           backgroundColor: MAIN_COLOR,
                         ));
                       }).catchError((e) {
@@ -244,7 +244,7 @@ class ChatController extends GetxController {
                         Get.back();
                       });
                     },
-                    child: const Text("Signaler"),
+                    child: Text("${lang?.report}"),
                   ),
                 ],
               ),
@@ -273,8 +273,8 @@ class ChatController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Attention !",
-              style: TextStyle(
+          Text("${lang?.attention} !",
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 23,
@@ -282,7 +282,7 @@ class ChatController extends GetxController {
           const SizedBox(
             height: 10,
           ),
-          Text("Êtes-vous sûr(e) de vouloir supprimer $fullName ?",
+          Text("${lang?.confirmDelete} $fullName ?",
               style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
@@ -312,7 +312,7 @@ class ChatController extends GetxController {
                       showDetailsLoad.value = true;
                     });
                   },
-                  child: const Text("Supprimer")),
+                  child: Text("${lang?.delete}")),
               const SizedBox(
                 width: 100,
               ),
@@ -325,7 +325,7 @@ class ChatController extends GetxController {
                   onPressed: () {
                     Get.back();
                   },
-                  child: const Text("Annuler")),
+                  child: Text("${lang?.cancel}")),
             ],
           )
         ],

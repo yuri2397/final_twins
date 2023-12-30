@@ -36,9 +36,9 @@ class AddBioScreen extends GetView<RegisterController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Ajoutez une bio",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.addBio}",
+                      style:const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 30,
                           fontFamily: "Haylard",
@@ -63,17 +63,17 @@ class AddBioScreen extends GetView<RegisterController> {
                           maxLength: 120,
                           validator: (value) {
                             if (value == null) {
-                              return "Veuillez saissir votre bio.";
+                              return "${lang?.tapYourBio}";
                             }
                             if (value.length > 120) {
-                              return "120 caractéres au plus.";
+                              return "${lang?.let120Char}";
                             }
                             return null;
                           },
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 16),
                               color: DARK_COLOR),
-                          decoration: decoration("Ecrire"),
+                          decoration: decoration( "${lang?.write}"),
                         ),
                       ),
                     ),
@@ -108,8 +108,8 @@ class AddBioScreen extends GetView<RegisterController> {
                             child: CircularProgressIndicator(
                               color: Colors.white,
                             ))
-                        : const Text("C'est parti",
-                            style: TextStyle(fontSize: 18)),
+                        :  Text("${lang?.letsGo}",
+                            style: const TextStyle(fontSize: 18)),
                   ),
                 )
               ],

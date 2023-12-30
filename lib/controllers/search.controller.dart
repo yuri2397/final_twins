@@ -41,7 +41,7 @@ class SearchController extends FullLifeCycleController with FullLifeCycleMixin  
       getMatchings();
     }).catchError((e){
       errorMessage(
-          title: "Notifications", content: "Please enable your location"  );
+          title: "${lang?.notification}", content: "${lang?.enableLocation}"  );
       activeLocation.value = true;
       matchLoad.value = false;
     });
@@ -190,7 +190,7 @@ class SearchController extends FullLifeCycleController with FullLifeCycleMixin  
       getMatchings();
     }).catchError((e){
       errorMessage(
-          title: "Notifications", content: "Please enable your location"  );
+          title: "${lang?.notification}", content: "${lang?.enableLocation}"  );
       activeLocation.value = true;
       matchLoad.value = false;
     });

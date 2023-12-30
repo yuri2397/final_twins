@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/chat_request.controller.dart';
 import 'package:twinz/core/model/chat_request.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class ChatRequestScreen extends GetView<ChatRequestController> {
@@ -14,7 +15,7 @@ class ChatRequestScreen extends GetView<ChatRequestController> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
         appBar: AppBar(
-          title: const Text("Notifications"),
+          title:  Text("${lang?.notifications}"),
           elevation: 0,
         ),
         body: controller.loading.value && controller.items.isEmpty
@@ -36,9 +37,9 @@ class ChatRequestScreen extends GetView<ChatRequestController> {
                               "assets/images/notifications.svg",
                               width: 300,
                             ),
-                            const Text(
-                              "Aucune notification",
-                              style: TextStyle(
+                             Text(
+                              "${lang?.noNotifications}",
+                              style:const TextStyle(
                                   color: DARK_COLOR,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500),
@@ -105,7 +106,7 @@ class ChatRequestScreen extends GetView<ChatRequestController> {
               textAlign: TextAlign.center,
               maxLines: 2,
             ).marginAll(5),
-            Text("Âge ${request.userFrom?.age} ans",
+            Text("${lang?.age} ${request.userFrom?.age} ${lang?.years}",
                 style: TextStyle(color: Colors.black.withOpacity(0.5))),
             const Divider(
               height: 2,

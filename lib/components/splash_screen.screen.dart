@@ -1,8 +1,6 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twinz/core/config/env.dart';
-import 'package:twinz/core/utils/fcm_provider.dart';
 import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';

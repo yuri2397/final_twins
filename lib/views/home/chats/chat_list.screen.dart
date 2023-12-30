@@ -27,8 +27,8 @@ class ChatListScreen extends GetView<ChatController> {
                 onTap: () => scaffoldKey.currentState?.openDrawer(),
                 child: const Icon(Icons.menu, color: Colors.white),
               ),
-              title: const Text("Messages",
-                  style: TextStyle(color: Colors.white))),
+              title: Text("${lang?.messages}",
+                  style: const TextStyle(color: Colors.white))),
           drawer: drawer(drawerKey: drawerKey, scaffoldKey: scaffoldKey),
           body: controller.chatsLoad.value
               ? const Center(
@@ -36,9 +36,9 @@ class ChatListScreen extends GetView<ChatController> {
                 )
               : controller.chats.isEmpty
                   ? Center(
-                      child: const Text(
-                      "Aucun message",
-                      style: TextStyle(
+                      child: Text(
+                      "${lang?.noMessages}",
+                      style: const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
@@ -93,16 +93,21 @@ class ChatListScreen extends GetView<ChatController> {
           style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text(
           chat.messages!.isEmpty
-              ? "Envoyer le premier message..."
+              ? "${lang?.sendFirstMessage}..."
               : "${chat.messages!.last.message}",
           overflow: TextOverflow.ellipsis,
           maxLines: 1),
-      trailing: chat.messages!.isNotEmpty ? Text(
-       chat.messages!.last.createdAt!
-                .isAfter(DateTime.now().subtract(const Duration(days: 1)))
-            ? DateFormat("HH:mm").format(chat.messages!.last.createdAt!.toLocal())
-            : DateFormat.MMMd('fr').format(chat.messages!.last.createdAt!.toLocal()),
-      ) : null,
+      trailing: chat.messages!.isNotEmpty
+          ? Text(
+              chat.messages!.last.createdAt!
+                      .isAfter(DateTime.now().subtract(const Duration(days: 1)))
+                  ? DateFormat("HH:mm")
+                      .format(chat.messages!.last.createdAt!.toLocal())
+                  : DateFormat.MMMd(
+                          Localizations.localeOf(Get.context!).languageCode)
+                      .format(chat.messages!.last.createdAt!.toLocal()),
+            )
+          : null,
     ).marginSymmetric(horizontal: 10, vertical: 5);
   }
 }

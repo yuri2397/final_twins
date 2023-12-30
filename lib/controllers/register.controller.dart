@@ -69,11 +69,9 @@ class RegisterController extends GetxController {
 
     if (!isValidDate) {
       errorMessage(
-          title: "Oups !!!", content: "Veuillez choissir une date valide.");
+          title: "${lang?.oups}", content: "${lang?.birthDateInvalid}");
       return;
     }
-    // birthdayCtrl.text =
-    //     "${bd3Ctrl.text.trim()}/${bd2Ctrl.text.trim()}/${bd1Ctrl.text.trim()}";
 
     DateTime date = DateTime.parse(
         "${bd3Ctrl.text.trim()}-${bd2Ctrl.text.trim()}-${bd1Ctrl.text.trim()}");
@@ -85,7 +83,6 @@ class RegisterController extends GetxController {
 
   // check email
   Future<void> checkEmail({required String email}) async {
-    print("check email");
     try {
       checkEmailLoad.value = true;
       _registerService.checkEmail(email: email).then((value) {
@@ -128,7 +125,7 @@ class RegisterController extends GetxController {
       _registerService.register(data: data, files: finalFiles).then((value) {
         loading.value = false;
         successMessage(
-            title: "Félicitations", content: "Votre compte a bien été créé.");
+            title: "${lang?.notification}", content: "${lang?.accountCreateSuccess}");
         Get.offAllNamed(Goo.activeAccountScreen);
       }).catchError((e, s) {
         print(e);

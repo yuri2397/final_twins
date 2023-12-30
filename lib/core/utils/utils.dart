@@ -11,12 +11,14 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:twinz/shared/utils/colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
 LocalStorageService get localStorage => Get.find<LocalStorageService>();
 
 bool get isAuth => localStorage.isAuth;
+
+AppLocalizations? get lang => AppLocalizations.of(Get.context!)!;
 
 void logout() {
   localStorage.clear();
@@ -144,14 +146,14 @@ Future<Position> determinePosition() async {
 
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    return Future.error('Location services are disabled.');
+    return Future.error("${lang?.locationServiceDisabledMessage}");
   }
 
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      return Future.error('Location permissions are denied');
+      return Future.error("${lang?.locationPermissionDeniedMessage}");
     }
   }
 
@@ -165,9 +167,9 @@ Future<Position> determinePosition() async {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "Location permissions are permanently denied, we cannot request permissions.",
-            style:  TextStyle(fontSize: 16),
+           Text(
+            "${lang?.locationPermissionPermanentlyDeniedMessage}",
+            style:const  TextStyle(fontSize: 16),
           ),
           const SizedBox(
             height: 10,
@@ -177,16 +179,16 @@ Future<Position> determinePosition() async {
             children: [
               TextButton(
                 onPressed: () => Get.back(),
-                child: const Text(
-                  "Cancel",
-                  style: TextStyle(fontSize: 16),
+                child:  Text(
+                  "${lang?.cancel}",
+                  style:const TextStyle(fontSize: 16),
                 ),
               ),
               TextButton(
                 onPressed: () => openAppSettings(),
-                child: const Text(
-                  "Open Settings",
-                  style:  TextStyle(fontSize: 16),
+                child:  Text(
+                  "${lang?.openSettings }",
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ],
@@ -226,12 +228,15 @@ decoration(String text, {Widget? suffix}) {
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
     hintText: text,
     suffix: suffix,
+    constraints: const BoxConstraints(
+      minHeight: 60,
+    ),
     hintStyle: const TextStyle(color: DARK_COLOR, fontFamily: "Haylard"),
     errorStyle: const TextStyle(color: Colors.redAccent),
     errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.redAccent)),
     focusedBorder:
-        const OutlineInputBorder(borderSide: BorderSide(color: MAIN_COLOR)),
+        const OutlineInputBorder(borderSide: BorderSide(color: MAIN_COLOR), ),
     border: const OutlineInputBorder(borderSide: BorderSide(color: DARK_COLOR)),
   );
 }

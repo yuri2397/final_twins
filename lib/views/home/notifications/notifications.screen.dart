@@ -5,6 +5,7 @@ import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/chat.controller.dart';
 import 'package:twinz/controllers/notification.controller.dart';
 import 'package:twinz/core/model/chat.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/core/model/notification.dart' as nt;
 
@@ -26,8 +27,8 @@ class NotificationsScreen extends GetView<NotificationController> {
                 onTap: () => scaffoldKey.currentState?.openDrawer(),
                 child: const Icon(Icons.menu, color: Colors.white),
               ),
-              title: const Text("Notifications",
-                  style: TextStyle(color: Colors.white))),
+              title:  Text("${lang?.notifications}",
+                  style:const TextStyle(color: Colors.white))),
           drawer: drawer(drawerKey: drawerKey, scaffoldKey: scaffoldKey),
           body: controller.loading.value && controller.items.isEmpty
               ? const Center(
@@ -42,9 +43,9 @@ class NotificationsScreen extends GetView<NotificationController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                                child: const Text(
-                              "Aucune notification",
-                              style: TextStyle(
+                                child:  Text(
+                              "${lang?.noNotifications}",
+                              style:const TextStyle(
                                   color: DARK_COLOR,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500),
@@ -53,8 +54,8 @@ class NotificationsScreen extends GetView<NotificationController> {
                             TextButton(
                                 onPressed: () => Future.sync(() async =>
                                     await controller.fetchNotifications()),
-                                child: const Text("Recharger la page",
-                                    style: TextStyle(color: MAIN_COLOR)))
+                                child:  Text("${lang?.reloadPage}",
+                                    style:const TextStyle(color: MAIN_COLOR)))
                           ],
                         )
                       : ListView.separated(
@@ -112,7 +113,9 @@ class NotificationsScreen extends GetView<NotificationController> {
             ),
           ),
         ),
-        trailing: Text(DateFormat.Hm('fr').format(item.createdAt!)),
+        trailing: Text(
+            DateFormat.Hm(Localizations.localeOf(Get.context!).languageCode)
+                .format(item.createdAt!)),
       ),
     );
   }
@@ -120,9 +123,11 @@ class NotificationsScreen extends GetView<NotificationController> {
   _buildAcceptRequest(nt.Notification item) {
     String date = "";
     if (item.createdAt!.compareTo(DateTime.now()) == 0) {
-      date = DateFormat.Hm('fr').format(item.createdAt!);
+      date = DateFormat.Hm(Localizations.localeOf(Get.context!).languageCode)
+          .format(item.createdAt!);
     } else {
-      date = DateFormat.MMMd('fr').format(item.createdAt!);
+      date = DateFormat.MMMd(Localizations.localeOf(Get.context!).languageCode)
+          .format(item.createdAt!);
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -139,13 +144,15 @@ class NotificationsScreen extends GetView<NotificationController> {
   _buildNewRequest(nt.Notification item) {
     String date = "";
     if (item.createdAt!.compareTo(DateTime.now()) == 0) {
-      date = DateFormat.Hm('fr').format(item.createdAt!);
+      date = DateFormat.Hm(Localizations.localeOf(Get.context!).languageCode)
+          .format(item.createdAt!);
     } else {
-      date = DateFormat.MMMd('fr').format(item.createdAt!);
+      date = DateFormat.MMMd(Localizations.localeOf(Get.context!).languageCode)
+          .format(item.createdAt!);
     }
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      onTap: () =>controller.detailUserNot(item),
+      onTap: () => controller.detailUserNot(item),
       leading: const CircleAvatar(
           backgroundColor: Colors.greenAccent,
           child: Icon(Icons.check, color: Colors.white)),

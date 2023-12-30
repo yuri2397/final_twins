@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:twinz/components/gender.widget.dart';
 import 'package:twinz/controllers/profile.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class UpdateProfileScreen extends GetView<ProfileController> {
@@ -30,9 +29,9 @@ class UpdateProfileScreen extends GetView<ProfileController> {
                                   strokeWidth: 3,
                                 ),
                               )
-                            : const Text("Enregistrer",
+                            :  Text("${lang?.save}",
                                 style:
-                                    TextStyle(color: MAIN_COLOR, fontSize: 16)))
+                                const TextStyle(color: MAIN_COLOR, fontSize: 16)))
                     .marginOnly(right: 10),
               )
             ],
@@ -49,12 +48,12 @@ class UpdateProfileScreen extends GetView<ProfileController> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Center(
+                   Center(
                       child: Text(
-                    "Mettez vos informations à jour",
-                    style: TextStyle(
+                    "${lang?.updateBio}",
+                    style:const TextStyle(
                         color: MAIN_COLOR,
-                        fontSize: 30,
+                        fontSize: 24,
                         fontWeight: FontWeight.w800),
                     textAlign: TextAlign.center,
                   )),
@@ -75,7 +74,7 @@ class UpdateProfileScreen extends GetView<ProfileController> {
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(fontSize: 16),
                           color: DARK_COLOR),
-                      decoration: _decoration("Modifiez votre bio...")),
+                      decoration: _decoration("${lang?.updateBio}")),
 
                   const SizedBox(
                     height: 5,

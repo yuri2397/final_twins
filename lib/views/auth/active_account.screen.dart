@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:twinz/controllers/active_account.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class ActiveAccountScreen extends GetView<ActiveAccountController> {
@@ -29,9 +30,9 @@ class ActiveAccountScreen extends GetView<ActiveAccountController> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "Bienvenue sur Twinz",
-                        style: TextStyle(
+                       Text(
+                        "${lang?.welcomeToTwinz}",
+                        style:const TextStyle(
                             color: MAIN_COLOR,
                             fontSize: 30,
                             fontFamily: "Haylard",
@@ -41,9 +42,9 @@ class ActiveAccountScreen extends GetView<ActiveAccountController> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "Pour continuer, merci de vérifier votre adresse email.",
-                        style: TextStyle(
+                       Text(
+                        "${lang?.verifyYourEmail}",
+                        style: const TextStyle(
                             color: DARK_COLOR,
                             fontSize: 16,
                             fontFamily: "Haylard",
@@ -52,8 +53,8 @@ class ActiveAccountScreen extends GetView<ActiveAccountController> {
                       ),
                       TextButton(
                         onPressed: () => controller.refreshStatus(),
-                        child: const Text("Adresse e-mail déjà vérifié?",
-                            style: TextStyle(color: MAIN_COLOR)),
+                        child:  Text("${lang?.emailAlreadyVerify}",
+                            style:const TextStyle(color: MAIN_COLOR)),
                       ),
                       if (controller.activeAccountLoad.value)
                         const CircularProgressIndicator(color: MAIN_COLOR)
@@ -78,7 +79,7 @@ class ActiveAccountScreen extends GetView<ActiveAccountController> {
                             child: CircularProgressIndicator(
                               color: Colors.white,
                             ))
-                        : const Text("Envoyer un nouveau code"),
+                        : Text("${lang?.requestNewCode}"),
                   ),
                 ),
               ],

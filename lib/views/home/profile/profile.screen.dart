@@ -10,6 +10,7 @@ import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
@@ -45,21 +46,20 @@ class ProfileScreen extends GetView<ProfileController> {
                                     borderRadius: BorderRadius.circular(100)),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
-                                  child:
-                                  CachedNetworkImage(
-                                    imageUrl:
-                                    (controller.user.value?.profilePhoto !=
-                                        null &&
-                                        controller
-                                            .user.value?.profilePhoto !=
-                                            "")
+                                  child: CachedNetworkImage(
+                                    imageUrl: (controller
+                                                    .user.value?.profilePhoto !=
+                                                null &&
+                                            controller
+                                                    .user.value?.profilePhoto !=
+                                                "")
                                         ? controller.user.value!.profilePhoto!
                                         : "https://img.freepik.com/photos-gratuite/jeune-femme-chien-sans-abri-au-parc-photo-haute-qualite_144627-75703.jpg?w=740&t=st=1694874615~exp=1694875215~hmac=eb6804b67c1fc7b677babff8be1caaee8f4b47db541f6cfeb548f472371d555d",
-
                                     placeholder: (context, url) =>
-                                    const CircularProgressIndicator(color: MAIN_COLOR),
+                                        const CircularProgressIndicator(
+                                            color: MAIN_COLOR),
                                     errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                        const Icon(Icons.error),
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
@@ -112,8 +112,8 @@ class ProfileScreen extends GetView<ProfileController> {
                             children: [
                               const Icon(Icons.circle,
                                   color: MAIN_COLOR, size: 15),
-                              const Text("A propos de vous",
-                                  style: TextStyle(
+                              Text("${lang?.aboutMe}",
+                                  style: const TextStyle(
                                     color: MAIN_COLOR,
                                     fontSize: 18,
                                   )).marginOnly(left: 10),
@@ -131,7 +131,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
                           child: Text(
-                            controller.user.value?.bio ?? 'bio',
+                            controller.user.value?.bio ?? "${lang?.addBio}",
                             style: const TextStyle(color: DARK_COLOR),
                           )),
                       const SizedBox(
@@ -141,8 +141,8 @@ class ProfileScreen extends GetView<ProfileController> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(Icons.circle, color: MAIN_COLOR, size: 15),
-                          const Text("Mes infos personnelles",
-                              style: TextStyle(
+                          Text("${lang?.personalInfos}",
+                              style: const TextStyle(
                                 color: MAIN_COLOR,
                                 fontSize: 18,
                               )).marginOnly(left: 10),
@@ -155,8 +155,8 @@ class ProfileScreen extends GetView<ProfileController> {
                           child: Column(
                             children: [
                               ListTile(
-                                title: const Text("Email",
-                                    style: TextStyle(
+                                title: Text("${lang?.email} :",
+                                    style: const TextStyle(
                                       color: DARK_COLOR,
                                       fontSize: 18,
                                     )),
@@ -170,8 +170,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Ville",
-                                    style: TextStyle(
+                                title: Text("${lang?.city} :",
+                                    style: const TextStyle(
                                       color: DARK_COLOR,
                                       fontSize: 18,
                                     )),
@@ -185,15 +185,15 @@ class ProfileScreen extends GetView<ProfileController> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Sexe :",
-                                    style: TextStyle(
+                                title: Text("${lang?.sex} :",
+                                    style: const TextStyle(
                                       color: DARK_COLOR,
                                       fontSize: 16,
                                     )),
                                 trailing: Text(
                                   controller.user.value?.gender == 'male'
-                                      ? 'Homme'
-                                      : 'Femme',
+                                      ? "${lang?.male}"
+                                      : "${lang?.female}",
                                   style: const TextStyle(
                                       color: Colors.black38,
                                       fontFamily: "Haylard",
@@ -202,15 +202,18 @@ class ProfileScreen extends GetView<ProfileController> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Date de naiss : ",
-                                    style: TextStyle(
+                                title: Text("${lang?.birthdate} : ",
+                                    style: const TextStyle(
                                       color: DARK_COLOR,
                                       fontSize: 16,
                                     )),
                                 trailing: Text(
-                                  DateFormat.yMMMd('fr').format(
-                                      controller.user.value?.birthDate ??
-                                          DateTime.now()),
+                                  DateFormat.yMMMd(
+                                          Localizations.localeOf(context)
+                                              .languageCode)
+                                      .format(
+                                          controller.user.value?.birthDate ??
+                                              DateTime.now()),
                                   style: const TextStyle(
                                       color: Colors.black38,
                                       fontFamily: "Haylard",
@@ -227,8 +230,8 @@ class ProfileScreen extends GetView<ProfileController> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(Icons.circle, color: MAIN_COLOR, size: 15),
-                          const Text("Mon compte",
-                              style: TextStyle(
+                          Text("${lang?.myAccount}",
+                              style: const TextStyle(
                                 color: MAIN_COLOR,
                                 fontSize: 18,
                               )).marginOnly(left: 10),
@@ -244,8 +247,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                 onTap: controller.logoutLoad.value
                                     ? null
                                     : () => controller.logout(),
-                                title: const Text("Se déconnecter",
-                                    style: TextStyle(
+                                title: Text("${lang?.logout}",
+                                    style: const TextStyle(
                                       color: Colors.black38,
                                       fontSize: 18,
                                     )),
@@ -262,8 +265,8 @@ class ProfileScreen extends GetView<ProfileController> {
                               if (controller.user.value?.active != "1")
                                 ListTile(
                                     onTap: () => controller.disabledAccount(),
-                                    title: const Text("Activer le compte",
-                                        style: TextStyle(
+                                    title: Text("${lang?.activeAccount}",
+                                        style: const TextStyle(
                                           color: Colors.pink,
                                           fontSize: 18,
                                         )),
@@ -272,8 +275,8 @@ class ProfileScreen extends GetView<ProfileController> {
                               if (controller.user.value?.active == "1")
                                 ListTile(
                                     onTap: () => controller.disabledAccount(),
-                                    title: const Text("Désactiver le compte",
-                                        style: TextStyle(
+                                    title: Text("${lang?.disableAccount}",
+                                        style: const TextStyle(
                                           color: Colors.pink,
                                           fontSize: 18,
                                         )),
@@ -281,8 +284,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                         Icons.arrow_forward_ios_sharp)),
                               ListTile(
                                   onTap: () => controller.removeAccount(),
-                                  title: const Text("Supprimer le compte",
-                                      style: TextStyle(
+                                  title: Text("${lang?.deleteAccount}",
+                                      style: const TextStyle(
                                         color: Colors.pink,
                                         fontSize: 18,
                                       )),
@@ -356,7 +359,7 @@ class ProfileScreen extends GetView<ProfileController> {
                                 strokeWidth: 3,
                               ),
                             )
-                          : const Text("Valider"),
+                          :  Text("${lang?.save}"),
                     ).marginOnly(right: 10),
                     ElevatedButton.icon(
                       icon: const Icon(Icons.delete_outline),
@@ -369,7 +372,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)))),
-                      label: const Text("Annuler"),
+                      label:  Text("${lang?.cancel}"),
                     ),
                   ],
                 )

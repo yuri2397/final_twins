@@ -3,11 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:twinz/controllers/register.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class AddSigneScreen extends GetView<RegisterController> {
-  AddSigneScreen({super.key});
+  const AddSigneScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class AddSigneScreen extends GetView<RegisterController> {
                     backgroundColor: MAIN_COLOR,
                     foregroundColor: Colors.white),
                 onPressed: () => Get.toNamed(Goo.addFilesRegisterScreen),
-                child: const Text("Suivant", style: TextStyle(fontSize: 18)),
+                child:  Text("${lang?.next}", style:const TextStyle(fontSize: 18)),
               ),
             )
           ],

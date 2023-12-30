@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twinz/components/input.widget.dart';
 import 'package:twinz/controllers/forgot_password.controller.dart';
 import 'package:twinz/core/config/env.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
@@ -27,22 +28,22 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                 width: 120,
               ),
             ).marginOnly(bottom: 100),
-            const Text("Réinitialiser le mot de passe",
-                    style: TextStyle(
+             Text("${lang?.resetPassword}",
+                    style:const TextStyle(
                         fontFamily: "Haylard",
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
                         color: Colors.white))
                 .marginOnly(bottom: 20),
             TwinsInput(
-              label: "E-mail pour réinitialiser le mot de passe",
+              label: "${lang?.resetPassword}",
               style: const TextStyle(color: Colors.white),
               cursorColor: Colors.white,
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) => controller.email.value = value,
               validator: (value) {
                 if (value == null) {
-                  return "Adresse email obligatoire.";
+                  return "${lang?.passwordRequired}";
                 }
                 if (!value.isEmail) {
                   return "Adresse email incorrect";
@@ -74,9 +75,9 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                           ),
                         ),
                       )
-                    : const Text(
-                        "Valider",
-                        style: TextStyle(fontFamily: "Haylard"),
+                    :  Text(
+                        "${lang?.save}",
+                        style:const TextStyle(fontFamily: "Haylard"),
                       ),
               ),
             ),

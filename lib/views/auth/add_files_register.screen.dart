@@ -9,6 +9,7 @@ import 'package:twinz/components/choose_files.widget.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
 import 'package:twinz/controllers/register.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
@@ -35,9 +36,9 @@ class AddFilesRegisterScreen extends GetView<RegisterController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Ajoutez des photos",
-                          style: TextStyle(
+                        Text(
+                          "${lang?.addPhotos}",
+                          style: const TextStyle(
                               color: DARK_COLOR,
                               fontSize: 30,
                               fontFamily: "Haylard",
@@ -78,8 +79,8 @@ class AddFilesRegisterScreen extends GetView<RegisterController> {
                             true
                         ? null
                         : () => Get.toNamed(Goo.addBioScreen),
-                    child:
-                        const Text("Suivant", style: TextStyle(fontSize: 18)),
+                    child: Text("${lang?.next}",
+                        style: const TextStyle(fontSize: 18)),
                   ),
                 ),
               ],
@@ -148,10 +149,10 @@ class AddFilesRegisterScreen extends GetView<RegisterController> {
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      const Text(
-                                          "N'hésite pas à ajouter tes photos d'anniversaires si tu en as :)",
+                                       Text(
+                                          "${lang?.addPhotoMark}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style:const TextStyle(
                                               color: DARK_COLOR,
                                               fontSize: 22,
                                               fontFamily: "Haylard",
@@ -224,7 +225,7 @@ class AddFilesRegisterScreen extends GetView<RegisterController> {
                     backgroundColor: Colors.pink,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)))),
-                label: const Text("Supprimer"),
+                label:  Text("${lang?.delete}"),
               ),
             ],
           ),

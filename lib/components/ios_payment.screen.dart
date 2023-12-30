@@ -71,7 +71,7 @@ class _IOSPaymentState extends State<IOSPayment> {
       Get.back();
     }, onError: (Object error) {
       // handle error here.
-      errorMessage(title: "Oups", content: "Une erreur s'est produite.");
+      errorMessage(title: "${lang?.oups}", content: "${lang?.errorOccurred}");
     });
     initStoreInfo();
     super.initState();
@@ -208,7 +208,7 @@ class _IOSPaymentState extends State<IOSPayment> {
 
   Card _buildConnectionCheckTile() {
     if (_loading) {
-      return const Card(child: ListTile(title: Text('Trying to connect...')));
+      return  Card(child: ListTile(title: Text('${lang?.tryingToConnect}...')));
     }
     final Widget storeHeader = ListTile(
       leading: Icon(_isAvailable ? Icons.check : Icons.block,
@@ -224,10 +224,9 @@ class _IOSPaymentState extends State<IOSPayment> {
       children.addAll(<Widget>[
         const Divider(),
         ListTile(
-          title: Text('Not connected',
+          title: Text("${lang?.notConnected}",
               style: TextStyle(color: ThemeData.light().colorScheme.error)),
-          subtitle: const Text(
-              'Unable to connect to the payments processor. Has this app been configured correctly? See the example README for instructions.'),
+          subtitle:  Text("${lang?.unableToConnect}"),
         ),
       ]);
     }
@@ -243,14 +242,14 @@ class _IOSPaymentState extends State<IOSPayment> {
     if (!_isAvailable) {
       return const Card();
     }
-    const ListTile productHeader = ListTile(title: Text('Products for Sale'));
+    ListTile productHeader = ListTile(title: Text("${lang?.productsForSale}"));
     final List<Widget> productList = <Widget>[];
     if (_notFoundIds.isNotEmpty) {
       productList.add(ListTile(
           title: Text('[${_notFoundIds.join(", ")}] not found',
               style: TextStyle(color: ThemeData.light().colorScheme.error)),
-          subtitle: const Text(
-              'This app needs special configuration to run. Please see example/README.md for instructions.')));
+          subtitle:  Text(
+              "${lang?.specialConfigurationRequired}")));
     }
 
     // This loading previous purchases code is just a demo. Please do not use this as it is.
@@ -325,10 +324,10 @@ class _IOSPaymentState extends State<IOSPayment> {
         const SizedBox(
           height: 20,
         ),
-        const Text(
-          "Abonnement",
+         Text(
+          "${lang?.subscription}",
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style:const TextStyle(
               color: MAIN_COLOR,
               fontSize: 30,
               fontFamily: "Haylard",
@@ -337,19 +336,17 @@ class _IOSPaymentState extends State<IOSPayment> {
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          "L'achat se fait en un paiement unique sans renouvellement automatique. Vous ne serez donc pas débité(e) en dehors de votre période d'abonnement, sauf si vous choisissez de le renouveler par vous-même.",
-          textAlign: TextAlign.center,
+         Text("${lang?.purchaseInfo}", textAlign: TextAlign.center,
           style:
-              TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
+          const TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
         ),
         const SizedBox(
           height: 40,
         ),
         if (user.value!.isPremium == true)
-          const Text(
-            "Vous êtes déjà Premium.",
-            style: TextStyle(
+           Text(
+            "${lang?.alreadyPremium}",
+            style:const TextStyle(
                 color: MAIN_COLOR,
                 fontSize: 20,
                 fontFamily: "Haylard",
@@ -357,7 +354,8 @@ class _IOSPaymentState extends State<IOSPayment> {
           ),
         if (user.value!.isPremium == true)
           Text(
-            "Date d'expiration: ${DateFormat.yMMMd('fr').format(user.value!.subscriptionExpiryDate!)}",
+            "${lang?.expirationDate} : ${DateFormat.yMMMd(Localizations.localeOf(Get.context!)
+                .languageCode).format(user.value!.subscriptionExpiryDate!)}",
             style: const TextStyle(
                 color: DARK_COLOR,
                 fontSize: 18,
@@ -481,9 +479,9 @@ class _IOSPaymentState extends State<IOSPayment> {
             color: Colors.green,
             size: 50,
           ),
-          const Text("Félicitation",
-              style: TextStyle(color: DARK_COLOR, fontSize: 20)),
-          const Text("Votre paiement est validé.")
+           Text("${lang?.notification}",
+              style:const TextStyle(color: DARK_COLOR, fontSize: 20)),
+           Text("${lang?.paymentValidated}")
         ],
       ),
     ));
@@ -544,17 +542,17 @@ class _IOSPaymentState extends State<IOSPayment> {
               });
               Get.toNamed(Goo.homeScreen);
               successMessage(
-                  title: "Félicitations",
-                  content: "Votre abonnement a été activé avec succès.");
+                  title: "${lang?.notification}",
+                  content: "${lang?.paymentValidated}");
             } else {
               errorMessage(
-                  title: "Oups", content: "Une erreur s'est produite.");
+                  title: "Oups", content: "${lang?.errorOccurred}");
             }
           }).catchError((e) {
             errorMessage(
                 title: "Oups",
                 content:
-                    "Une erreur s'est produite lors de la validation coté serveur.");
+                    "${lang?.errorOccurred}");
           });
           _showSuccessMessage();
           final bool valid = await _verifyPurchase(purchaseDetails);

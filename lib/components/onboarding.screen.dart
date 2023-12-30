@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:twinz/controllers/onboarding.controller.dart';
 import 'package:twinz/core/config/env.dart';
 import 'package:twinz/core/services/firebase_message.service.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
@@ -26,7 +27,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                   top: 50,
                   child: Column(
                     children: [
-                      Text("Bienvenue sur ",
+                      Text("${lang?.welcome}",
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                   fontSize: 28,
@@ -44,12 +45,12 @@ class OnboardingScreen extends GetView<OnboardingController> {
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: "En utilisant nos services, vous acceptez nos ",
+                        text: "${lang?.cgu1} ",
                         style:
                             const TextStyle(fontSize: 18, color: Colors.white),
                         children: [
                           TextSpan(
-                            text: "conditions d'utilisation",
+                            text: "${lang?.cgu2}",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => lunchWebURL(
                                   "https://www.findyourtwinz.com/legal#conditions"),
@@ -59,15 +60,15 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          const TextSpan(
-                            text: ". Consultez notre ",
-                            style: TextStyle(
+                           TextSpan(
+                            text: "${lang?.cgu3} ",
+                            style:const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                             ),
                           ),
                           TextSpan(
-                            text: "politique de confidentialité",
+                            text: "${lang?.cgu4}",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => lunchWebURL(Env.policiesUrl),
                             style: const TextStyle(
@@ -76,14 +77,14 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          const TextSpan(
-                            text: " et ",
-                            style: TextStyle(
+                           TextSpan(
+                            text: " ${lang?.cgu5} ",
+                            style:const TextStyle(
                               fontSize: 18,
                             ),
                           ),
                           TextSpan(
-                            text: "celle relative aux cookies",
+                            text: "${lang?.cgu6}",
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => lunchWebURL(Env.cookiesUrl),
                             style: const TextStyle(
@@ -92,10 +93,10 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          const TextSpan(
+                           TextSpan(
                             text:
-                                " pour en savoir plus sur le traitement de vos données.",
-                            style: TextStyle(
+                                " ${lang?.cgu7}.",
+                            style:const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                             ),
@@ -121,9 +122,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                   !controller.conditionsAccepted.value;
                             },
                           ),
-                          const Text(
-                            "J'accepte",
-                            style: TextStyle(
+                           Text(
+                            "${ lang?.cgu8 }",
+                            style:const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                             ),
@@ -133,9 +134,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 lunchWebURL(
                                     "https://www.findyourtwinz.com/legal#conditions");
                               },
-                              child: const Text(
-                                "les conditions d'utilisation",
-                                style: TextStyle(
+                              child:  Text(
+                                "${ lang?.cgu9 }",
+                                style:const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
                                     fontSize: 12,
@@ -169,7 +170,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                     side: const BorderSide(
                                         color: Colors.white, width: 1.5),
                                     borderRadius: BorderRadius.circular(20))),
-                            child: const Text("Se connecter")),
+                            child:  Text("${ lang?.signIn }")),
                       ).marginOnly(bottom: 10),
                       SizedBox(
                         width: Get.width,
@@ -179,12 +180,12 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 Get.toNamed(Goo.registerScreen);
                               } else {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
+                                    .showSnackBar( SnackBar(
                                   content: Text(
-                                      "Veuillez accepter les conditions d'utilisation svp!"),
+                                      "${ lang?.cgu10 }"),
                                   backgroundColor: Colors.red,
                                   behavior: SnackBarBehavior.floating,
-                                  duration: Duration(seconds: 3),
+                                  duration:const Duration(seconds: 3),
                                 ));
                               }
                             },
@@ -194,7 +195,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 foregroundColor: MAIN_COLOR,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
-                            child: const Text("Créer un compte")),
+                            child:  Text("${ lang?.signup }")),
                       )
                     ],
                   ))

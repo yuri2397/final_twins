@@ -122,7 +122,8 @@ class DetailProfileScreen extends GetView<ProfileController> {
                           fontSize: 18,
                         )),
                     trailing: Text(
-                      DateFormat.yMMMd('fr').format(
+                      DateFormat.yMMMd(Localizations.localeOf(Get.context!)
+                          .languageCode).format(
                           controller.user.value?.birthDate ?? DateTime.now()),
                       style: const TextStyle(
                           color: DARK_COLOR,

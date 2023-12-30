@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/register.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class AddBirthDayScreen extends GetView<RegisterController> {
   AddBirthDayScreen({super.key});
+
   final _form = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +35,9 @@ class AddBirthDayScreen extends GetView<RegisterController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Ajoutez votre date de naissance",
-                    style: TextStyle(
+                  Text(
+                    "${lang?.addYourDateOfBirth}",
+                    style: const TextStyle(
                         color: DARK_COLOR,
                         fontSize: 30,
                         fontFamily: "Haylard",
@@ -177,11 +180,12 @@ class AddBirthDayScreen extends GetView<RegisterController> {
                       try {
                         controller.parseDate();
                       } catch (e) {
-                        errorMessage(title: "Erreur", content: '$e');
+                        errorMessage(title: "${lang?.error}", content: '$e');
                       }
                     }
                   },
-                  child: const Text("Suivant", style: TextStyle(fontSize: 18)),
+                  child: Text("${lang?.next}",
+                      style: const TextStyle(fontSize: 18)),
                 ),
               )
             ],

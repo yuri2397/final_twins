@@ -65,7 +65,6 @@ class ProfileController extends GetxController {
       settingStatus.value = true;
     }).catchError((e) {
       print("$e");
-      errorMessage(title: "DEBUG", content: "$e");
     });
   }
 
@@ -90,12 +89,12 @@ class ProfileController extends GetxController {
       profile();
       updateLoad.value = false;
       successMessage(
-          title: "Félicitation",
-          content: "Votre profil est maintenant à jour.");
+          title: "${lang?.notification}",
+          content: "${lang?.yourAccountIsUpdate}");
       Get.back();
     }).catchError((e) {
       updateLoad.value = false;
-      errorMessage(title: "Oups !", content: "$e");
+      errorMessage(title: "${lang?.oups}", content: "$e");
     });
   }
 
@@ -103,8 +102,8 @@ class ProfileController extends GetxController {
     updateSettingsLoad.value = true;
     await _profileService.updateSettings(settings!.value!).then((value) =>
         successMessage(
-            title: "Félicitation",
-            content: "Paramètres sont maintenant à jour."));
+            title: "${lang?.notification}",
+            content: "${lang?.yourSettingIsUpdate}"));
 
     updateSettingsLoad.value = false;
     Get.find<sc.SearchController>().getMatchings();
@@ -119,8 +118,8 @@ class ProfileController extends GetxController {
     _profileService.addPhotos(data).then((value) {
       photos();
       successMessage(
-          title: "Félicitations",
-          content: "Votre album photo est mise à jour.");
+          title: "${lang?.notification}",
+          content: "${lang?.yourAlbumIsUpdate}");
       addPhotoLoad.value = false;
     }).catchError((e) {
       addPhotoLoad.value = false;
@@ -155,8 +154,8 @@ class ProfileController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Déconnexion",
-              style: TextStyle(
+          Text("${lang?.logout}",
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 23,
@@ -164,8 +163,8 @@ class ProfileController extends GetxController {
           const SizedBox(
             height: 10,
           ),
-          const Text("Continuer la déconnexion? ",
-              style: TextStyle(
+          Text("${lang?.continueLogout}",
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 16,
@@ -192,13 +191,12 @@ class ProfileController extends GetxController {
                       localStorage.clear();
                       Get.offAllNamed(Goo.onboardingScreen);
                     }).catchError((e) {
-                      print("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRR $e");
                       logoutLoad.value = false;
                       localStorage.clear();
                       Get.offAllNamed(Goo.onboardingScreen);
                     });
                   },
-                  child: const Text("Oui")),
+                  child: Text("${lang?.yes}")),
               const SizedBox(
                 width: 100,
               ),
@@ -211,7 +209,7 @@ class ProfileController extends GetxController {
                   onPressed: () {
                     Get.back();
                   },
-                  child: const Text("Annuler")),
+                  child: Text("${lang?.cancel}")),
             ],
           )
         ],
@@ -233,9 +231,8 @@ class ProfileController extends GetxController {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-              "La désactivation de votre compte est temporaire, votre profil sera masqué jusqu’à ce que vous le réactiviez en vous connectant à nouveau sur Twinz.",
-              style: TextStyle(
+          Text("${lang?.disableAccountMessage}",
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 16,
@@ -257,7 +254,7 @@ class ProfileController extends GetxController {
                     Get.back();
                     _confirmDisableAccount();
                   },
-                  child: const Text("Je confirme")),
+                  child: Text("${lang?.iConfirm}")),
               const SizedBox(
                 width: 100,
               ),
@@ -271,7 +268,7 @@ class ProfileController extends GetxController {
                   onPressed: () {
                     Get.back();
                   },
-                  child: const Text("Annuler")),
+                  child: Text("${lang?.cancel}")),
             ],
           )
         ],
@@ -293,8 +290,8 @@ class ProfileController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Supprimer le compte",
-              style: TextStyle(
+          Text("${lang?.deleteAccount}",
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 23,
@@ -302,10 +299,9 @@ class ProfileController extends GetxController {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-              "Attention, cette action est irréversible. Vous perdrez toutes vos données. Voulez-vous vraiment continuer?",
+          Text("${lang?.deleteAccountMessage}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 16,
@@ -337,7 +333,7 @@ class ProfileController extends GetxController {
                               Get.offAllNamed(Goo.onboardingScreen);
                             }
                           },
-                          child: const Text("Oui, supprimer le compte")),
+                          child: Text("${lang?.iConfirm}")),
                       ElevatedButton(
                           style: TextButton.styleFrom(
                               foregroundColor: DARK_COLOR,
@@ -348,7 +344,7 @@ class ProfileController extends GetxController {
                           onPressed: () {
                             Get.back();
                           },
-                          child: const Text("Annuler")),
+                          child: Text("${lang?.cancel}")),
                     ],
                   )
                 : const CircularProgressIndicator(
@@ -371,9 +367,9 @@ class ProfileController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Confirmez la désactivation temporaire du compte.",
+          Text("${lang?.disableAccountConfirmMessage}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 23,
@@ -381,10 +377,9 @@ class ProfileController extends GetxController {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-              "Vous êtes sur le point de désactiver temporairement votre compte. Vous pouvez le réactiver à tout moment en vous connectant à votre compte Twinz.",
+           Text("${lang?.disableAccountConfirmMessage1}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style:const TextStyle(
                   color: DARK_COLOR,
                   fontFamily: "Haylard",
                   fontSize: 16,
@@ -401,13 +396,13 @@ class ProfileController extends GetxController {
               onPressed: () async {
                 await Get.find<UserService>().disableAccount().then((value) {
                   successMessage(
-                      title: "Félicitaions",
-                      content: "Votre compte est désactivé avec success.");
+                      title: "${lang?.notification}",
+                      content: "${lang?.disableAccountSuccessMessage}");
                   localStorage.clear();
                   Get.offAndToNamed(Goo.onboardingScreen);
                 });
               },
-              child: const Text("Désactiver le compte")),
+              child:  Text("${lang?.disableAccount}")),
           ElevatedButton(
               style: TextButton.styleFrom(
                   foregroundColor: DARK_COLOR,
@@ -418,7 +413,7 @@ class ProfileController extends GetxController {
               onPressed: () {
                 Get.back();
               },
-              child: const Text("Annuler")),
+              child:  Text("${lang?.cancel}")),
         ],
       ),
     ));

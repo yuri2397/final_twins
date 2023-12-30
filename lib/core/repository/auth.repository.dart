@@ -32,7 +32,7 @@ class AuthRepository {
         if (response.statusCode! >= 200 && response.statusCode! < 300) {
           return Token.fromJson(response.data);
         } else {
-          throw "Email ou mot de passe invalide.";
+          throw "${lang?.emailOrPasswordInvalid}";
         }
       } catch (e) {
         rethrow;
@@ -52,7 +52,7 @@ class AuthRepository {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return true;
       } else {
-        throw "Email invalide.";
+        throw "${lang?.emailInvalid}";
       }
     } catch (e) {
       rethrow;
@@ -69,8 +69,7 @@ class AuthRepository {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return true;
       } else {
-        throw "Email invalide.";
-      }
+        throw "${lang?.emailInvalid}";      }
     } catch (e) {
       rethrow;
     }
@@ -94,7 +93,7 @@ class AuthRepository {
         return User.fromJson(response.data);
       } else {
         Get.log(response.data);
-        throw "Impossible récuperer votre profil.";
+        throw "${lang?.errorToGetYourProfile}";
       }
     } catch (e) {
       rethrow;
@@ -108,7 +107,7 @@ class AuthRepository {
         return User.fromJson(response.data);
       } else {
         Get.log(response.data);
-        throw "Impossible de modifier vos informations.";
+        throw "${lang?.errorToUpdateYourInfos}";
       }
     } catch (e) {
       rethrow;

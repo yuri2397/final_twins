@@ -84,26 +84,28 @@ class SearchDetails extends GetView<lc.SearchController> {
                     SizedBox(
                       width: Get.width,
                       child: Text(
-                          DateFormat.MMMMd('fr').format(
-                              controller.visibleUser.value.birthDate ??
+                          DateFormat.MMMMd(
+                                  Localizations.localeOf(context).languageCode)
+                              .format(controller.visibleUser.value.birthDate ??
                                   DateTime.now()),
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.fade,
                           maxLines: 2,
-                          style: const TextStyle(color: Colors.grey, fontSize: 20)),
+                          style: const TextStyle(
+                              color: Colors.grey, fontSize: 20)),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    if(controller.visibleUser.value.bio != null)
-                    Text(controller.visibleUser.value.bio ?? 'Bio',
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        style: const TextStyle(
-                            color: DARK_COLOR,
-                            fontSize: 18,
-                            fontFamily: "Haylard")),
+                    if (controller.visibleUser.value.bio != null)
+                      Text(controller.visibleUser.value.bio ?? 'Bio',
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          style: const TextStyle(
+                              color: DARK_COLOR,
+                              fontSize: 18,
+                              fontFamily: "Haylard")),
 
                     const SizedBox(
                       height: 5,

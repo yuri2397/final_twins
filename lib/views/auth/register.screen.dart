@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/register.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
@@ -32,9 +33,9 @@ class RegisterScreen extends GetView<RegisterController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Quel est votre prénom?",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.whatIsYourName}",
+                      style:const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 30,
                           fontFamily: "Haylard",
@@ -60,18 +61,18 @@ class RegisterScreen extends GetView<RegisterController> {
                               ],
                                   validator: (value) {
                                     if (value == null) {
-                                      return "Votre prénom est obligatoire.";
+                                      return "${lang?.yourNameIsRequired}";
                                     }
 
                                     if (value.length < 2) {
-                                      return "Tapez votre prénom.";
+                                      return "${lang?.yourNameIsInvalid}";
                                     }
                                     return null;
                                   },
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(fontSize: 16),
                                       color: DARK_COLOR),
-                                  decoration: _decoration("Prénom..."))
+                                  decoration: _decoration("${lang?.name}"))
                               .marginOnly(top: 10),
                         ],
                       ),
@@ -93,7 +94,7 @@ class RegisterScreen extends GetView<RegisterController> {
                       Get.toNamed(Goo.addSexScreen);
                     }
                   },
-                  child: const Text("Suivant", style: TextStyle(fontSize: 18)),
+                  child:  Text("${lang?.next}", style:const TextStyle(fontSize: 18)),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/core/services/profile.service.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 
 class ActiveAccountController extends GetxController {
@@ -15,15 +16,15 @@ class ActiveAccountController extends GetxController {
         .then((value) => {
               resendLoad.value = false,
               successMessage(
-                  title: "Félicitaion",
+                  title:"${lang?.notification}",
                   content:
-                      "Un email vous a été envoyé avec le lien de validation.")
+                      "${lang?.weSendYouEmailForVerification}")
             })
         .catchError((e) {
       resendLoad.value = false;
       successMessage(
-          title: "Oups !",
-          content: "Une erreur s'est produite lors de l'envoie.");
+          title: "${lang?.oups}",
+          content: "${lang?.errorWhenSend}");
     });
   }
 
@@ -35,14 +36,14 @@ class ActiveAccountController extends GetxController {
         Get.offAndToNamed(Goo.homeScreen);
       } else {
         errorMessage(
-            title: "Erreur",
-            content: "Votre compte n'est toujours pas actif.");
+            title: "${lang?.error}",
+            content: "${lang?.yourAccountIsNotActive}");
       }
       activeAccountLoad.value = false;
     }).catchError((e) {
       activeAccountLoad.value = false;
       errorMessage(
-          title: "Oups !!!", content: "Votre compte n'est toujours pas actif.");
+          title: "${lang?.oups}", content: "${lang?.yourAccountIsNotActive}");
     });
   }
 }

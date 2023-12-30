@@ -13,6 +13,7 @@ class SearchItemWidget extends StatelessWidget {
   User user;
   bool showCancelIcon = false;
   bool showLikeIcons = false;
+
   SearchItemWidget(
       {super.key,
       required this.user,
@@ -87,7 +88,8 @@ class SearchItemWidget extends StatelessWidget {
                     SizedBox(
                       width: Get.width,
                       child: Text(
-                          DateFormat.MMMMd('fr')
+                          DateFormat.MMMMd(
+                                  Localizations.localeOf(context).languageCode)
                               .format(user.birthDate ?? DateTime.now()),
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.fade,
@@ -100,16 +102,16 @@ class SearchItemWidget extends StatelessWidget {
                       height: 5,
                     ),
                     //
-                    if(user.bio != null)
-                    SizedBox(
-                      width: Get.width,
-                      height: 60,
-                      child: Text(user.bio ?? 'Bio',
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: const TextStyle(color: Colors.white)),
-                    ).marginOnly(right: 5),
+                    if (user.bio != null)
+                      SizedBox(
+                        width: Get.width,
+                        height: 60,
+                        child: Text(user.bio ?? 'Bio',
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(color: Colors.white)),
+                      ).marginOnly(right: 5),
                     const SizedBox(
                       height: 5,
                     ),

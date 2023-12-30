@@ -34,9 +34,9 @@ class AddPasswordScreen extends GetView<RegisterController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Choisissez un mot de passe",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.addYourPassword}",
+                      style:const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 30,
                           fontFamily: "Haylard",
@@ -57,11 +57,11 @@ class AddPasswordScreen extends GetView<RegisterController> {
                             autofocus: true,
                             validator: (value) {
                               if (value == null) {
-                                return "Mot de passe obligatoire.";
+                                return "${lang?.passwordRequired}";
                               }
 
                               if (value.length < 6) {
-                                return "Mot de passe pas sécurisé.";
+                                return "${lang?.yourPasswordIsNotSecure}";
                               }
                               return null;
                             },
@@ -69,7 +69,7 @@ class AddPasswordScreen extends GetView<RegisterController> {
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(fontSize: 16),
                                 color: DARK_COLOR),
-                            decoration: decoration("Mot de passe...",
+                            decoration: decoration("${lang?.password}",
                                 suffix: IconButton(
                                   onPressed: () {
                                     controller.obscureText.value =
@@ -101,7 +101,7 @@ class AddPasswordScreen extends GetView<RegisterController> {
                       }
                     },
                     child:
-                        const Text("Suivant", style: TextStyle(fontSize: 18)),
+                         Text("${lang?.next}", style:const TextStyle(fontSize: 18)),
                   ),
                 )
               ],

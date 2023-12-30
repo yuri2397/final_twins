@@ -52,8 +52,8 @@ class SearchScreen extends GetView<sc.SearchController> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          const Text(
-                                            "Vous avez atteint la limite de suggestions de profils, passez à Twinz Premium pour en voir davantage ou patientez 48h.",
+                                          Text(
+                                            "${lang?.profileLimitReached}",
                                             textAlign: TextAlign.center,
                                           ).marginSymmetric(horizontal: 20),
                                           ElevatedButton(
@@ -75,8 +75,8 @@ class SearchScreen extends GetView<sc.SearchController> {
                                                               BorderRadius
                                                                   .circular(
                                                                       20))),
-                                                  child: const Text(
-                                                      "Passez à Twinz Premium "))
+                                                  child: Text(
+                                                      "${lang?.upgradeToPremium}"))
                                               .marginOnly(top: 20),
                                         ]),
                                   )
@@ -87,15 +87,15 @@ class SearchScreen extends GetView<sc.SearchController> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          const Text("Oups !!",
-                                                  style: TextStyle(
+                                          Text("${lang?.oups}",
+                                                  style: const TextStyle(
                                                       fontSize: 20,
                                                       fontFamily: "Haylard",
                                                       fontWeight:
                                                           FontWeight.w700))
                                               .marginOnly(bottom: 10),
-                                          const Text(
-                                            "Aucun match trouvé. Merci de\nrevoir vos paramètres.",
+                                          Text(
+                                            "${lang?.noMatchFound}",
                                             textAlign: TextAlign.center,
                                           ),
                                           SizedBox(
@@ -115,7 +115,8 @@ class SearchScreen extends GetView<sc.SearchController> {
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(20))),
-                                                child: const Text("Réglages")),
+                                                child:
+                                                    Text("${lang?.settings}")),
                                           ).marginOnly(top: 20),
                                         ]),
                                   )
@@ -129,14 +130,14 @@ class SearchScreen extends GetView<sc.SearchController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("Oups !!",
-                    style: TextStyle(
+            Text("${lang?.oups}",
+                    style: const TextStyle(
                         fontSize: 20,
                         fontFamily: "Haylard",
                         fontWeight: FontWeight.w700))
                 .marginOnly(bottom: 10),
-            const Text(
-              "Votre compte a été désactiver.\n Veuillez réactiver votre compte pour continuer.",
+            Text(
+              "${lang?.accountDisabled}",
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -151,7 +152,7 @@ class SearchScreen extends GetView<sc.SearchController> {
                           side:
                               const BorderSide(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(20))),
-                  child: const Text("Activer mon compte")),
+                  child: Text("${lang?.activeAccount}")),
             ).marginOnly(top: 20),
           ]),
     );
@@ -163,14 +164,14 @@ class SearchScreen extends GetView<sc.SearchController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("Oups !!",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Haylard",
-                    fontWeight: FontWeight.w700))
+            Text("${lang?.oups}",
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Haylard",
+                        fontWeight: FontWeight.w700))
                 .marginOnly(bottom: 10),
-            const Text(
-              "Veuillez activer votre localisation pour continuer.",
+            Text(
+              "${lang?.enableLocation}",
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -183,9 +184,9 @@ class SearchScreen extends GetView<sc.SearchController> {
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           side:
-                          const BorderSide(color: Colors.white, width: 1.5),
+                              const BorderSide(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(20))),
-                  child: const Text("Activer ma localisation")),
+                  child: Text("${lang?.enableMyLocation}")),
             ).marginOnly(top: 20),
           ]),
     );

@@ -33,9 +33,9 @@ class AddSexScreen extends GetView<RegisterController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Vous êtes",
-                      style: TextStyle(
+                     Text(
+                      "${lang?.youAre}",
+                      style:const TextStyle(
                           color: DARK_COLOR,
                           fontSize: 30,
                           fontFamily: "Haylard",
@@ -48,7 +48,7 @@ class AddSexScreen extends GetView<RegisterController> {
                     CheckboxListTile(
                       value: controller.sex.value == "male",
                       onChanged: (bool? value) => controller.sex.value = "male",
-                      title: const Text('Un homme'),
+                      title:  Text("${lang?.aMale}"),
                       activeColor: MAIN_COLOR,
                     ),
                     CheckboxListTile(
@@ -56,7 +56,7 @@ class AddSexScreen extends GetView<RegisterController> {
                       activeColor: MAIN_COLOR,
                       onChanged: (bool? value) =>
                           controller.sex.value = "female",
-                      title: const Text('Une femme'),
+                      title:  Text("${lang?.aFemale}"),
                     ),
                   ],
                 )),
@@ -73,7 +73,7 @@ class AddSexScreen extends GetView<RegisterController> {
                       Get.toNamed(Goo.addEmailScreen);
                     },
                     child:
-                        const Text("Suivant", style: TextStyle(fontSize: 18)),
+                         Text("${lang?.next}", style: const TextStyle(fontSize: 18)),
                   ),
                 )
               ],

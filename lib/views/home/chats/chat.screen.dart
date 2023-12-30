@@ -1,9 +1,5 @@
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chat_bubbles/message_bars/message_bar.dart';
-import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:twinz/controllers/chat.controller.dart' as lc;
@@ -49,10 +45,10 @@ class ChatScreen extends GetView<lc.ChatController> {
                                         e.id.toString() != currentUserId),
                               ),
                           value: 0,
-                          child: const Text('Voir le profil')),
+                          child: Text("${lang?.viewProfile}")),
                       PopupMenuItem<int>(
                           value: 1,
-                          child: const Text('Bloquer'),
+                          child: Text("${lang?.block}"),
                           onTap: () => controller.blockUser(
                                 controller.currentChat.value.participants!
                                     .firstWhere((e) =>
@@ -60,7 +56,7 @@ class ChatScreen extends GetView<lc.ChatController> {
                               )),
                       PopupMenuItem<int>(
                           value: 2,
-                          child: const Text('Signaler'),
+                          child: Text("${lang?.report}"),
                           onTap: () => controller.reportUser(
                                 controller.currentChat.value.participants!
                                     .firstWhere((e) =>
@@ -68,9 +64,9 @@ class ChatScreen extends GetView<lc.ChatController> {
                               )),
                       PopupMenuItem<int>(
                           value: 3,
-                          child: const Text(
-                            'Supprimer',
-                            style: TextStyle(color: Colors.red),
+                          child: Text(
+                            '${lang?.delete}',
+                            style: const TextStyle(color: Colors.red),
                           ),
                           onTap: () => controller.deleteChat(
                               controller.currentChat.value,
@@ -144,7 +140,7 @@ class ChatScreen extends GetView<lc.ChatController> {
                             child: TextFormField(
                               controller: controller.messageController,
                               decoration: InputDecoration(
-                                hintText: 'Ecrivez votre message',
+                                hintText: '${lang?.writeYourMessage}',
                                 hintStyle: GoogleFonts.roboto(
                                     color: Colors.grey[400], fontSize: 16),
                                 suffixIcon: IconButton(
@@ -179,12 +175,12 @@ class ChatScreen extends GetView<lc.ChatController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-            const Text("Attention", style: TextStyle(fontSize: 20)),
+             Text("${lang?.attention}", style:const TextStyle(fontSize: 20)),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Vous ne pouvez plus envoyer de message à cet utilisateur",
+              "${lang?.cannotSendMessage}",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey[400]),
             ),
@@ -198,9 +194,9 @@ class ChatScreen extends GetView<lc.ChatController> {
                 controller.currentChat.value.participants!
                     .firstWhere((e) => e.id.toString() != currentUserId),
               ),
-              child: const Text(
-                "Cliquez ici pour débloquer",
-                style: TextStyle(color: MAIN_COLOR),
+              child:  Text(
+                "${lang?.clickToUnblock}",
+                style:const TextStyle(color: MAIN_COLOR),
               ),
             ),
             const SizedBox(

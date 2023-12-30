@@ -26,9 +26,9 @@ class SettingScreen extends GetView<ProfileController> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Réglages",
-                style: TextStyle(
+               Text(
+                "${lang?.settings}",
+                style:const TextStyle(
                     color: MAIN_COLOR,
                     fontSize: 30,
                     fontFamily: "Haylard",
@@ -44,9 +44,9 @@ class SettingScreen extends GetView<ProfileController> {
                     color: MAIN_COLOR,
                     size: 20,
                   ),
-                  const Text(
-                    "Distance",
-                    style: TextStyle(
+                   Text(
+                    "${lang?.distance}",
+                    style:const TextStyle(
                         color: DARK_COLOR,
                         fontSize: 20,
                         fontFamily: "Haylard",
@@ -93,9 +93,9 @@ class SettingScreen extends GetView<ProfileController> {
                     color: MAIN_COLOR,
                     size: 20,
                   ),
-                  const Text(
-                    "Ecart",
-                    style: TextStyle(
+                   Text(
+                    "${lang?.gap}",
+                    style:const TextStyle(
                         color: DARK_COLOR,
                         fontSize: 20,
                         fontFamily: "Haylard",
@@ -136,7 +136,7 @@ class SettingScreen extends GetView<ProfileController> {
                       },
                     ),
                   ),
-                  Text("${controller.settings?.value?.differenceInDays} Jours")
+                  Text("${controller.settings?.value?.differenceInDays} ${lang?.days}")
                 ],
               ),
               const SizedBox(
@@ -149,9 +149,9 @@ class SettingScreen extends GetView<ProfileController> {
                     color: MAIN_COLOR,
                     size: 20,
                   ),
-                  const Text(
-                    "Tranche d'âge",
-                    style: TextStyle(
+                   Text(
+                    "${lang?.ageBetween}",
+                    style:const TextStyle(
                         color: DARK_COLOR,
                         fontSize: 20,
                         fontFamily: "Haylard",
@@ -203,9 +203,9 @@ class SettingScreen extends GetView<ProfileController> {
                     color: MAIN_COLOR,
                     size: 20,
                   ),
-                  const Text(
-                    "Sexe",
-                    style: TextStyle(
+                   Text(
+                    "${lang?.sex}",
+                    style:const TextStyle(
                         color: DARK_COLOR,
                         fontSize: 20,
                         fontFamily: "Haylard",
@@ -220,20 +220,20 @@ class SettingScreen extends GetView<ProfileController> {
               CheckboxListTile(
                 value: controller.settings?.value?.gender == "male",
                 onChanged: (bool? value) => controller.changeGender("male"),
-                title: const Text('Hommes'),
+                title:  Text("${lang?.male}"),
                 activeColor: MAIN_COLOR,
               ),
               CheckboxListTile(
                 value: controller.settings?.value?.gender == "female",
                 activeColor: MAIN_COLOR,
                 onChanged: (bool? value) => controller.changeGender("female"),
-                title: const Text('Femmes'),
+                title:  Text("${lang?.female}"),
               ),
               CheckboxListTile(
                 value: controller.settings?.value?.gender == null || controller.settings?.value?.gender == "both",
                 onChanged: (bool? value) => controller.changeGender("both"),
                 activeColor: MAIN_COLOR,
-                title: const Text('Hommes et Femmes'),
+                title:  Text("${lang?.maleAndFemale}"),
               ),
               const SizedBox(
                 height: 30,
@@ -253,7 +253,7 @@ class SettingScreen extends GetView<ProfileController> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(color: Colors.white))
-                      : const Text("Enregistrer"),
+                      :  Text("${lang?.save}"),
                 ),
               )
             ],
@@ -281,10 +281,10 @@ class SettingScreen extends GetView<ProfileController> {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              "Vous devez être premium pour pouvoir utiliser cette fonctionnalité",
+            Text(
+              "${lang?.premiumRequired}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: DARK_COLOR,
                   fontSize: 20,
                   fontFamily: "Haylard",
@@ -305,7 +305,7 @@ class SettingScreen extends GetView<ProfileController> {
                         backgroundColor: Colors.white,
                         foregroundColor: MAIN_COLOR),
                     onPressed: () => Get.back(),
-                    child: const Text("Fermer"),
+                    child:  Text("${lang?.cancel}"),
                   ),
                 ),
                 const SizedBox(
@@ -320,7 +320,7 @@ class SettingScreen extends GetView<ProfileController> {
                         backgroundColor: MAIN_COLOR,
                         foregroundColor: Colors.white),
                     onPressed: () => Get.toNamed(Goo.offerScreen),
-                    child: const Text("Twinz Premium"),
+                    child: Text("${lang?.twinzPremium}"),
                   ),
                 ),
               ],

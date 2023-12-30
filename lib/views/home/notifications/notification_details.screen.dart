@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:twinz/controllers/notification.controller.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
 class NotificationDetailsScreen extends GetView<NotificationController> {
@@ -14,7 +15,7 @@ class NotificationDetailsScreen extends GetView<NotificationController> {
       () => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text("Demande"),
+          title:  Text("${lang?.requestChat}"),
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -58,7 +59,8 @@ class NotificationDetailsScreen extends GetView<NotificationController> {
                     SizedBox(
                       width: Get.width,
                       child: Text(
-                          DateFormat.MMMMd('fr').format(
+                          DateFormat.MMMMd(Localizations.localeOf(Get.context!)
+                              .languageCode).format(
                               controller.visibleUser.value.birthDate ??
                                   DateTime.now()),
                           textAlign: TextAlign.start,
@@ -104,7 +106,7 @@ class NotificationDetailsScreen extends GetView<NotificationController> {
                                     width: 20,
                                     child: CircularProgressIndicator(),
                                   )
-                                : const Text("Rejeter")),
+                                :  Text("${lang?.reject}")),
                         ElevatedButton(
                             style: TextButton.styleFrom(
                                 backgroundColor: MAIN_COLOR,
@@ -122,7 +124,7 @@ class NotificationDetailsScreen extends GetView<NotificationController> {
                                     width: 20,
                                     child: CircularProgressIndicator(color: Colors.white,),
                                   )
-                                : const Text("Accepter la demande")),
+                                :  Text("${lang?.acceptRequest}")),
                       ],
                     )
                   ],

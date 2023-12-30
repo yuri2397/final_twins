@@ -6,6 +6,7 @@ import 'package:twinz/components/button.widget.dart';
 import 'package:twinz/components/input.widget.dart';
 import 'package:twinz/controllers/login.controller.dart';
 import 'package:twinz/core/config/env.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 
@@ -25,25 +26,25 @@ class LoginScreen extends GetView<LoginController> {
                   width: 120,
                 ),
               ).marginOnly(bottom: 100),
-              const Text("Connexion",
-                      style: TextStyle(
+              Text("${lang?.login}",
+                      style: const TextStyle(
                           fontFamily: "Haylard",
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
                           color: Colors.white))
                   .marginOnly(bottom: 20),
               TwinsInput(
-                label: "Adresse email",
+                label: "${lang?.emailAddress}",
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => controller.username.value = value,
                 validator: (value) {
                   if (value == null) {
-                    return "Adresse email obligatoire.";
+                    return "${lang?.emailRequired}";
                   }
                   if (!value.isEmail) {
-                    return "Adresse email incorrect";
+                    return "${lang?.emailInvalid}";
                   }
                   return null;
                 },
@@ -52,14 +53,14 @@ class LoginScreen extends GetView<LoginController> {
                 height: 30,
               ),
               TwinsInput(
-                label: "Mot de passe",
+                label: "${lang?.password}",
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 keyboardType: TextInputType.visiblePassword,
                 onChanged: (value) => controller.password.value = value,
                 validator: (value) {
                   if (value == null) {
-                    return "Mot de passe obligatoire.";
+                    return "${lang?.passwordRequired}";
                   }
                   return null;
                 },
@@ -99,9 +100,9 @@ class LoginScreen extends GetView<LoginController> {
                             ),
                           ),
                         )
-                      : const Text(
-                          "Se connecter",
-                          style: TextStyle(fontFamily: "Haylard"),
+                      : Text(
+                          "${lang?.signIn}",
+                          style: const TextStyle(fontFamily: "Haylard"),
                         ),
                 ),
               ),
@@ -111,9 +112,9 @@ class LoginScreen extends GetView<LoginController> {
               Center(
                 child: GestureDetector(
                     onTap: () => Get.toNamed(Goo.forgotPasswordScreen),
-                    child: const Text(
-                      "Mot de passe oublié?",
-                      style: TextStyle(
+                    child: Text(
+                      "${lang?.forgotPassword}",
+                      style: const TextStyle(
                           color: Colors.white,
                           fontFamily: "Haylard",
                           fontSize: 16),
@@ -126,14 +127,14 @@ class LoginScreen extends GetView<LoginController> {
                 child: GestureDetector(
                   onTap: () => Get.toNamed(Goo.registerScreen),
                   child: RichText(
-                      text: const TextSpan(children: [
+                      text: TextSpan(children: [
                     TextSpan(
-                        text: "Vous avez un compte? ",
-                        style: TextStyle(
+                        text: "${lang?.alreadyAccount}",
+                        style: const TextStyle(
                             color: Color.fromARGB(197, 255, 255, 255))),
                     TextSpan(
-                        text: " Créer un compte",
-                        style: TextStyle(
+                        text: " ${lang?.signup}",
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white))
                   ])),
                 ),

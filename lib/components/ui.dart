@@ -10,6 +10,7 @@ import 'package:twinz/controllers/home.controller.dart';
 import 'package:twinz/core/model/user.dart';
 import 'package:twinz/core/services/firebase_message.service.dart';
 import 'package:twinz/core/services/payment.service.dart';
+import 'package:twinz/core/utils/utils.dart';
 import 'package:twinz/routes/router.dart';
 import 'package:twinz/shared/utils/colors.dart';
 import 'package:twinz/core/config/env.dart';
@@ -227,8 +228,8 @@ drawer({drawerKey, scaffoldKey}) {
       children: [
         ListTile(
           leading: itemIcon(Icons.close, color: MAIN_COLOR),
-          title: const Text("Menu",
-              style: TextStyle(
+          title:  Text("${lang?.menu}",
+              style:const TextStyle(
                   fontSize: 20, color: MAIN_COLOR, fontFamily: "Haylard")),
           onTap: () => scaffoldKey.currentState?.closeDrawer(),
         ),
@@ -244,8 +245,8 @@ drawer({drawerKey, scaffoldKey}) {
         ListTile(
           onTap: () => Get.find<HomeController>().currentIndex.value = 3,
           leading: itemIcon(Icons.person_outline_rounded, color: MAIN_COLOR),
-          title: const Text("Profil",
-              style: TextStyle(
+          title:  Text("${lang?.profile}",
+              style:const TextStyle(
                   fontSize: 20, color: MAIN_COLOR, fontFamily: "Haylard")),
         ),
         const SizedBox(
@@ -259,8 +260,8 @@ drawer({drawerKey, scaffoldKey}) {
                 : Get.toNamed(Goo.offerScreen);
           },
           leading: itemIcon(Icons.payment_outlined, color: MAIN_COLOR),
-          title: const Text("Twinz Premium",
-              style: TextStyle(
+          title:  Text("${lang?.twinzPremium}",
+              style:const TextStyle(
                   fontSize: 20, color: MAIN_COLOR, fontFamily: "Haylard")),
         ),
         const SizedBox(
@@ -269,8 +270,8 @@ drawer({drawerKey, scaffoldKey}) {
         ListTile(
           onTap: () => Get.toNamed(Goo.settingScreen),
           leading: itemIcon(Icons.settings_outlined, color: MAIN_COLOR),
-          title: const Text("Réglages",
-              style: TextStyle(
+          title:  Text("${lang?.settings}",
+              style:const TextStyle(
                   fontSize: 20, color: MAIN_COLOR, fontFamily: "Haylard")),
         ),
         const SizedBox(
@@ -280,8 +281,8 @@ drawer({drawerKey, scaffoldKey}) {
           onTap: () => lunchWebURL(
               "https://www.findyourtwinz.com/legal#confidentialit%C3%A9"),
           leading: itemIcon(Icons.security_outlined, color: MAIN_COLOR),
-          title: const Text("Confidentialité",
-              style: TextStyle(
+          title:  Text("${lang?.privacy}",
+              style:const TextStyle(
                   fontSize: 20, color: MAIN_COLOR, fontFamily: "Haylard")),
         )
       ],

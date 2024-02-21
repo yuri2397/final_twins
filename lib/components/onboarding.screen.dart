@@ -60,9 +60,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                           TextSpan(
+                          TextSpan(
                             text: "${lang?.cgu3} ",
-                            style:const TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                             ),
@@ -77,9 +77,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                           TextSpan(
+                          TextSpan(
                             text: " ${lang?.cgu5} ",
-                            style:const TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                             ),
                           ),
@@ -93,10 +93,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                           TextSpan(
-                            text:
-                                " ${lang?.cgu7}.",
-                            style:const TextStyle(
+                          TextSpan(
+                            text: " ${lang?.cgu7}",
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                             ),
@@ -122,9 +121,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                   !controller.conditionsAccepted.value;
                             },
                           ),
-                           Text(
-                            "${ lang?.cgu8 }",
-                            style:const TextStyle(
+                          Text(
+                            "${lang?.cgu8}",
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                             ),
@@ -134,9 +133,9 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 lunchWebURL(
                                     "https://www.findyourtwinz.com/legal#conditions");
                               },
-                              child:  Text(
-                                "${ lang?.cgu9 }",
-                                style:const TextStyle(
+                              child: Text(
+                                "${lang?.cgu9}",
+                                style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
                                     fontSize: 12,
@@ -170,7 +169,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                     side: const BorderSide(
                                         color: Colors.white, width: 1.5),
                                     borderRadius: BorderRadius.circular(20))),
-                            child:  Text("${ lang?.signIn }")),
+                            child: Text("${lang?.signIn}")),
                       ).marginOnly(bottom: 10),
                       SizedBox(
                         width: Get.width,
@@ -180,12 +179,11 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 Get.toNamed(Goo.registerScreen);
                               } else {
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar( SnackBar(
-                                  content: Text(
-                                      "${ lang?.cgu10 }"),
+                                    .showSnackBar(SnackBar(
+                                  content: Text("${lang?.cgu10}"),
                                   backgroundColor: Colors.red,
                                   behavior: SnackBarBehavior.floating,
-                                  duration:const Duration(seconds: 3),
+                                  duration: const Duration(seconds: 3),
                                 ));
                               }
                             },
@@ -195,7 +193,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                 foregroundColor: MAIN_COLOR,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
-                            child:  Text("${ lang?.signup }")),
+                            child: Text("${lang?.signup}")),
                       )
                     ],
                   ))

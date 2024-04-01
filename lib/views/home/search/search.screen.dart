@@ -174,9 +174,7 @@ class SearchScreen extends GetView<sc.SearchController> {
               "${lang?.enableLocation}",
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              width: Get.width * .5,
-              child: ElevatedButton(
+             ElevatedButton(
                   onPressed: () => openAppSettings(),
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -186,7 +184,7 @@ class SearchScreen extends GetView<sc.SearchController> {
                           side:
                               const BorderSide(color: Colors.white, width: 1.5),
                           borderRadius: BorderRadius.circular(20))),
-                  child: Text("${lang?.enableMyLocation}")),
+                  child: Text("${lang?.enableMyLocation}"),
             ).marginOnly(top: 20),
           ]),
     );

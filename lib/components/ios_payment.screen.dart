@@ -14,6 +14,7 @@ import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:intl/intl.dart';
 import 'package:twinz/components/ui.dart';
 import 'package:twinz/controllers/profile.controller.dart';
+import 'package:twinz/core/model/plan.dart';
 import 'package:twinz/core/services/payment.service.dart';
 import 'package:twinz/core/services/profile.service.dart';
 import 'package:twinz/core/utils/utils.dart';
@@ -37,7 +38,7 @@ const List<String> _kProductIds = <String>[
 ];
 
 class IOSPayment extends StatefulWidget {
-  IOSPayment({
+  const IOSPayment({
     super.key,
   });
 
@@ -57,10 +58,19 @@ class _IOSPaymentState extends State<IOSPayment> {
   bool _loading = true;
   String? _queryProductError;
   final user = localStorage.getUser().obs;
-
+  final offers = <Plan>[].obs;
+  final offerLoad = true.obs;
   final _service = Get.find<PaymentService>();
+
   @override
   void initState() {
+    _service.index().then((value) {
+      offers.value = value;
+      offers.refresh();
+      offerLoad.value = false;
+    }).catchError((e) {
+      offerLoad.value = false;
+    });
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
     _subscription =
@@ -208,7 +218,7 @@ class _IOSPaymentState extends State<IOSPayment> {
 
   Card _buildConnectionCheckTile() {
     if (_loading) {
-      return  Card(child: ListTile(title: Text('${lang?.tryingToConnect}...')));
+      return Card(child: ListTile(title: Text('${lang?.tryingToConnect}...')));
     }
     final Widget storeHeader = ListTile(
       leading: Icon(_isAvailable ? Icons.check : Icons.block,
@@ -226,7 +236,7 @@ class _IOSPaymentState extends State<IOSPayment> {
         ListTile(
           title: Text("${lang?.notConnected}",
               style: TextStyle(color: ThemeData.light().colorScheme.error)),
-          subtitle:  Text("${lang?.unableToConnect}"),
+          subtitle: Text("${lang?.unableToConnect}"),
         ),
       ]);
     }
@@ -248,8 +258,7 @@ class _IOSPaymentState extends State<IOSPayment> {
       productList.add(ListTile(
           title: Text('[${_notFoundIds.join(", ")}] not found',
               style: TextStyle(color: ThemeData.light().colorScheme.error)),
-          subtitle:  Text(
-              "${lang?.specialConfigurationRequired}")));
+          subtitle: Text("${lang?.specialConfigurationRequired}")));
     }
 
     // This loading previous purchases code is just a demo. Please do not use this as it is.
@@ -299,12 +308,14 @@ class _IOSPaymentState extends State<IOSPayment> {
             ),
             child: Column(
               children: [
-                Text(productDetails.title,
+                Text(
+                    "${offers[_offerIndex(productDetails.id)].duration} ${lang?.days}",
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: 20)),
-                Text(productDetails.description, textAlign: TextAlign.center),
+                Text("${offers[_offerIndex(productDetails.id)].description}",
+                    textAlign: TextAlign.center),
                 Text(
                   productDetails.price,
                   style: const TextStyle(
@@ -324,10 +335,10 @@ class _IOSPaymentState extends State<IOSPayment> {
         const SizedBox(
           height: 20,
         ),
-         Text(
+        Text(
           "${lang?.subscription}",
           textAlign: TextAlign.center,
-          style:const TextStyle(
+          style: const TextStyle(
               color: MAIN_COLOR,
               fontSize: 30,
               fontFamily: "Haylard",
@@ -336,17 +347,19 @@ class _IOSPaymentState extends State<IOSPayment> {
         const SizedBox(
           height: 10,
         ),
-         Text("${lang?.purchaseInfo}", textAlign: TextAlign.center,
-          style:
-          const TextStyle(color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
+        Text(
+          "${lang?.purchaseInfo}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              color: DARK_COLOR, fontFamily: "Haylard", fontSize: 16),
         ),
         const SizedBox(
           height: 40,
         ),
         if (user.value!.isPremium == true)
-           Text(
+          Text(
             "${lang?.alreadyPremium}",
-            style:const TextStyle(
+            style: const TextStyle(
                 color: MAIN_COLOR,
                 fontSize: 20,
                 fontFamily: "Haylard",
@@ -354,8 +367,7 @@ class _IOSPaymentState extends State<IOSPayment> {
           ),
         if (user.value!.isPremium == true)
           Text(
-            "${lang?.expirationDate} : ${DateFormat.yMMMd(Localizations.localeOf(Get.context!)
-                .languageCode).format(user.value!.subscriptionExpiryDate!)}",
+            "${lang?.expirationDate} : ${DateFormat.yMMMd(Localizations.localeOf(Get.context!).languageCode).format(user.value!.subscriptionExpiryDate!)}",
             style: const TextStyle(
                 color: DARK_COLOR,
                 fontSize: 18,
@@ -479,9 +491,9 @@ class _IOSPaymentState extends State<IOSPayment> {
             color: Colors.green,
             size: 50,
           ),
-           Text("${lang?.notification}",
-              style:const TextStyle(color: DARK_COLOR, fontSize: 20)),
-           Text("${lang?.paymentValidated}")
+          Text("${lang?.notification}",
+              style: const TextStyle(color: DARK_COLOR, fontSize: 20)),
+          Text("${lang?.paymentValidated}")
         ],
       ),
     ));
@@ -545,14 +557,10 @@ class _IOSPaymentState extends State<IOSPayment> {
                   title: "${lang?.notification}",
                   content: "${lang?.paymentValidated}");
             } else {
-              errorMessage(
-                  title: "Oups", content: "${lang?.errorOccurred}");
+              errorMessage(title: "Oups", content: "${lang?.errorOccurred}");
             }
           }).catchError((e) {
-            errorMessage(
-                title: "Oups",
-                content:
-                    "${lang?.errorOccurred}");
+            errorMessage(title: "Oups", content: "${lang?.errorOccurred}");
           });
           _showSuccessMessage();
           final bool valid = await _verifyPurchase(purchaseDetails);
@@ -592,6 +600,20 @@ class _IOSPaymentState extends State<IOSPayment> {
           _inAppPurchase
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iapStoreKitPlatformAddition.showPriceConsentIfNeeded();
+    }
+  }
+
+  _offerIndex(String id) {
+    switch (id) {
+      case "dash_consumable_2k_7":
+        var o = offers.firstWhere((element) => element.duration == "7");
+        return offers.indexOf(o);
+      case "dash_consumable_2k_15":
+        var o = offers.firstWhere((element) => element.duration == "15");
+        return offers.indexOf(o);
+      case "dash_consumable_2k_30":
+        var o = offers.firstWhere((element) => element.duration == "30");
+        return offers.indexOf(o);
     }
   }
 }
